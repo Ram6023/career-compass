@@ -9,14 +9,14 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { 
-  Compass, 
-  GraduationCap, 
-  Brain, 
-  TrendingUp, 
-  Users, 
-  DollarSign, 
-  BookOpen, 
+import {
+  Compass,
+  GraduationCap,
+  Brain,
+  TrendingUp,
+  Users,
+  DollarSign,
+  BookOpen,
   Building,
   FileText,
   BarChart3,
@@ -30,8 +30,11 @@ import {
   ArrowRight,
   Sparkles,
   Target,
-  Briefcase
+  Briefcase,
+  Moon,
+  Sun
 } from 'lucide-react';
+import { useTheme } from '@/components/ui/theme-provider';
 
 const ACADEMIC_STREAMS = [
   'Science (PCM)', 'Science (PCB)', 'Science (PCMB)', 'Commerce', 'Arts/Humanities',
