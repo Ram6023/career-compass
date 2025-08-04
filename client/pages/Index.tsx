@@ -7,19 +7,55 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
-import { Compass, GraduationCap, Brain, TrendingUp, Users, DollarSign, BookOpen, Building } from 'lucide-react';
+import { Progress } from '@/components/ui/progress';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { 
+  Compass, 
+  GraduationCap, 
+  Brain, 
+  TrendingUp, 
+  Users, 
+  DollarSign, 
+  BookOpen, 
+  Building,
+  FileText,
+  BarChart3,
+  MessageSquare,
+  Download,
+  ExternalLink,
+  Award,
+  MapPin,
+  Clock,
+  Star,
+  ArrowRight,
+  Sparkles,
+  Target,
+  Briefcase
+} from 'lucide-react';
+
+const ACADEMIC_STREAMS = [
+  'Science (PCM)', 'Science (PCB)', 'Science (PCMB)', 'Commerce', 'Arts/Humanities',
+  'Engineering', 'Medicine', 'Law', 'Management', 'Design', 'Agriculture',
+  'Pharmacy', 'Architecture', 'Mass Communication', 'Hotel Management',
+  'Fashion Technology', 'Computer Applications', 'Social Work'
+];
 
 const SKILLS = [
   'Programming', 'Data Analysis', 'Communication', 'Leadership', 'Problem Solving',
   'Creativity', 'Project Management', 'Research', 'Design', 'Marketing',
-  'Sales', 'Finance', 'Teaching', 'Mathematics', 'Writing'
+  'Sales', 'Finance', 'Teaching', 'Mathematics', 'Writing', 'Public Speaking',
+  'Team Management', 'Critical Thinking', 'Time Management', 'Adaptability',
+  'Technical Writing', 'Data Visualization', 'Machine Learning', 'Cloud Computing',
+  'Digital Marketing', 'Financial Analysis', 'Strategic Planning', 'Quality Assurance'
 ];
 
 const INTERESTS = [
   'Machine Learning', 'Web Development', 'Mobile Development', 'Data Science',
   'Artificial Intelligence', 'Cybersecurity', 'UI/UX Design', 'Digital Marketing',
   'Business Analytics', 'Healthcare', 'Finance', 'Education', 'Research',
-  'Entrepreneurship', 'Content Creation'
+  'Entrepreneurship', 'Content Creation', 'Game Development', 'DevOps',
+  'Blockchain', 'IoT', 'Robotics', 'Biotechnology', 'Environmental Science',
+  'Renewable Energy', 'Space Technology', 'Virtual Reality'
 ];
 
 interface CareerRecommendation {
@@ -30,6 +66,33 @@ interface CareerRecommendation {
   learningPath: string[];
   topCompanies: string[];
   matchScore: number;
+  jobGrowth: string;
+  difficulty: string;
+  timeToStart: string;
+  courses: Array<{
+    title: string;
+    provider: string;
+    duration: string;
+    url: string;
+    type: 'free' | 'paid';
+  }>;
+  certifications: Array<{
+    name: string;
+    provider: string;
+    difficulty: string;
+    url: string;
+  }>;
+  roadmap: Array<{
+    level: string;
+    skills: string[];
+    duration: string;
+    projects: string[];
+  }>;
+  locations: Array<{
+    city: string;
+    demand: 'High' | 'Medium' | 'Low';
+    avgSalary: string;
+  }>;
 }
 
 export default function Index() {
@@ -37,10 +100,13 @@ export default function Index() {
     stream: '',
     cgpa: '',
     skills: [] as string[],
-    interests: [] as string[]
+    interests: [] as string[],
+    experience: '',
+    careerGoal: ''
   });
   const [recommendations, setRecommendations] = useState<CareerRecommendation[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState(0);
 
   const toggleSkill = (skill: string) => {
     setFormData(prev => ({
@@ -62,43 +128,125 @@ export default function Index() {
 
   const generateRecommendations = async () => {
     setIsLoading(true);
+    setLoadingProgress(0);
     
-    // Simulate AI processing
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    // Simulate AI processing with progress
+    const steps = [
+      'Analyzing your academic background...',
+      'Processing your skills and interests...',
+      'Matching with career opportunities...',
+      'Generating personalized roadmaps...',
+      'Finalizing recommendations...'
+    ];
     
-    // Mock recommendations based on input
+    for (let i = 0; i <= 100; i += 20) {
+      await new Promise(resolve => setTimeout(resolve, 400));
+      setLoadingProgress(i);
+    }
+    
+    // Enhanced mock recommendations
     const mockRecommendations: CareerRecommendation[] = [
       {
         title: 'Data Scientist',
-        description: 'Analyze complex data to help organizations make informed decisions using statistical analysis and machine learning.',
-        requiredSkills: ['Data Analysis', 'Programming', 'Machine Learning', 'Statistics'],
-        averageSalary: '$95,000 - $150,000',
-        learningPath: ['Python Programming', 'Statistics & Probability', 'Machine Learning', 'Data Visualization', 'SQL'],
-        topCompanies: ['Google', 'Meta', 'Microsoft', 'Amazon', 'Netflix'],
-        matchScore: 95
+        description: 'Analyze complex data to help organizations make informed decisions using statistical analysis and machine learning algorithms.',
+        requiredSkills: ['Data Analysis', 'Programming', 'Machine Learning', 'Statistics', 'Python', 'SQL'],
+        averageSalary: '₹8-25 LPA ($70k-150k)',
+        jobGrowth: '+35% (Next 5 years)',
+        difficulty: 'Medium-Hard',
+        timeToStart: '6-12 months',
+        learningPath: ['Python Programming', 'Statistics & Probability', 'Machine Learning', 'Data Visualization', 'SQL', 'Deep Learning'],
+        topCompanies: ['Google', 'Meta', 'Microsoft', 'Amazon', 'Netflix', 'Flipkart', 'Zomato'],
+        matchScore: 95,
+        courses: [
+          { title: 'Python for Data Science', provider: 'Coursera', duration: '3 months', url: '#', type: 'paid' },
+          { title: 'Machine Learning A-Z', provider: 'Udemy', duration: '4 months', url: '#', type: 'paid' },
+          { title: 'Data Science Fundamentals', provider: 'YouTube', duration: '2 months', url: '#', type: 'free' }
+        ],
+        certifications: [
+          { name: 'Google Data Analytics Certificate', provider: 'Google', difficulty: 'Beginner', url: '#' },
+          { name: 'AWS Machine Learning', provider: 'Amazon', difficulty: 'Intermediate', url: '#' },
+          { name: 'Microsoft Azure Data Scientist', provider: 'Microsoft', difficulty: 'Advanced', url: '#' }
+        ],
+        roadmap: [
+          { level: 'Beginner (0-3 months)', skills: ['Python', 'SQL', 'Statistics'], duration: '3 months', projects: ['Exploratory Data Analysis', 'Basic Visualization'] },
+          { level: 'Intermediate (3-8 months)', skills: ['Machine Learning', 'Pandas', 'Scikit-learn'], duration: '5 months', projects: ['Prediction Models', 'Classification Projects'] },
+          { level: 'Advanced (8-12 months)', skills: ['Deep Learning', 'TensorFlow', 'Big Data'], duration: '4 months', projects: ['Neural Networks', 'Real-time Analytics'] }
+        ],
+        locations: [
+          { city: 'Bangalore', demand: 'High', avgSalary: '₹15-30 LPA' },
+          { city: 'Hyderabad', demand: 'High', avgSalary: '₹12-25 LPA' },
+          { city: 'Mumbai', demand: 'Medium', avgSalary: '₹10-22 LPA' }
+        ]
       },
       {
-        title: 'Software Engineer',
-        description: 'Design, develop, and maintain software applications and systems using various programming languages.',
-        requiredSkills: ['Programming', 'Problem Solving', 'Software Design', 'Testing'],
-        averageSalary: '$80,000 - $130,000',
-        learningPath: ['Programming Fundamentals', 'Data Structures', 'Algorithms', 'System Design', 'Testing'],
-        topCompanies: ['Apple', 'Google', 'Microsoft', 'Meta', 'Tesla'],
-        matchScore: 88
+        title: 'Full Stack Developer',
+        description: 'Build complete web applications from frontend user interfaces to backend servers and databases.',
+        requiredSkills: ['JavaScript', 'React', 'Node.js', 'Databases', 'Problem Solving', 'Git'],
+        averageSalary: '₹5-20 LPA ($50k-120k)',
+        jobGrowth: '+25% (Next 5 years)',
+        difficulty: 'Medium',
+        timeToStart: '4-8 months',
+        learningPath: ['HTML/CSS', 'JavaScript', 'React', 'Node.js', 'Databases', 'Cloud Deployment'],
+        topCompanies: ['Swiggy', 'Paytm', 'Razorpay', 'Freshworks', 'Zoho', 'Byju\'s', 'Unacademy'],
+        matchScore: 88,
+        courses: [
+          { title: 'The Complete Web Developer Bootcamp', provider: 'Udemy', duration: '6 months', url: '#', type: 'paid' },
+          { title: 'Full Stack Open', provider: 'University of Helsinki', duration: '4 months', url: '#', type: 'free' },
+          { title: 'React - The Complete Guide', provider: 'Udemy', duration: '3 months', url: '#', type: 'paid' }
+        ],
+        certifications: [
+          { name: 'freeCodeCamp Full Stack', provider: 'freeCodeCamp', difficulty: 'Beginner', url: '#' },
+          { name: 'Meta Front-End Developer', provider: 'Meta', difficulty: 'Intermediate', url: '#' },
+          { name: 'AWS Developer Associate', provider: 'Amazon', difficulty: 'Advanced', url: '#' }
+        ],
+        roadmap: [
+          { level: 'Beginner (0-2 months)', skills: ['HTML', 'CSS', 'JavaScript'], duration: '2 months', projects: ['Static Websites', 'DOM Manipulation'] },
+          { level: 'Intermediate (2-6 months)', skills: ['React', 'Node.js', 'Express'], duration: '4 months', projects: ['Todo App', 'Blog Platform'] },
+          { level: 'Advanced (6-8 months)', skills: ['Database Design', 'APIs', 'Cloud Deployment'], duration: '2 months', projects: ['E-commerce Site', 'Social Media App'] }
+        ],
+        locations: [
+          { city: 'Pune', demand: 'High', avgSalary: '₹8-18 LPA' },
+          { city: 'Chennai', demand: 'High', avgSalary: '₹7-16 LPA' },
+          { city: 'Delhi', demand: 'Medium', avgSalary: '₹9-20 LPA' }
+        ]
       },
       {
         title: 'UX/UI Designer',
-        description: 'Create user-centered designs for digital products, focusing on user experience and interface design.',
-        requiredSkills: ['Design', 'Creativity', 'User Research', 'Prototyping'],
-        averageSalary: '$70,000 - $120,000',
-        learningPath: ['Design Principles', 'User Research', 'Prototyping Tools', 'Visual Design', 'Usability Testing'],
-        topCompanies: ['Adobe', 'Figma', 'Airbnb', 'Uber', 'Spotify'],
-        matchScore: 82
+        description: 'Create user-centered designs for digital products, focusing on user experience and beautiful, functional interfaces.',
+        requiredSkills: ['Design', 'Creativity', 'User Research', 'Prototyping', 'Figma', 'Adobe Creative Suite'],
+        averageSalary: '₹4-15 LPA ($45k-100k)',
+        jobGrowth: '+20% (Next 5 years)',
+        difficulty: 'Medium',
+        timeToStart: '3-6 months',
+        learningPath: ['Design Principles', 'User Research', 'Wireframing', 'Prototyping', 'Visual Design', 'Usability Testing'],
+        topCompanies: ['Adobe', 'Figma', 'Airbnb', 'Uber', 'Spotify', 'Ola', 'PhonePe'],
+        matchScore: 82,
+        courses: [
+          { title: 'Google UX Design Certificate', provider: 'Coursera', duration: '4 months', url: '#', type: 'paid' },
+          { title: 'UI/UX Design Specialization', provider: 'CalArts', duration: '5 months', url: '#', type: 'paid' },
+          { title: 'Design Thinking Process', provider: 'YouTube', duration: '1 month', url: '#', type: 'free' }
+        ],
+        certifications: [
+          { name: 'Google UX Design Certificate', provider: 'Google', difficulty: 'Beginner', url: '#' },
+          { name: 'Adobe Certified Expert', provider: 'Adobe', difficulty: 'Intermediate', url: '#' },
+          { name: 'Interaction Design Foundation', provider: 'IxDF', difficulty: 'Advanced', url: '#' }
+        ],
+        roadmap: [
+          { level: 'Beginner (0-2 months)', skills: ['Design Principles', 'Figma', 'User Research'], duration: '2 months', projects: ['App Redesign', 'User Journey Maps'] },
+          { level: 'Intermediate (2-5 months)', skills: ['Prototyping', 'Interaction Design', 'Design Systems'], duration: '3 months', projects: ['Mobile App Design', 'Web Platform Design'] },
+          { level: 'Advanced (5-6 months)', skills: ['Advanced Prototyping', 'Design Leadership', 'Strategy'], duration: '1 month', projects: ['Complete Product Design', 'Design System Creation'] }
+        ],
+        locations: [
+          { city: 'Bangalore', demand: 'High', avgSalary: '₹6-15 LPA' },
+          { city: 'Mumbai', demand: 'High', avgSalary: '₹7-14 LPA' },
+          { city: 'Gurgaon', demand: 'Medium', avgSalary: '₹8-16 LPA' }
+        ]
       }
     ];
     
     setRecommendations(mockRecommendations);
     setIsLoading(false);
+    setLoadingProgress(100);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -107,20 +255,33 @@ export default function Index() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
-      {/* Header */}
-      <header className="border-b bg-white/80 backdrop-blur-sm dark:bg-gray-900/80">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      {/* Enhanced Header */}
+      <header className="border-b bg-white/90 backdrop-blur-md dark:bg-gray-900/90 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <Compass className="h-8 w-8 text-primary" />
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">CareerCompass</h1>
-            </div>
+            <Link to="/" className="flex items-center space-x-3">
+              <div className="p-2 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl">
+                <Compass className="h-8 w-8 text-white" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                  CareerCompass
+                </h1>
+                <p className="text-xs text-gray-500">AI-Powered Career Guide</p>
+              </div>
+            </Link>
+            <nav className="hidden md:flex items-center space-x-8">
+              <Link to="/careers" className="text-gray-600 hover:text-indigo-600 transition-colors">Explore Careers</Link>
+              <Link to="/resume-analyzer" className="text-gray-600 hover:text-indigo-600 transition-colors">Resume Analyzer</Link>
+              <Link to="/roadmaps" className="text-gray-600 hover:text-indigo-600 transition-colors">Career Roadmaps</Link>
+              <Link to="/chat" className="text-gray-600 hover:text-indigo-600 transition-colors">AI Assistant</Link>
+            </nav>
             <div className="flex items-center space-x-4">
               <Button variant="ghost" asChild>
                 <Link to="/login">Login</Link>
               </Button>
-              <Button asChild>
+              <Button asChild className="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700">
                 <Link to="/register">Get Started</Link>
               </Button>
             </div>
@@ -129,73 +290,160 @@ export default function Index() {
       </header>
 
       <main className="container mx-auto px-4 py-8">
-        {/* Hero Section */}
-        <div className="text-center mb-12">
-          <div className="flex justify-center mb-4">
-            <div className="p-3 bg-primary/10 rounded-full">
-              <Brain className="h-12 w-12 text-primary" />
+        {/* Enhanced Hero Section */}
+        <div className="text-center mb-16">
+          <div className="flex justify-center mb-6">
+            <div className="relative">
+              <div className="p-4 bg-gradient-to-br from-indigo-500/20 to-purple-600/20 rounded-2xl backdrop-blur-sm">
+                <div className="p-3 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl">
+                  <Sparkles className="h-12 w-12 text-white" />
+                </div>
+              </div>
+              <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full animate-pulse"></div>
             </div>
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
-            Discover Your Perfect
-            <span className="text-primary block">Career Path</span>
+          <h1 className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
+            Discover Your
+            <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent block">
+              Dream Career
+            </span>
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-8">
-            Get AI-powered career recommendations tailored to your academic performance, skills, and interests. 
-            Start your journey to a fulfilling career today.
+          <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto mb-8 leading-relaxed">
+            Get AI-powered career recommendations with personalized roadmaps, skill analysis, and industry insights. 
+            <br className="hidden md:block" />
+            <span className="text-indigo-600 font-semibold">Your journey to success starts here.</span>
           </p>
+          <div className="flex flex-wrap justify-center gap-4 mb-8">
+            <Badge variant="secondary" className="px-4 py-2 text-sm bg-indigo-100 text-indigo-700">
+              <Target className="w-4 h-4 mr-2" />
+              95% Accuracy
+            </Badge>
+            <Badge variant="secondary" className="px-4 py-2 text-sm bg-purple-100 text-purple-700">
+              <Users className="w-4 h-4 mr-2" />
+              10K+ Students
+            </Badge>
+            <Badge variant="secondary" className="px-4 py-2 text-sm bg-cyan-100 text-cyan-700">
+              <Briefcase className="w-4 h-4 mr-2" />
+              500+ Careers
+            </Badge>
+          </div>
         </div>
 
-        {recommendations.length === 0 ? (
-          /* Career Assessment Form */
-          <Card className="max-w-4xl mx-auto">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <GraduationCap className="h-6 w-6" />
+        {isLoading ? (
+          /* Enhanced Loading State */
+          <Card className="max-w-2xl mx-auto">
+            <CardContent className="p-8 text-center">
+              <div className="mb-6">
+                <div className="relative w-24 h-24 mx-auto">
+                  <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full animate-spin"></div>
+                  <div className="absolute inset-2 bg-white dark:bg-gray-900 rounded-full"></div>
+                  <div className="absolute inset-4 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center">
+                    <Brain className="h-8 w-8 text-white" />
+                  </div>
+                </div>
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                AI is Analyzing Your Profile
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400 mb-6">
+                Please wait while we generate your personalized career recommendations
+              </p>
+              <Progress value={loadingProgress} className="mb-4" />
+              <p className="text-sm text-gray-500">{loadingProgress}% Complete</p>
+            </CardContent>
+          </Card>
+        ) : recommendations.length === 0 ? (
+          /* Enhanced Career Assessment Form */
+          <Card className="max-w-5xl mx-auto shadow-2xl">
+            <CardHeader className="bg-gradient-to-r from-indigo-500/10 to-purple-600/10 border-b">
+              <CardTitle className="flex items-center space-x-3 text-2xl">
+                <div className="p-2 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg">
+                  <GraduationCap className="h-6 w-6 text-white" />
+                </div>
                 <span>Career Assessment</span>
               </CardTitle>
-              <CardDescription>
-                Tell us about yourself to get personalized career recommendations
+              <CardDescription className="text-lg">
+                Complete this comprehensive assessment to get personalized AI-powered career recommendations
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-8">
+            <CardContent className="p-8">
+              <form onSubmit={handleSubmit} className="space-y-10">
                 {/* Academic Information */}
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="stream">Academic Stream</Label>
-                    <Select value={formData.stream} onValueChange={(value) => setFormData(prev => ({ ...prev, stream: value }))}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select your stream" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="science">Science</SelectItem>
-                        <SelectItem value="commerce">Commerce</SelectItem>
-                        <SelectItem value="arts">Arts</SelectItem>
-                      </SelectContent>
-                    </Select>
+                <div className="space-y-6">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center">
+                    <BookOpen className="h-5 w-5 mr-2 text-indigo-600" />
+                    Academic Background
+                  </h3>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="stream" className="text-base font-medium">Academic Stream</Label>
+                      <Select value={formData.stream} onValueChange={(value) => setFormData(prev => ({ ...prev, stream: value }))}>
+                        <SelectTrigger className="h-12">
+                          <SelectValue placeholder="Select your academic stream" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {ACADEMIC_STREAMS.map((stream) => (
+                            <SelectItem key={stream} value={stream}>{stream}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="cgpa" className="text-base font-medium">CGPA / Percentage</Label>
+                      <Input
+                        id="cgpa"
+                        type="number"
+                        step="0.1"
+                        min="0"
+                        max="10"
+                        placeholder="e.g., 8.5 or 85%"
+                        value={formData.cgpa}
+                        onChange={(e) => setFormData(prev => ({ ...prev, cgpa: e.target.value }))}
+                        className="h-12"
+                      />
+                    </div>
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="cgpa">CGPA / Percentage</Label>
-                    <Input
-                      id="cgpa"
-                      type="number"
-                      step="0.1"
-                      min="0"
-                      max="10"
-                      placeholder="e.g., 8.5 or 85%"
-                      value={formData.cgpa}
-                      onChange={(e) => setFormData(prev => ({ ...prev, cgpa: e.target.value }))}
-                    />
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="experience" className="text-base font-medium">Experience Level</Label>
+                      <Select value={formData.experience} onValueChange={(value) => setFormData(prev => ({ ...prev, experience: value }))}>
+                        <SelectTrigger className="h-12">
+                          <SelectValue placeholder="Select your experience level" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="fresher">Fresher (0 years)</SelectItem>
+                          <SelectItem value="entry">Entry Level (0-2 years)</SelectItem>
+                          <SelectItem value="mid">Mid Level (2-5 years)</SelectItem>
+                          <SelectItem value="senior">Senior Level (5+ years)</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="careerGoal" className="text-base font-medium">Career Goal Timeline</Label>
+                      <Select value={formData.careerGoal} onValueChange={(value) => setFormData(prev => ({ ...prev, careerGoal: value }))}>
+                        <SelectTrigger className="h-12">
+                          <SelectValue placeholder="When do you want to start?" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="immediate">Immediate (0-6 months)</SelectItem>
+                          <SelectItem value="short">Short term (6-12 months)</SelectItem>
+                          <SelectItem value="medium">Medium term (1-2 years)</SelectItem>
+                          <SelectItem value="long">Long term (2+ years)</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
                 </div>
 
                 {/* Skills Selection */}
-                <div className="space-y-4">
-                  <Label className="text-base font-medium">Your Skills</Label>
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+                <div className="space-y-6">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center">
+                    <TrendingUp className="h-5 w-5 mr-2 text-indigo-600" />
+                    Your Skills ({formData.skills.length} selected)
+                  </h3>
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {SKILLS.map((skill) => (
-                      <div key={skill} className="flex items-center space-x-2">
+                      <div key={skill} className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-indigo-50 transition-colors">
                         <Checkbox
                           id={`skill-${skill}`}
                           checked={formData.skills.includes(skill)}
@@ -203,7 +451,7 @@ export default function Index() {
                         />
                         <Label
                           htmlFor={`skill-${skill}`}
-                          className="text-sm font-normal cursor-pointer"
+                          className="text-sm font-medium cursor-pointer flex-1"
                         >
                           {skill}
                         </Label>
@@ -211,9 +459,9 @@ export default function Index() {
                     ))}
                   </div>
                   {formData.skills.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mt-3">
+                    <div className="flex flex-wrap gap-2">
                       {formData.skills.map((skill) => (
-                        <Badge key={skill} variant="secondary" className="cursor-pointer" onClick={() => toggleSkill(skill)}>
+                        <Badge key={skill} variant="secondary" className="cursor-pointer bg-indigo-100 text-indigo-700 hover:bg-indigo-200" onClick={() => toggleSkill(skill)}>
                           {skill} ×
                         </Badge>
                       ))}
@@ -222,11 +470,14 @@ export default function Index() {
                 </div>
 
                 {/* Interests Selection */}
-                <div className="space-y-4">
-                  <Label className="text-base font-medium">Your Interests</Label>
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+                <div className="space-y-6">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center">
+                    <Star className="h-5 w-5 mr-2 text-indigo-600" />
+                    Your Interests ({formData.interests.length} selected)
+                  </h3>
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {INTERESTS.map((interest) => (
-                      <div key={interest} className="flex items-center space-x-2">
+                      <div key={interest} className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-purple-50 transition-colors">
                         <Checkbox
                           id={`interest-${interest}`}
                           checked={formData.interests.includes(interest)}
@@ -234,7 +485,7 @@ export default function Index() {
                         />
                         <Label
                           htmlFor={`interest-${interest}`}
-                          className="text-sm font-normal cursor-pointer"
+                          className="text-sm font-medium cursor-pointer flex-1"
                         >
                           {interest}
                         </Label>
@@ -242,9 +493,9 @@ export default function Index() {
                     ))}
                   </div>
                   {formData.interests.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mt-3">
+                    <div className="flex flex-wrap gap-2">
                       {formData.interests.map((interest) => (
-                        <Badge key={interest} variant="outline" className="cursor-pointer" onClick={() => toggleInterest(interest)}>
+                        <Badge key={interest} variant="outline" className="cursor-pointer border-purple-200 text-purple-700 hover:bg-purple-50" onClick={() => toggleInterest(interest)}>
                           {interest} ×
                         </Badge>
                       ))}
@@ -254,176 +505,269 @@ export default function Index() {
 
                 <Button 
                   type="submit" 
-                  className="w-full py-6 text-lg"
-                  disabled={!formData.stream || !formData.cgpa || formData.skills.length === 0 || formData.interests.length === 0 || isLoading}
+                  className="w-full py-6 text-lg bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700"
+                  disabled={!formData.stream || !formData.cgpa || formData.skills.length === 0 || formData.interests.length === 0}
                 >
-                  {isLoading ? (
-                    <div className="flex items-center space-x-2">
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                      <span>Analyzing Your Profile...</span>
-                    </div>
-                  ) : (
-                    <div className="flex items-center space-x-2">
-                      <Brain className="h-5 w-5" />
-                      <span>Get AI Career Recommendations</span>
-                    </div>
-                  )}
+                  <div className="flex items-center space-x-3">
+                    <Brain className="h-6 w-6" />
+                    <span>Generate AI Career Recommendations</span>
+                    <ArrowRight className="h-5 w-5" />
+                  </div>
                 </Button>
               </form>
             </CardContent>
           </Card>
         ) : (
-          /* Career Recommendations */
-          <div className="max-w-6xl mx-auto space-y-8">
+          /* Enhanced Career Recommendations */
+          <div className="max-w-7xl mx-auto space-y-8">
             <div className="text-center">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+              <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
                 Your Personalized Career Recommendations
               </h2>
-              <p className="text-gray-600 dark:text-gray-300">
-                Based on your profile analysis, here are the top career paths for you
+              <p className="text-xl text-gray-600 dark:text-gray-300 mb-6">
+                Based on your profile analysis, here are the top career paths tailored for you
               </p>
-              <Button 
-                variant="outline" 
-                onClick={() => setRecommendations([])}
-                className="mt-4"
-              >
-                Take Assessment Again
-              </Button>
+              <div className="flex justify-center space-x-4">
+                <Button 
+                  variant="outline" 
+                  onClick={() => setRecommendations([])}
+                  className="bg-white"
+                >
+                  <ArrowRight className="h-4 w-4 mr-2 rotate-180" />
+                  Take Assessment Again
+                </Button>
+                <Button className="bg-gradient-to-r from-indigo-500 to-purple-600">
+                  <Download className="h-4 w-4 mr-2" />
+                  Export Results
+                </Button>
+              </div>
             </div>
 
-            <div className="grid lg:grid-cols-3 gap-6">
+            <div className="grid lg:grid-cols-3 gap-8">
               {recommendations.map((career, index) => (
-                <Card key={index} className="relative overflow-hidden">
+                <Card key={index} className="relative overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border-0">
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 to-purple-600"></div>
                   <div className="absolute top-4 right-4">
-                    <Badge variant="secondary" className="bg-primary/10 text-primary">
+                    <Badge className="bg-gradient-to-r from-green-500 to-emerald-600 text-white">
                       {career.matchScore}% Match
                     </Badge>
                   </div>
                   
-                  <CardHeader className="pb-3">
-                    <CardTitle className="text-xl mb-2">{career.title}</CardTitle>
+                  <CardHeader className="pb-4">
+                    <div className="flex items-center space-x-3 mb-3">
+                      <div className="p-2 bg-gradient-to-br from-indigo-500/10 to-purple-600/10 rounded-lg">
+                        <Briefcase className="h-6 w-6 text-indigo-600" />
+                      </div>
+                      <div>
+                        <CardTitle className="text-xl">{career.title}</CardTitle>
+                        <div className="flex items-center space-x-2 mt-1">
+                          <Badge variant="outline" className="text-xs">{career.difficulty}</Badge>
+                          <Badge variant="outline" className="text-xs">{career.timeToStart}</Badge>
+                        </div>
+                      </div>
+                    </div>
                     <CardDescription className="text-sm leading-relaxed">
                       {career.description}
                     </CardDescription>
                   </CardHeader>
                   
                   <CardContent className="space-y-6">
-                    {/* Required Skills */}
-                    <div>
-                      <h4 className="font-medium text-sm text-gray-700 dark:text-gray-300 mb-2 flex items-center">
-                        <TrendingUp className="h-4 w-4 mr-1" />
-                        Required Skills
-                      </h4>
-                      <div className="flex flex-wrap gap-1">
-                        {career.requiredSkills.map((skill) => (
-                          <Badge key={skill} variant="outline" className="text-xs">
-                            {skill}
-                          </Badge>
-                        ))}
-                      </div>
-                    </div>
+                    <Tabs defaultValue="overview" className="w-full">
+                      <TabsList className="grid w-full grid-cols-4 text-xs">
+                        <TabsTrigger value="overview">Overview</TabsTrigger>
+                        <TabsTrigger value="roadmap">Roadmap</TabsTrigger>
+                        <TabsTrigger value="courses">Courses</TabsTrigger>
+                        <TabsTrigger value="jobs">Jobs</TabsTrigger>
+                      </TabsList>
+                      
+                      <TabsContent value="overview" className="space-y-4 mt-4">
+                        {/* Salary & Growth */}
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="p-3 bg-green-50 rounded-lg">
+                            <div className="flex items-center text-green-700 mb-1">
+                              <DollarSign className="h-4 w-4 mr-1" />
+                              <span className="text-xs font-medium">Salary Range</span>
+                            </div>
+                            <p className="text-sm font-semibold">{career.averageSalary}</p>
+                          </div>
+                          <div className="p-3 bg-blue-50 rounded-lg">
+                            <div className="flex items-center text-blue-700 mb-1">
+                              <TrendingUp className="h-4 w-4 mr-1" />
+                              <span className="text-xs font-medium">Job Growth</span>
+                            </div>
+                            <p className="text-sm font-semibold">{career.jobGrowth}</p>
+                          </div>
+                        </div>
 
-                    {/* Average Salary */}
-                    <div>
-                      <h4 className="font-medium text-sm text-gray-700 dark:text-gray-300 mb-2 flex items-center">
-                        <DollarSign className="h-4 w-4 mr-1" />
-                        Average Salary
-                      </h4>
-                      <p className="text-lg font-semibold text-green-600">{career.averageSalary}</p>
-                    </div>
+                        {/* Required Skills */}
+                        <div>
+                          <h4 className="font-medium text-sm text-gray-700 dark:text-gray-300 mb-2">
+                            Key Skills Required
+                          </h4>
+                          <div className="flex flex-wrap gap-1">
+                            {career.requiredSkills.slice(0, 4).map((skill) => (
+                              <Badge key={skill} variant="outline" className="text-xs">
+                                {skill}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
 
-                    {/* Learning Path */}
-                    <div>
-                      <h4 className="font-medium text-sm text-gray-700 dark:text-gray-300 mb-2 flex items-center">
-                        <BookOpen className="h-4 w-4 mr-1" />
-                        Learning Roadmap
-                      </h4>
-                      <ul className="text-sm space-y-1">
-                        {career.learningPath.slice(0, 3).map((step, i) => (
-                          <li key={i} className="flex items-center text-gray-600 dark:text-gray-400">
-                            <span className="w-4 h-4 bg-primary/20 text-primary rounded-full text-xs flex items-center justify-center mr-2 flex-shrink-0">
-                              {i + 1}
-                            </span>
-                            {step}
-                          </li>
-                        ))}
-                        {career.learningPath.length > 3 && (
-                          <li className="text-primary text-xs">+{career.learningPath.length - 3} more steps</li>
-                        )}
-                      </ul>
-                    </div>
+                        {/* Top Companies */}
+                        <div>
+                          <h4 className="font-medium text-sm text-gray-700 dark:text-gray-300 mb-2">
+                            Top Hiring Companies
+                          </h4>
+                          <div className="flex flex-wrap gap-1">
+                            {career.topCompanies.slice(0, 4).map((company) => (
+                              <Badge key={company} variant="secondary" className="text-xs">
+                                {company}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+                      </TabsContent>
 
-                    {/* Top Companies */}
-                    <div>
-                      <h4 className="font-medium text-sm text-gray-700 dark:text-gray-300 mb-2 flex items-center">
-                        <Building className="h-4 w-4 mr-1" />
-                        Top Hiring Companies
-                      </h4>
-                      <div className="flex flex-wrap gap-1">
-                        {career.topCompanies.slice(0, 3).map((company) => (
-                          <Badge key={company} variant="secondary" className="text-xs">
-                            {company}
-                          </Badge>
+                      <TabsContent value="roadmap" className="space-y-4 mt-4">
+                        {career.roadmap.map((level, i) => (
+                          <div key={i} className="border-l-2 border-indigo-200 pl-4">
+                            <div className="flex items-center mb-2">
+                              <div className="w-3 h-3 bg-indigo-500 rounded-full -ml-6 mr-3"></div>
+                              <h5 className="font-medium text-sm">{level.level}</h5>
+                            </div>
+                            <div className="text-xs text-gray-600 mb-2">
+                              Duration: {level.duration}
+                            </div>
+                            <div className="flex flex-wrap gap-1">
+                              {level.skills.map((skill) => (
+                                <Badge key={skill} variant="outline" className="text-xs">
+                                  {skill}
+                                </Badge>
+                              ))}
+                            </div>
+                          </div>
                         ))}
-                        {career.topCompanies.length > 3 && (
-                          <Badge variant="secondary" className="text-xs">
-                            +{career.topCompanies.length - 3} more
-                          </Badge>
-                        )}
-                      </div>
-                    </div>
+                      </TabsContent>
+
+                      <TabsContent value="courses" className="space-y-3 mt-4">
+                        {career.courses.map((course, i) => (
+                          <div key={i} className="p-3 border rounded-lg hover:bg-gray-50 transition-colors">
+                            <div className="flex items-center justify-between mb-1">
+                              <h5 className="font-medium text-sm">{course.title}</h5>
+                              <Badge variant={course.type === 'free' ? 'secondary' : 'outline'} className="text-xs">
+                                {course.type}
+                              </Badge>
+                            </div>
+                            <p className="text-xs text-gray-600">{course.provider} • {course.duration}</p>
+                            <Button variant="link" className="p-0 h-auto text-xs text-indigo-600" asChild>
+                              <a href={course.url} target="_blank" rel="noopener noreferrer">
+                                View Course <ExternalLink className="h-3 w-3 ml-1" />
+                              </a>
+                            </Button>
+                          </div>
+                        ))}
+                      </TabsContent>
+
+                      <TabsContent value="jobs" className="space-y-3 mt-4">
+                        {career.locations.map((location, i) => (
+                          <div key={i} className="flex items-center justify-between p-3 border rounded-lg">
+                            <div className="flex items-center space-x-2">
+                              <MapPin className="h-4 w-4 text-gray-500" />
+                              <span className="text-sm font-medium">{location.city}</span>
+                            </div>
+                            <div className="text-right">
+                              <Badge 
+                                variant={location.demand === 'High' ? 'default' : location.demand === 'Medium' ? 'secondary' : 'outline'}
+                                className="text-xs mb-1"
+                              >
+                                {location.demand} Demand
+                              </Badge>
+                              <p className="text-xs text-gray-600">{location.avgSalary}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </TabsContent>
+                    </Tabs>
                   </CardContent>
                 </Card>
               ))}
             </div>
+
+            {/* Action Buttons */}
+            <div className="flex justify-center space-x-4 pt-8">
+              <Button variant="outline" className="bg-white">
+                <MessageSquare className="h-4 w-4 mr-2" />
+                Chat with AI Assistant
+              </Button>
+              <Button className="bg-gradient-to-r from-indigo-500 to-purple-600">
+                <FileText className="h-4 w-4 mr-2" />
+                Analyze My Resume
+              </Button>
+              <Button variant="outline" className="bg-white">
+                <BarChart3 className="h-4 w-4 mr-2" />
+                Compare Careers
+              </Button>
+            </div>
           </div>
         )}
 
-        {/* Features Section */}
-        {recommendations.length === 0 && (
-          <div className="mt-20">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+        {/* Enhanced Features Section */}
+        {recommendations.length === 0 && !isLoading && (
+          <div className="mt-24">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
                 Why Choose CareerCompass?
               </h2>
-              <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-                Our AI-powered platform provides comprehensive career guidance tailored to your unique profile
+              <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                Our comprehensive AI-powered platform provides everything you need for career success
               </p>
             </div>
             
-            <div className="grid md:grid-cols-3 gap-8">
-              <Card className="text-center">
-                <CardContent className="pt-6">
-                  <div className="p-3 bg-primary/10 rounded-full w-fit mx-auto mb-4">
-                    <Brain className="h-8 w-8 text-primary" />
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+              <Card className="text-center border-0 shadow-lg hover:shadow-xl transition-shadow">
+                <CardContent className="pt-8">
+                  <div className="p-4 bg-gradient-to-br from-indigo-500/10 to-purple-600/10 rounded-2xl w-fit mx-auto mb-4">
+                    <Brain className="h-8 w-8 text-indigo-600" />
                   </div>
-                  <h3 className="text-xl font-semibold mb-2">AI-Powered Analysis</h3>
-                  <p className="text-gray-600 dark:text-gray-400">
-                    Advanced algorithms analyze your skills, interests, and academic performance
+                  <h3 className="text-xl font-semibold mb-3">AI-Powered Analysis</h3>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+                    Advanced machine learning algorithms analyze your complete profile for accurate recommendations
                   </p>
                 </CardContent>
               </Card>
               
-              <Card className="text-center">
-                <CardContent className="pt-6">
-                  <div className="p-3 bg-primary/10 rounded-full w-fit mx-auto mb-4">
-                    <TrendingUp className="h-8 w-8 text-primary" />
+              <Card className="text-center border-0 shadow-lg hover:shadow-xl transition-shadow">
+                <CardContent className="pt-8">
+                  <div className="p-4 bg-gradient-to-br from-green-500/10 to-emerald-600/10 rounded-2xl w-fit mx-auto mb-4">
+                    <TrendingUp className="h-8 w-8 text-green-600" />
                   </div>
-                  <h3 className="text-xl font-semibold mb-2">Market Insights</h3>
-                  <p className="text-gray-600 dark:text-gray-400">
-                    Get real-time salary data, job market trends, and industry insights
+                  <h3 className="text-xl font-semibold mb-3">Real-time Market Data</h3>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+                    Live salary data, job market trends, and industry insights updated daily
                   </p>
                 </CardContent>
               </Card>
               
-              <Card className="text-center">
-                <CardContent className="pt-6">
-                  <div className="p-3 bg-primary/10 rounded-full w-fit mx-auto mb-4">
-                    <Users className="h-8 w-8 text-primary" />
+              <Card className="text-center border-0 shadow-lg hover:shadow-xl transition-shadow">
+                <CardContent className="pt-8">
+                  <div className="p-4 bg-gradient-to-br from-blue-500/10 to-cyan-600/10 rounded-2xl w-fit mx-auto mb-4">
+                    <BookOpen className="h-8 w-8 text-blue-600" />
                   </div>
-                  <h3 className="text-xl font-semibold mb-2">Personalized Guidance</h3>
-                  <p className="text-gray-600 dark:text-gray-400">
-                    Receive customized learning paths and career roadmaps
+                  <h3 className="text-xl font-semibold mb-3">Personalized Roadmaps</h3>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+                    Step-by-step learning paths with courses, certifications, and project recommendations
+                  </p>
+                </CardContent>
+              </Card>
+              
+              <Card className="text-center border-0 shadow-lg hover:shadow-xl transition-shadow">
+                <CardContent className="pt-8">
+                  <div className="p-4 bg-gradient-to-br from-purple-500/10 to-pink-600/10 rounded-2xl w-fit mx-auto mb-4">
+                    <Users className="h-8 w-8 text-purple-600" />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-3">Expert Guidance</h3>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+                    24/7 AI career assistant and access to industry mentors and career counselors
                   </p>
                 </CardContent>
               </Card>
