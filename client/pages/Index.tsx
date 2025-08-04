@@ -273,9 +273,9 @@ export default function Index() {
               </div>
               <div>
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                  CareerCompass
+                  {t('header.title')}
                 </h1>
-                <p className="text-xs text-gray-500">AI-Powered Career Guide</p>
+                <p className="text-xs text-gray-500">{t('header.subtitle')}</p>
               </div>
             </Link>
             <nav className="hidden md:flex items-center space-x-8">
