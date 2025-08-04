@@ -321,15 +321,15 @@ export default function Index() {
             </div>
           </div>
           <h1 className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
-            Discover Your
+            {t('hero.title')}
             <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent block">
-              Dream Career
+              {t('hero.subtitle')}
             </span>
           </h1>
           <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto mb-8 leading-relaxed">
-            Get AI-powered career recommendations with personalized roadmaps, skill analysis, and industry insights. 
+            {t('hero.description')}
             <br className="hidden md:block" />
-            <span className="text-indigo-600 font-semibold">Your journey to success starts here.</span>
+            <span className="text-indigo-600 font-semibold">{t('hero.cta')}</span>
           </p>
           <div className="flex flex-wrap justify-center gap-4 mb-8">
             <Badge variant="secondary" className="px-4 py-2 text-sm bg-indigo-100 text-indigo-700">
