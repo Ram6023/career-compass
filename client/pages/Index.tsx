@@ -117,12 +117,21 @@ export default function Index() {
   const [loadingProgress, setLoadingProgress] = useState(0);
 
   const toggleSkill = (skill: string) => {
+    const isAdding = !formData.skills.includes(skill);
     setFormData(prev => ({
       ...prev,
       skills: prev.skills.includes(skill)
         ? prev.skills.filter(s => s !== skill)
         : [...prev.skills, skill]
     }));
+
+    if (isAdding) {
+      toast({
+        title: "Skill added! ✨",
+        description: `${skill} has been added to your skills profile.`,
+        duration: 2000,
+      });
+    }
   };
 
   const toggleInterest = (interest: string) => {
