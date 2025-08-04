@@ -35,6 +35,8 @@ import {
   Sun
 } from 'lucide-react';
 import { useTheme } from '@/components/ui/theme-provider';
+import { useLanguage } from '@/components/ui/language-provider';
+import { LanguageSelector } from '@/components/ui/language-selector';
 
 const ACADEMIC_STREAMS = [
   'Science (PCM)', 'Science (PCB)', 'Science (PCMB)', 'Commerce', 'Arts/Humanities',
