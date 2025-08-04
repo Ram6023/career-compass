@@ -37,6 +37,7 @@ import {
 import { useTheme } from '@/components/ui/theme-provider';
 import { useLanguage } from '@/components/ui/language-provider';
 import { LanguageSelector } from '@/components/ui/language-selector';
+import { toast } from '@/components/ui/use-toast';
 
 const ACADEMIC_STREAMS = [
   'Science (PCM)', 'Science (PCB)', 'Science (PCMB)', 'Commerce', 'Arts/Humanities',
