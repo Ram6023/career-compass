@@ -273,7 +273,7 @@ export default function Admin() {
                 <SelectItem value="1y">Last year</SelectItem>
               </SelectContent>
             </Select>
-            <Button className="bg-gradient-to-r from-indigo-500 to-purple-600">
+            <Button className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 shadow-lg">
               <Download className="h-4 w-4 mr-2" />
               Export Report
             </Button>
