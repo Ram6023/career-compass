@@ -312,12 +312,12 @@ export default function Index() {
         <div className="text-center mb-16">
           <div className="flex justify-center mb-6">
             <div className="relative">
-              <div className="p-4 bg-gradient-to-br from-indigo-500/20 to-purple-600/20 rounded-2xl backdrop-blur-sm">
-                <div className="p-3 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl">
+              <div className="p-4 bg-gradient-to-br from-rose-500/20 to-pink-600/20 rounded-2xl backdrop-blur-sm shadow-xl">
+                <div className="p-3 bg-gradient-to-br from-rose-500 to-pink-600 rounded-xl shadow-lg">
                   <Sparkles className="h-12 w-12 text-white" />
                 </div>
               </div>
-              <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full animate-pulse"></div>
+              <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full animate-pulse shadow-lg"></div>
             </div>
           </div>
           <h1 className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
