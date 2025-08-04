@@ -320,10 +320,10 @@ export default function ResumeAnalyzer() {
                 {isAnalyzing && (
                   <div className="mt-6 p-6 bg-indigo-50 rounded-lg">
                     <div className="flex items-center space-x-3 mb-4">
-                      <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-indigo-600"></div>
-                      <p className="font-medium text-indigo-900">Analyzing your resume...</p>
+                      <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-rose-600"></div>
+                      <p className="font-medium text-slate-900 dark:text-slate-100">Analyzing your resume...</p>
                     </div>
-                    <div className="space-y-2 text-sm text-indigo-700">
+                    <div className="space-y-2 text-sm text-slate-700 dark:text-slate-300">
                       <p>• Extracting text and formatting information</p>
                       <p>• Analyzing section completeness and quality</p>
                       <p>• Checking ATS compatibility</p>
@@ -338,8 +338,8 @@ export default function ResumeAnalyzer() {
             <div className="mt-16 grid md:grid-cols-3 gap-8">
               <Card className="text-center">
                 <CardContent className="pt-6">
-                  <div className="p-3 bg-indigo-100 rounded-full w-fit mx-auto mb-4">
-                    <BarChart3 className="h-8 w-8 text-indigo-600" />
+                  <div className="p-3 bg-rose-100 dark:bg-rose-900/20 rounded-full w-fit mx-auto mb-4">
+                    <BarChart3 className="h-8 w-8 text-rose-600 dark:text-rose-400" />
                   </div>
                   <h3 className="text-lg font-semibold mb-2">Comprehensive Scoring</h3>
                   <p className="text-gray-600 text-sm">
@@ -350,8 +350,8 @@ export default function ResumeAnalyzer() {
               
               <Card className="text-center">
                 <CardContent className="pt-6">
-                  <div className="p-3 bg-purple-100 rounded-full w-fit mx-auto mb-4">
-                    <Target className="h-8 w-8 text-purple-600" />
+                  <div className="p-3 bg-pink-100 dark:bg-pink-900/20 rounded-full w-fit mx-auto mb-4">
+                    <Target className="h-8 w-8 text-pink-600 dark:text-pink-400" />
                   </div>
                   <h3 className="text-lg font-semibold mb-2">ATS Optimization</h3>
                   <p className="text-gray-600 text-sm">
@@ -389,7 +389,7 @@ export default function ResumeAnalyzer() {
                       <Upload className="h-4 w-4 mr-2" />
                       Analyze Another
                     </Button>
-                    <Button className="bg-gradient-to-r from-indigo-500 to-purple-600">
+                    <Button className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 shadow-lg">
                       <Download className="h-4 w-4 mr-2" />
                       Download Report
                     </Button>
@@ -599,7 +599,7 @@ export default function ResumeAnalyzer() {
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center space-x-2">
-                      <Target className="h-5 w-5 text-indigo-600" />
+                      <Target className="h-5 w-5 text-rose-600 dark:text-rose-400" />
                       <span>Industry Analysis: {analysis.industryFit.industry}</span>
                     </CardTitle>
                     <CardDescription>
@@ -609,7 +609,7 @@ export default function ResumeAnalyzer() {
                   <CardContent>
                     <div className="space-y-6">
                       <div className="flex items-center space-x-4">
-                        <div className="text-4xl font-bold text-indigo-600">
+                        <div className="text-4xl font-bold text-rose-600 dark:text-rose-400">
                           {analysis.industryFit.score}%
                         </div>
                         <div className="flex-1">
@@ -621,7 +621,7 @@ export default function ResumeAnalyzer() {
                         <h4 className="font-medium text-gray-900 mb-3">Industry-Relevant Keywords Found</h4>
                         <div className="flex flex-wrap gap-2">
                           {analysis.industryFit.matchedKeywords.map((keyword) => (
-                            <Badge key={keyword} className="bg-indigo-100 text-indigo-700">
+                            <Badge key={keyword} className="bg-rose-100 dark:bg-rose-900/20 text-rose-700 dark:text-rose-300">
                               {keyword}
                             </Badge>
                           ))}
