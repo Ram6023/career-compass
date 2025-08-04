@@ -135,12 +135,21 @@ export default function Index() {
   };
 
   const toggleInterest = (interest: string) => {
+    const isAdding = !formData.interests.includes(interest);
     setFormData(prev => ({
       ...prev,
       interests: prev.interests.includes(interest)
         ? prev.interests.filter(i => i !== interest)
         : [...prev.interests, interest]
     }));
+
+    if (isAdding) {
+      toast({
+        title: "Interest added! 🎯",
+        description: `${interest} has been added to your interests profile.`,
+        duration: 2000,
+      });
+    }
   };
 
   const generateRecommendations = async () => {
