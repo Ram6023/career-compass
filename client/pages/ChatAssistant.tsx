@@ -157,33 +157,33 @@ export default function ChatAssistant() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-zinc-100 dark:from-slate-900 dark:via-gray-900 dark:to-zinc-900">
       {/* Header */}
-      <header className="border-b bg-white/90 backdrop-blur-md dark:bg-gray-900/90 sticky top-0 z-50">
+      <header className="border-b border-slate-200/60 bg-white/80 backdrop-blur-md dark:bg-slate-900/80 dark:border-slate-700/60 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Link to="/" className="flex items-center space-x-3">
-              <div className="p-2 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl">
+              <div className="p-2 bg-gradient-to-br from-rose-500 to-pink-600 rounded-xl shadow-lg">
                 <Compass className="h-8 w-8 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-rose-600 to-pink-600 bg-clip-text text-transparent">
                   CareerCompass
                 </h1>
                 <p className="text-xs text-gray-500">AI Career Assistant</p>
               </div>
             </Link>
             <nav className="hidden md:flex items-center space-x-8">
-              <Link to="/" className="text-gray-600 hover:text-indigo-600 transition-colors">Home</Link>
-              <Link to="/careers" className="text-gray-600 hover:text-indigo-600 transition-colors">Explore Careers</Link>
-              <Link to="/resume-analyzer" className="text-gray-600 hover:text-indigo-600 transition-colors">Resume Analyzer</Link>
-              <Link to="/roadmaps" className="text-gray-600 hover:text-indigo-600 transition-colors">Career Roadmaps</Link>
+              <Link to="/" className="text-slate-600 hover:text-rose-600 transition-colors font-medium">Home</Link>
+              <Link to="/careers" className="text-slate-600 hover:text-rose-600 transition-colors font-medium">Explore Careers</Link>
+              <Link to="/resume-analyzer" className="text-slate-600 hover:text-rose-600 transition-colors font-medium">Resume Analyzer</Link>
+              <Link to="/roadmaps" className="text-slate-600 hover:text-rose-600 transition-colors font-medium">Career Roadmaps</Link>
             </nav>
             <div className="flex items-center space-x-4">
               <Button variant="ghost" asChild>
                 <Link to="/login">Login</Link>
               </Button>
-              <Button asChild className="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700">
+              <Button asChild className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 shadow-lg">
                 <Link to="/register">Get Started</Link>
               </Button>
             </div>
@@ -221,7 +221,7 @@ export default function ChatAssistant() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2 text-lg">
-                  <BookOpen className="h-5 w-5 text-indigo-500" />
+                  <BookOpen className="h-5 w-5 text-rose-500 dark:text-rose-400" />
                   <span>Popular Topics</span>
                 </CardTitle>
               </CardHeader>
@@ -229,8 +229,8 @@ export default function ChatAssistant() {
                 {CAREER_TOPICS.map((topic, index) => (
                   <div key={index} className="p-3 border rounded-lg hover:bg-indigo-50 transition-colors cursor-pointer">
                     <div className="flex items-center space-x-3">
-                      <div className="p-2 bg-indigo-100 rounded-lg">
-                        <topic.icon className="h-4 w-4 text-indigo-600" />
+                      <div className="p-2 bg-rose-100 dark:bg-rose-900/20 rounded-lg">
+                        <topic.icon className="h-4 w-4 text-rose-600 dark:text-rose-400" />
                       </div>
                       <div>
                         <h4 className="font-medium text-sm">{topic.title}</h4>
@@ -246,9 +246,9 @@ export default function ChatAssistant() {
           {/* Chat Interface */}
           <div className="lg:col-span-3">
             <Card className="h-[600px] flex flex-col shadow-2xl">
-              <CardHeader className="bg-gradient-to-r from-indigo-500/10 to-purple-600/10 border-b">
+              <CardHeader className="bg-gradient-to-r from-rose-500/10 to-pink-600/10 border-b">
                 <div className="flex items-center space-x-3">
-                  <div className="p-2 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg">
+                  <div className="p-2 bg-gradient-to-br from-rose-500 to-pink-600 rounded-lg shadow-lg">
                     <MessageSquare className="h-6 w-6 text-white" />
                   </div>
                   <div>
@@ -269,20 +269,20 @@ export default function ChatAssistant() {
                       <div className={`max-w-[80%] ${message.sender === 'user' ? 'order-2' : 'order-1'}`}>
                         <div className="flex items-start space-x-3">
                           {message.sender === 'bot' && (
-                            <div className="p-2 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex-shrink-0">
+                            <div className="p-2 bg-gradient-to-br from-rose-500 to-pink-600 rounded-full flex-shrink-0 shadow-lg">
                               <Bot className="h-4 w-4 text-white" />
                             </div>
                           )}
                           <div className={`rounded-2xl p-4 ${
                             message.sender === 'user' 
-                              ? 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white' 
+                              ? 'bg-gradient-to-r from-rose-500 to-pink-600 text-white shadow-lg' 
                               : 'bg-gray-100 text-gray-900'
                           }`}>
                             <div className="whitespace-pre-line text-sm leading-relaxed">
                               {message.content}
                             </div>
                             <div className={`text-xs mt-2 ${
-                              message.sender === 'user' ? 'text-indigo-100' : 'text-gray-500'
+                              message.sender === 'user' ? 'text-rose-100' : 'text-slate-500 dark:text-slate-400'
                             }`}>
                               {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                             </div>
@@ -318,7 +318,7 @@ export default function ChatAssistant() {
                   {isTyping && (
                     <div className="flex justify-start">
                       <div className="flex items-center space-x-3">
-                        <div className="p-2 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full">
+                        <div className="p-2 bg-gradient-to-br from-rose-500 to-pink-600 rounded-full shadow-lg">
                           <Bot className="h-4 w-4 text-white" />
                         </div>
                         <div className="bg-gray-100 rounded-2xl p-4">
@@ -350,7 +350,7 @@ export default function ChatAssistant() {
                   <Button
                     onClick={handleSendMessage}
                     disabled={!inputMessage.trim() || isTyping}
-                    className="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700"
+                    className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 shadow-lg"
                   >
                     <Send className="h-4 w-4" />
                   </Button>
