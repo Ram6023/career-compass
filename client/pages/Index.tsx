@@ -332,15 +332,15 @@ export default function Index() {
             <span className="text-rose-600 font-semibold">{t('hero.cta')}</span>
           </p>
           <div className="flex flex-wrap justify-center gap-4 mb-8">
-            <Badge variant="secondary" className="px-4 py-2 text-sm bg-indigo-100 text-indigo-700">
+            <Badge variant="secondary" className="px-4 py-2 text-sm bg-rose-100 text-rose-700 shadow-sm border-rose-200/50">
               <Target className="w-4 h-4 mr-2" />
               {t('stats.accuracy')}
             </Badge>
-            <Badge variant="secondary" className="px-4 py-2 text-sm bg-purple-100 text-purple-700">
+            <Badge variant="secondary" className="px-4 py-2 text-sm bg-pink-100 text-pink-700 shadow-sm border-pink-200/50">
               <Users className="w-4 h-4 mr-2" />
               {t('stats.students')}
             </Badge>
-            <Badge variant="secondary" className="px-4 py-2 text-sm bg-cyan-100 text-cyan-700">
+            <Badge variant="secondary" className="px-4 py-2 text-sm bg-purple-100 text-purple-700 shadow-sm border-purple-200/50">
               <Briefcase className="w-4 h-4 mr-2" />
               {t('stats.careers')}
             </Badge>
