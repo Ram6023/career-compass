@@ -261,6 +261,221 @@ export default function Index() {
     generateRecommendations();
   };
 
+  const exportResults = () => {
+    if (recommendations.length === 0) return;
+
+    // Create a comprehensive report content
+    const reportContent = {
+      title: 'CareerCompass - AI Career Recommendations Report',
+      generatedDate: new Date().toLocaleDateString(),
+      studentProfile: {
+        stream: formData.stream,
+        cgpa: formData.cgpa,
+        skills: formData.skills,
+        interests: formData.interests,
+        experience: formData.experience,
+        careerGoal: formData.careerGoal
+      },
+      recommendations: recommendations.map((career, index) => ({
+        rank: index + 1,
+        title: career.title,
+        description: career.description,
+        matchScore: career.matchScore,
+        averageSalary: career.averageSalary,
+        jobGrowth: career.jobGrowth,
+        difficulty: career.difficulty,
+        timeToStart: career.timeToStart,
+        requiredSkills: career.requiredSkills,
+        topCompanies: career.topCompanies,
+        courses: career.courses,
+        certifications: career.certifications,
+        roadmap: career.roadmap,
+        locations: career.locations
+      }))
+    };
+
+    // Generate HTML content for the report
+    const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>CareerCompass Report</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 40px; color: #333; }
+            .header { text-align: center; margin-bottom: 40px; }
+            .logo { font-size: 28px; font-weight: bold; color: #e11d48; margin-bottom: 10px; }
+            .subtitle { color: #666; margin-bottom: 20px; }
+            .profile { background: #f8fafc; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
+            .career { margin-bottom: 40px; page-break-inside: avoid; }
+            .career-title { font-size: 24px; font-weight: bold; color: #e11d48; margin-bottom: 10px; }
+            .match-score { background: #10b981; color: white; padding: 4px 12px; border-radius: 20px; font-size: 14px; }
+            .section { margin: 15px 0; }
+            .section-title { font-weight: bold; color: #374151; margin-bottom: 8px; }
+            .skills, .companies { display: flex; flex-wrap: wrap; gap: 8px; }
+            .skill, .company { background: #e5e7eb; padding: 4px 8px; border-radius: 4px; font-size: 12px; }
+            .roadmap { margin: 10px 0; }
+            .roadmap-level { margin: 8px 0; padding: 10px; background: #f9fafb; border-left: 3px solid #e11d48; }
+            table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+            th, td { border: 1px solid #d1d5db; padding: 8px; text-align: left; }
+            th { background: #f3f4f6; }
+            @media print { .no-print { display: none; } }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <div class="logo">🧭 CareerCompass</div>
+            <div class="subtitle">AI-Powered Career Recommendations Report</div>
+            <div>Generated on: ${reportContent.generatedDate}</div>
+        </div>
+
+        <div class="profile">
+            <h2>Student Profile</h2>
+            <p><strong>Academic Stream:</strong> ${reportContent.studentProfile.stream}</p>
+            <p><strong>CGPA:</strong> ${reportContent.studentProfile.cgpa}</p>
+            <p><strong>Experience Level:</strong> ${reportContent.studentProfile.experience || 'Not specified'}</p>
+            <p><strong>Career Goal:</strong> ${reportContent.studentProfile.careerGoal || 'Not specified'}</p>
+            <div class="section">
+                <div class="section-title">Skills:</div>
+                <div class="skills">
+                    ${reportContent.studentProfile.skills.map(skill => `<span class="skill">${skill}</span>`).join('')}
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-title">Interests:</div>
+                <div class="skills">
+                    ${reportContent.studentProfile.interests.map(interest => `<span class="skill">${interest}</span>`).join('')}
+                </div>
+            </div>
+        </div>
+
+        ${reportContent.recommendations.map(career => `
+            <div class="career">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h2 class="career-title">${career.rank}. ${career.title}</h2>
+                    <span class="match-score">${career.matchScore}% Match</span>
+                </div>
+
+                <p>${career.description}</p>
+
+                <table>
+                    <tr><th>Salary Range</th><td>${career.averageSalary}</td></tr>
+                    <tr><th>Job Growth</th><td>${career.jobGrowth}</td></tr>
+                    <tr><th>Difficulty</th><td>${career.difficulty}</td></tr>
+                    <tr><th>Time to Start</th><td>${career.timeToStart}</td></tr>
+                </table>
+
+                <div class="section">
+                    <div class="section-title">Required Skills:</div>
+                    <div class="skills">
+                        ${career.requiredSkills.map(skill => `<span class="skill">${skill}</span>`).join('')}
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Top Hiring Companies:</div>
+                    <div class="companies">
+                        ${career.topCompanies.map(company => `<span class="company">${company}</span>`).join('')}
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Learning Roadmap:</div>
+                    ${career.roadmap.map(level => `
+                        <div class="roadmap-level">
+                            <strong>${level.level}</strong> (${level.duration})
+                            <br>Skills: ${level.skills.join(', ')}
+                            <br>Projects: ${level.projects.join(', ')}
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Recommended Courses:</div>
+                    ${career.courses.map(course => `
+                        <div style="margin: 5px 0; padding: 8px; background: #f9fafb;">
+                            <strong>${course.title}</strong> (${course.provider})
+                            <br>Duration: ${course.duration} | Type: ${course.type}
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Location-wise Opportunities:</div>
+                    ${career.locations.map(location => `
+                        <div style="margin: 5px 0;">
+                            <strong>${location.city}:</strong> ${location.demand} demand, ${location.avgSalary}
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `).join('')}
+
+        <div style="text-align: center; margin-top: 40px; color: #666; font-size: 12px;">
+            <p>This report was generated by CareerCompass AI Career Recommendation System</p>
+            <p>For more information, visit CareerCompass.ai</p>
+        </div>
+    </body>
+    </html>
+    `;
+
+    // Create and download the file
+    const blob = new Blob([htmlContent], { type: 'text/html' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `CareerCompass_Report_${new Date().toISOString().split('T')[0]}.html`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+
+    // Also create a simple text version
+    const textContent = `
+CAREERCOMPASS - AI CAREER RECOMMENDATIONS REPORT
+Generated on: ${reportContent.generatedDate}
+
+STUDENT PROFILE:
+- Academic Stream: ${reportContent.studentProfile.stream}
+- CGPA: ${reportContent.studentProfile.cgpa}
+- Skills: ${reportContent.studentProfile.skills.join(', ')}
+- Interests: ${reportContent.studentProfile.interests.join(', ')}
+
+CAREER RECOMMENDATIONS:
+
+${reportContent.recommendations.map((career, index) => `
+${index + 1}. ${career.title} (${career.matchScore}% Match)
+   ${career.description}
+
+   Salary: ${career.averageSalary}
+   Growth: ${career.jobGrowth}
+   Difficulty: ${career.difficulty}
+   Time to Start: ${career.timeToStart}
+
+   Required Skills: ${career.requiredSkills.join(', ')}
+   Top Companies: ${career.topCompanies.join(', ')}
+
+   Learning Path:
+   ${career.roadmap.map(level => `   - ${level.level}: ${level.skills.join(', ')}`).join('\n')}
+`).join('\n')}
+
+---
+Report generated by CareerCompass AI Career Recommendation System
+    `;
+
+    // Download text version as well
+    const textBlob = new Blob([textContent], { type: 'text/plain' });
+    const textUrl = window.URL.createObjectURL(textBlob);
+    const textLink = document.createElement('a');
+    textLink.href = textUrl;
+    textLink.download = `CareerCompass_Report_${new Date().toISOString().split('T')[0]}.txt`;
+    document.body.appendChild(textLink);
+    setTimeout(() => {
+      textLink.click();
+      document.body.removeChild(textLink);
+      window.URL.revokeObjectURL(textUrl);
+    }, 100);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-zinc-100 dark:from-slate-900 dark:via-gray-900 dark:to-zinc-900">
       {/* Enhanced Header */}
