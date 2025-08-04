@@ -299,7 +299,7 @@ export default function Index() {
               <Button variant="ghost" asChild>
                 <Link to="/login">{t('header.login')}</Link>
               </Button>
-              <Button asChild className="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700">
+              <Button asChild className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 shadow-lg">
                 <Link to="/register">{t('header.getStarted')}</Link>
               </Button>
             </div>
