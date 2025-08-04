@@ -117,8 +117,12 @@ export default function Index() {
               <h1 className="text-2xl font-bold text-gray-900 dark:text-white">CareerCompass</h1>
             </div>
             <div className="flex items-center space-x-4">
-              <Button variant="ghost">Login</Button>
-              <Button>Get Started</Button>
+              <Button variant="ghost" asChild>
+                <Link to="/login">Login</Link>
+              </Button>
+              <Button asChild>
+                <Link to="/register">Get Started</Link>
+              </Button>
             </div>
           </div>
         </div>
