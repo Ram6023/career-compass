@@ -1,0 +1,193 @@
+export interface Translation {
+  [key: string]: string;
+}
+
+export interface Translations {
+  en: Translation;
+  hi: Translation;
+  te: Translation;
+}
+
+export const translations: Translations = {
+  en: {
+    // Header
+    'header.title': 'CareerCompass',
+    'header.subtitle': 'AI-Powered Career Guide',
+    'header.login': 'Login',
+    'header.getStarted': 'Get Started',
+    'header.explorecareers': 'Explore Careers',
+    'header.resumeAnalyzer': 'Resume Analyzer',
+    'header.careerRoadmaps': 'Career Roadmaps',
+    'header.aiAssistant': 'AI Assistant',
+    
+    // Hero Section
+    'hero.title': 'Discover Your',
+    'hero.subtitle': 'Dream Career',
+    'hero.description': 'Get AI-powered career recommendations with personalized roadmaps, skill analysis, and industry insights.',
+    'hero.cta': 'Your journey to success starts here.',
+    
+    // Stats
+    'stats.accuracy': '95% Accuracy',
+    'stats.students': '10K+ Students',
+    'stats.careers': '500+ Careers',
+    
+    // Assessment Form
+    'assessment.title': 'Career Assessment',
+    'assessment.description': 'Complete this comprehensive assessment to get personalized AI-powered career recommendations',
+    'assessment.academicBackground': 'Academic Background',
+    'assessment.stream': 'Academic Stream',
+    'assessment.streamPlaceholder': 'Select your academic stream',
+    'assessment.cgpa': 'CGPA / Percentage',
+    'assessment.cgpaPlaceholder': 'e.g., 8.5 or 85%',
+    'assessment.experience': 'Experience Level',
+    'assessment.experiencePlaceholder': 'Select your experience level',
+    'assessment.careerGoal': 'Career Goal Timeline',
+    'assessment.careerGoalPlaceholder': 'When do you want to start?',
+    'assessment.skills': 'Your Skills',
+    'assessment.interests': 'Your Interests',
+    'assessment.submitButton': 'Generate AI Career Recommendations',
+    
+    // Loading
+    'loading.title': 'AI is Analyzing Your Profile',
+    'loading.description': 'Please wait while we generate your personalized career recommendations',
+    
+    // Results
+    'results.title': 'Your Personalized Career Recommendations',
+    'results.description': 'Based on your profile analysis, here are the top career paths tailored for you',
+    'results.takeAgain': 'Take Assessment Again',
+    'results.export': 'Export Results',
+    
+    // Career Cards
+    'career.match': 'Match',
+    'career.salary': 'Salary Range',
+    'career.growth': 'Job Growth',
+    'career.skills': 'Key Skills Required',
+    'career.companies': 'Top Hiring Companies',
+    'career.overview': 'Overview',
+    'career.roadmap': 'Roadmap',
+    'career.courses': 'Courses',
+    'career.jobs': 'Jobs',
+    
+    // Features
+    'features.title': 'Why Choose CareerCompass?',
+    'features.description': 'Our comprehensive AI-powered platform provides everything you need for career success',
+    'features.aiAnalysis': 'AI-Powered Analysis',
+    'features.aiDescription': 'Advanced machine learning algorithms analyze your complete profile for accurate recommendations',
+    'features.marketData': 'Real-time Market Data',
+    'features.marketDescription': 'Live salary data, job market trends, and industry insights updated daily',
+    'features.roadmaps': 'Personalized Roadmaps',
+    'features.roadmapsDescription': 'Step-by-step learning paths with courses, certifications, and project recommendations',
+    'features.guidance': 'Expert Guidance',
+    'features.guidanceDescription': '24/7 AI career assistant and access to industry mentors and career counselors'
+  },
+  
+  hi: {
+    // Header
+    'header.title': 'CareerCompass',
+    'header.subtitle': 'AI-संचालित करियर गाइड',
+    'header.login': 'लॉगिन',
+    'header.getStarted': 'शुरू करें',
+    'header.exploreCarears': 'करियर खोजें',
+    'header.resumeAnalyzer': 'रिज्यूमे विश्लेषक',
+    'header.careerRoadmaps': 'करियर रोडमैप',
+    'header.aiAssistant': 'AI सहायक',
+    
+    // Hero Section
+    'hero.title': 'अपना खोजें',
+    'hero.subtitle': 'सपनों का करियर',
+    'hero.description': 'व्यक्तिगत रोडमैप, कौशल विश्लेषण और उद्योग अंतर्दृष्टि के साथ AI-संचालित करियर सिफारिशें प्राप्त करें।',
+    'hero.cta': 'आपकी सफलता की यात्रा यहाँ से शुरू होती है।',
+    
+    // Stats
+    'stats.accuracy': '95% सटीकता',
+    'stats.students': '10K+ छात्र',
+    'stats.careers': '500+ करियर',
+    
+    // Assessment Form
+    'assessment.title': 'करियर मूल्यांकन',
+    'assessment.description': 'व्यक्तिगत AI-संचालित करियर सिफारिशें प्राप्त करने के लिए इस व्यापक मूल्यांकन को पूरा करें',
+    'assessment.academicBackground': 'शैक्षणिक पृष्ठभूमि',
+    'assessment.stream': 'शैक्षणिक स्ट्रीम',
+    'assessment.streamPlaceholder': 'अपनी शैक्षणिक स्ट्रीम चुनें',
+    'assessment.cgpa': 'CGPA / प्रतिशत',
+    'assessment.cgpaPlaceholder': 'जैसे, 8.5 या 85%',
+    'assessment.experience': 'अनुभव स्तर',
+    'assessment.experiencePlaceholder': 'अपना अनुभव स्तर चुनें',
+    'assessment.careerGoal': 'करियर लक्ष्य समयसीमा',
+    'assessment.careerGoalPlaceholder': 'आप कब शुरू करना चाहते हैं?',
+    'assessment.skills': 'आपके कौशल',
+    'assessment.interests': 'आपकी रुचियां',
+    'assessment.submitButton': 'AI करियर सिफारिशें उत्पन्�� करें',
+    
+    // Loading
+    'loading.title': 'AI आपकी प्रोफाइल का विश्लेषण कर रहा है',
+    'loading.description': 'कृपया प्रतीक्षा करें जबकि हम आपकी व्यक्तिगत करियर सिफारिशें तैयार करते हैं',
+    
+    // Results
+    'results.title': 'आपकी व्यक्तिगत करियर सिफारिशें',
+    'results.description': 'आपके प्रोफाइल विश्लेषण के आधार पर, यहाँ आपके लिए तैयार किए गए शीर्ष करियर पथ हैं',
+    'results.takeAgain': 'मूल्यांकन फिर से लें',
+    'results.export': 'परिणाम निर्यात करें'
+  },
+  
+  te: {
+    // Header
+    'header.title': 'CareerCompass',
+    'header.subtitle': 'AI-ఆధారిత కెరీర్ గైడ్',
+    'header.login': 'లాగిన్',
+    'header.getStarted': 'ప్రారంభించండి',
+    'header.exploreCarears': 'కెరీర్లను అన్వేషించండి',
+    'header.resumeAnalyzer': 'రెజ్యూమ్ ఎనలైజర్',
+    'header.careerRoadmaps': 'కెరీర్ రోడ్‌మ్యాప్‌లు',
+    'header.aiAssistant': 'AI అసిస్టెంట్',
+    
+    // Hero Section
+    'hero.title': 'మీ కనుగొనండి',
+    'hero.subtitle': 'కలల కెరీర్',
+    'hero.description': 'వ్యక్తిగత రోడ్‌మ్యాప్‌లు, స్కిల్ అనాలిసిస్ మరియు ఇండస్ట్రీ ఇన్‌సైట్‌లతో AI-ఆధారిత కెరీర్ సిఫార్సులను పొందండి.',
+    'hero.cta': 'మీ విజయ ప్రయాణం ఇక్కడ ప్రారంభమవుతుంది.',
+    
+    // Stats
+    'stats.accuracy': '95% ఖచ్చితత్వం',
+    'stats.students': '10K+ విద్యార్థులు',
+    'stats.careers': '500+ కెరీర్లు',
+    
+    // Assessment Form
+    'assessment.title': 'కెరీర్ అసెస్‌మెంట్',
+    'assessment.description': 'వ్యక్తిగత AI-ఆధారిత కెరీర్ సిఫార్సులను పొందడానికి ఈ సమగ్ర అసెస్‌మెంట్‌ను పూర్తి చేయ���డి',
+    'assessment.academicBackground': 'అకాడెమిక్ బ్యాక్‌గ్రౌండ్',
+    'assessment.stream': 'అకాడెమిక్ స్ట్రీమ్',
+    'assessment.streamPlaceholder': 'మీ అకాడెమిక్ స్ట్రీమ్‌ను ఎంచుకోండి',
+    'assessment.cgpa': 'CGPA / శాతం',
+    'assessment.cgpaPlaceholder': 'ఉదా., 8.5 లేదా 85%',
+    'assessment.experience': 'అనుభవ స్థాయి',
+    'assessment.experiencePlaceholder': 'మీ అనుభవ స్థాయిని ఎంచుకోండి',
+    'assessment.careerGoal': 'కెరీర్ లక్ష్య కాలవ్యవధి',
+    'assessment.careerGoalPlaceholder': 'మీరు ఎప్పుడు ప్రారంభించాలనుకుంటున్నారు?',
+    'assessment.skills': 'మీ నైపుణ్యాలు',
+    'assessment.interests': 'మీ అభిరుచులు',
+    'assessment.submitButton': 'AI కెరీర్ సిఫార్సులను రూపొందించండి',
+    
+    // Loading
+    'loading.title': 'AI మీ ప్రొఫైల్‌ను విశ్లేషిస్తోంది',
+    'loading.description': 'మేము ��ీ వ్యక్తిగత కెరీర్ సిఫార్సులను రూపొందిస్తున్నప్పుడు దయచేసి వేచి ఉండండి',
+    
+    // Results
+    'results.title': 'మీ వ్యక్తిగత కెరీర్ సిఫార్సులు',
+    'results.description': 'మీ ప్రొఫైల్ విశ్లేషణ ఆధారంగా, మీ కోసం రూపొందించిన అగ్ర కెరీర్ మార్గాలు ఇవి',
+    'results.takeAgain': 'అసెస్‌మెంట్‌ను మళ్లీ తీసుకోండి',
+    'results.export': 'ఫలితాలను ఎగుమతి చేయండి'
+  }
+};
+
+export type SupportedLanguage = keyof Translations;
+
+export const supportedLanguages: { code: SupportedLanguage; name: string; nativeName: string }[] = [
+  { code: 'en', name: 'English', nativeName: 'English' },
+  { code: 'hi', name: 'Hindi', nativeName: 'हिन्दी' },
+  { code: 'te', name: 'Telugu', nativeName: 'తెలుగు' }
+];
+
+export function getTranslation(language: SupportedLanguage, key: string): string {
+  return translations[language]?.[key] || translations.en[key] || key;
+}
