@@ -279,10 +279,10 @@ export default function Index() {
               </div>
             </Link>
             <nav className="hidden md:flex items-center space-x-8">
-              <Link to="/careers" className="text-gray-600 hover:text-indigo-600 transition-colors">{t('header.explorecareers')}</Link>
-              <Link to="/resume-analyzer" className="text-gray-600 hover:text-indigo-600 transition-colors">{t('header.resumeAnalyzer')}</Link>
-              <Link to="/roadmaps" className="text-gray-600 hover:text-indigo-600 transition-colors">{t('header.careerRoadmaps')}</Link>
-              <Link to="/chat" className="text-gray-600 hover:text-indigo-600 transition-colors">{t('header.aiAssistant')}</Link>
+              <Link to="/careers" className="text-slate-600 hover:text-rose-600 transition-colors font-medium">{t('header.explorecareers')}</Link>
+              <Link to="/resume-analyzer" className="text-slate-600 hover:text-rose-600 transition-colors font-medium">{t('header.resumeAnalyzer')}</Link>
+              <Link to="/roadmaps" className="text-slate-600 hover:text-rose-600 transition-colors font-medium">{t('header.careerRoadmaps')}</Link>
+              <Link to="/chat" className="text-slate-600 hover:text-rose-600 transition-colors font-medium">{t('header.aiAssistant')}</Link>
             </nav>
             <div className="flex items-center space-x-4">
               <LanguageSelector />
