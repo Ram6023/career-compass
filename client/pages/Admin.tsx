@@ -241,7 +241,7 @@ export default function Admin() {
                 <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
                 <span className="sr-only">Toggle theme</span>
               </Button>
-              <Badge className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white">Admin</Badge>
+              <Badge className="bg-gradient-to-r from-rose-500 to-pink-600 text-white shadow-lg">Admin</Badge>
               <Button variant="ghost">
                 <Settings className="h-4 w-4 mr-2" />
                 Settings
