@@ -279,12 +279,13 @@ export default function Index() {
               </div>
             </Link>
             <nav className="hidden md:flex items-center space-x-8">
-              <Link to="/careers" className="text-gray-600 hover:text-indigo-600 transition-colors">Explore Careers</Link>
-              <Link to="/resume-analyzer" className="text-gray-600 hover:text-indigo-600 transition-colors">Resume Analyzer</Link>
-              <Link to="/roadmaps" className="text-gray-600 hover:text-indigo-600 transition-colors">Career Roadmaps</Link>
-              <Link to="/chat" className="text-gray-600 hover:text-indigo-600 transition-colors">AI Assistant</Link>
+              <Link to="/careers" className="text-gray-600 hover:text-indigo-600 transition-colors">{t('header.explorecareers')}</Link>
+              <Link to="/resume-analyzer" className="text-gray-600 hover:text-indigo-600 transition-colors">{t('header.resumeAnalyzer')}</Link>
+              <Link to="/roadmaps" className="text-gray-600 hover:text-indigo-600 transition-colors">{t('header.careerRoadmaps')}</Link>
+              <Link to="/chat" className="text-gray-600 hover:text-indigo-600 transition-colors">{t('header.aiAssistant')}</Link>
             </nav>
             <div className="flex items-center space-x-4">
+              <LanguageSelector />
               <Button
                 variant="ghost"
                 size="sm"
@@ -296,10 +297,10 @@ export default function Index() {
                 <span className="sr-only">Toggle theme</span>
               </Button>
               <Button variant="ghost" asChild>
-                <Link to="/login">Login</Link>
+                <Link to="/login">{t('header.login')}</Link>
               </Button>
               <Button asChild className="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700">
-                <Link to="/register">Get Started</Link>
+                <Link to="/register">{t('header.getStarted')}</Link>
               </Button>
             </div>
           </div>
