@@ -178,33 +178,33 @@ export default function ResumeAnalyzer() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-zinc-100 dark:from-slate-900 dark:via-gray-900 dark:to-zinc-900">
       {/* Header */}
       <header className="border-b bg-white/90 backdrop-blur-md dark:bg-gray-900/90 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Link to="/" className="flex items-center space-x-3">
-              <div className="p-2 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl">
+              <div className="p-2 bg-gradient-to-br from-rose-500 to-pink-600 rounded-xl shadow-lg">
                 <Compass className="h-8 w-8 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-rose-600 to-pink-600 bg-clip-text text-transparent">
                   CareerCompass
                 </h1>
                 <p className="text-xs text-gray-500">Resume Analyzer</p>
               </div>
             </Link>
             <nav className="hidden md:flex items-center space-x-8">
-              <Link to="/" className="text-gray-600 hover:text-indigo-600 transition-colors">Home</Link>
-              <Link to="/careers" className="text-gray-600 hover:text-indigo-600 transition-colors">Explore Careers</Link>
-              <Link to="/roadmaps" className="text-gray-600 hover:text-indigo-600 transition-colors">Career Roadmaps</Link>
-              <Link to="/chat" className="text-gray-600 hover:text-indigo-600 transition-colors">AI Assistant</Link>
+              <Link to="/" className="text-slate-600 hover:text-rose-600 transition-colors font-medium">Home</Link>
+              <Link to="/careers" className="text-slate-600 hover:text-rose-600 transition-colors font-medium">Explore Careers</Link>
+              <Link to="/roadmaps" className="text-slate-600 hover:text-rose-600 transition-colors font-medium">Career Roadmaps</Link>
+              <Link to="/chat" className="text-slate-600 hover:text-rose-600 transition-colors font-medium">AI Assistant</Link>
             </nav>
             <div className="flex items-center space-x-4">
               <Button variant="ghost" asChild>
                 <Link to="/login">Login</Link>
               </Button>
-              <Button asChild className="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700">
+              <Button asChild className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 shadow-lg">
                 <Link to="/register">Get Started</Link>
               </Button>
             </div>
@@ -217,8 +217,8 @@ export default function ResumeAnalyzer() {
         <div className="text-center mb-12">
           <div className="flex justify-center mb-6">
             <div className="relative">
-              <div className="p-4 bg-gradient-to-br from-indigo-500/20 to-purple-600/20 rounded-2xl backdrop-blur-sm">
-                <div className="p-3 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl">
+              <div className="p-4 bg-gradient-to-br from-rose-500/20 to-pink-600/20 rounded-2xl backdrop-blur-sm shadow-xl">
+                <div className="p-3 bg-gradient-to-br from-rose-500 to-pink-600 rounded-xl shadow-lg">
                   <FileText className="h-12 w-12 text-white" />
                 </div>
               </div>
@@ -227,7 +227,7 @@ export default function ResumeAnalyzer() {
           </div>
           <h1 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
             AI Resume
-            <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent block">
+            <span className="bg-gradient-to-r from-rose-600 via-pink-600 to-purple-600 bg-clip-text text-transparent block">
               Analyzer
             </span>
           </h1>
@@ -260,8 +260,8 @@ export default function ResumeAnalyzer() {
                   onDrop={handleDrop}
                 >
                   <div className="flex flex-col items-center space-y-4">
-                    <div className="p-4 bg-indigo-100 rounded-full">
-                      <Upload className="h-8 w-8 text-indigo-600" />
+                    <div className="p-4 bg-rose-100 dark:bg-rose-900/20 rounded-full">
+                      <Upload className="h-8 w-8 text-rose-600 dark:text-rose-400" />
                     </div>
                     <div>
                       <p className="text-lg font-medium text-gray-900">
@@ -299,7 +299,7 @@ export default function ResumeAnalyzer() {
                       <Button 
                         onClick={analyzeResume}
                         disabled={isAnalyzing}
-                        className="bg-gradient-to-r from-indigo-500 to-purple-600"
+                        className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 shadow-lg"
                       >
                         {isAnalyzing ? (
                           <div className="flex items-center space-x-2">
