@@ -554,7 +554,7 @@ export default function Index() {
                   <ArrowRight className="h-4 w-4 mr-2 rotate-180" />
                   Take Assessment Again
                 </Button>
-                <Button className="bg-gradient-to-r from-indigo-500 to-purple-600">
+                <Button className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 shadow-lg">
                   <Download className="h-4 w-4 mr-2" />
                   Export Results
                 </Button>
