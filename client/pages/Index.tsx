@@ -99,6 +99,7 @@ interface CareerRecommendation {
 }
 
 export default function Index() {
+  const { theme, setTheme } = useTheme();
   const [formData, setFormData] = useState({
     stream: '',
     cgpa: '',
