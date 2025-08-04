@@ -282,8 +282,16 @@ export default function Index() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Show starting notification
+    toast({
+      title: "Starting AI Analysis... 🤖",
+      description: "Analyzing your profile to find the perfect career matches.",
+      duration: 3000,
+    });
+
     generateRecommendations();
   };
 
