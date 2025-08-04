@@ -334,15 +334,15 @@ export default function Index() {
           <div className="flex flex-wrap justify-center gap-4 mb-8">
             <Badge variant="secondary" className="px-4 py-2 text-sm bg-indigo-100 text-indigo-700">
               <Target className="w-4 h-4 mr-2" />
-              95% Accuracy
+              {t('stats.accuracy')}
             </Badge>
             <Badge variant="secondary" className="px-4 py-2 text-sm bg-purple-100 text-purple-700">
               <Users className="w-4 h-4 mr-2" />
-              10K+ Students
+              {t('stats.students')}
             </Badge>
             <Badge variant="secondary" className="px-4 py-2 text-sm bg-cyan-100 text-cyan-700">
               <Briefcase className="w-4 h-4 mr-2" />
-              500+ Careers
+              {t('stats.careers')}
             </Badge>
           </div>
         </div>
