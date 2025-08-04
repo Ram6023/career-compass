@@ -273,6 +273,13 @@ export default function Index() {
     setRecommendations(mockRecommendations);
     setIsLoading(false);
     setLoadingProgress(100);
+
+    // Show success notification
+    toast({
+      title: "Assessment Complete! 🎉",
+      description: "Your personalized career recommendations are ready. Check out your top matches below!",
+      duration: 5000,
+    });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
