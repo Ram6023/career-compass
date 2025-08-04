@@ -11,6 +11,9 @@ import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Admin from "./pages/Admin";
+import ResumeAnalyzer from "./pages/ResumeAnalyzer";
+import ChatAssistant from "./pages/ChatAssistant";
+import CareerComparison from "./pages/CareerComparison";
 
 const queryClient = new QueryClient();
 
