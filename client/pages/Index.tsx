@@ -320,16 +320,16 @@ export default function Index() {
               <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full animate-pulse shadow-lg"></div>
             </div>
           </div>
-          <h1 className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
+          <h1 className="text-5xl md:text-7xl font-bold text-slate-900 dark:text-slate-100 mb-6 leading-tight">
             {t('hero.title')}
-            <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent block">
+            <span className="bg-gradient-to-r from-rose-600 via-pink-600 to-purple-600 bg-clip-text text-transparent block">
               {t('hero.subtitle')}
             </span>
           </h1>
-          <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto mb-8 leading-relaxed">
+          <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-300 max-w-4xl mx-auto mb-8 leading-relaxed">
             {t('hero.description')}
             <br className="hidden md:block" />
-            <span className="text-indigo-600 font-semibold">{t('hero.cta')}</span>
+            <span className="text-rose-600 font-semibold">{t('hero.cta')}</span>
           </p>
           <div className="flex flex-wrap justify-center gap-4 mb-8">
             <Badge variant="secondary" className="px-4 py-2 text-sm bg-indigo-100 text-indigo-700">
