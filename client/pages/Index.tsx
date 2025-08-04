@@ -521,9 +521,9 @@ export default function Index() {
                   )}
                 </div>
 
-                <Button 
-                  type="submit" 
-                  className="w-full py-6 text-lg bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700"
+                <Button
+                  type="submit"
+                  className="w-full py-6 text-lg bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 shadow-lg"
                   disabled={!formData.stream || !formData.cgpa || formData.skills.length === 0 || formData.interests.length === 0}
                 >
                   <div className="flex items-center space-x-3">
