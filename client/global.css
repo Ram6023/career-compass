@@ -102,5 +102,190 @@
 
   body {
     @apply bg-background text-foreground;
+    background-attachment: fixed;
+  }
+
+  /* Animated gradient background */
+  .gradient-bg {
+    background: linear-gradient(-45deg,
+      hsl(var(--primary)),
+      hsl(var(--accent)),
+      theme('colors.violet.500'),
+      theme('colors.pink.500'),
+      theme('colors.blue.500')
+    );
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+  }
+
+  .dark .gradient-bg {
+    background: linear-gradient(-45deg,
+      hsl(var(--primary)),
+      hsl(var(--accent)),
+      theme('colors.violet.800'),
+      theme('colors.pink.800'),
+      theme('colors.blue.800')
+    );
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+  }
+
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  /* Floating particles */
+  .particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    background: linear-gradient(45deg,
+      hsl(var(--primary) / 0.6),
+      hsl(var(--accent) / 0.4)
+    );
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .particle:nth-child(1) {
+    width: 8px;
+    height: 8px;
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+    animation-duration: 8s;
+  }
+
+  .particle:nth-child(2) {
+    width: 12px;
+    height: 12px;
+    top: 60%;
+    left: 80%;
+    animation-delay: -2s;
+    animation-duration: 10s;
+  }
+
+  .particle:nth-child(3) {
+    width: 6px;
+    height: 6px;
+    top: 40%;
+    left: 70%;
+    animation-delay: -4s;
+    animation-duration: 12s;
+  }
+
+  .particle:nth-child(4) {
+    width: 10px;
+    height: 10px;
+    top: 80%;
+    left: 20%;
+    animation-delay: -1s;
+    animation-duration: 9s;
+  }
+
+  .particle:nth-child(5) {
+    width: 14px;
+    height: 14px;
+    top: 30%;
+    left: 50%;
+    animation-delay: -3s;
+    animation-duration: 11s;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+      opacity: 0.7;
+    }
+    50% {
+      transform: translateY(-30px) rotate(180deg);
+      opacity: 1;
+    }
+  }
+
+  /* Glass morphism effects */
+  .glass {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .dark .glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Enhanced text contrast for dark mode */
+  .text-enhanced {
+    @apply text-slate-900 dark:text-slate-100;
+  }
+
+  .text-muted-enhanced {
+    @apply text-slate-600 dark:text-slate-300;
+  }
+
+  .text-subtle-enhanced {
+    @apply text-slate-500 dark:text-slate-400;
+  }
+
+  /* Pulsing elements */
+  .pulse-soft {
+    animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes pulse-soft {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+
+  /* Hover glow effects */
+  .hover-glow {
+    transition: all 0.3s ease;
+  }
+
+  .hover-glow:hover {
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.3),
+                0 0 40px hsl(var(--primary) / 0.1);
+    transform: translateY(-2px);
+  }
+
+  /* Mesh gradient overlay */
+  .mesh-gradient {
+    background: radial-gradient(circle at 20% 80%,
+      hsl(var(--primary) / 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%,
+      hsl(var(--accent) / 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%,
+      theme('colors.violet.500' / 0.1) 0%, transparent 50%);
+  }
+
+  .dark .mesh-gradient {
+    background: radial-gradient(circle at 20% 80%,
+      hsl(var(--primary) / 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%,
+      hsl(var(--accent) / 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%,
+      theme('colors.violet.500' / 0.05) 0%, transparent 50%);
   }
 }
