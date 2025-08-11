@@ -16,6 +16,8 @@ import Admin from "./pages/Admin";
 import ResumeAnalyzer from "./pages/ResumeAnalyzer";
 import ChatAssistant from "./pages/ChatAssistant";
 import CareerComparison from "./pages/CareerComparison";
+import DailyTips from "./pages/DailyTips";
+import GoalTracker from "./pages/GoalTracker";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +39,8 @@ const App = () => (
               <Route path="/compare" element={<CareerComparison />} />
               <Route path="/careers" element={<CareerComparison />} />
               <Route path="/roadmaps" element={<Index />} />
+              <Route path="/tips" element={<DailyTips />} />
+              <Route path="/goals" element={<GoalTracker />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
