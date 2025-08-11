@@ -19,7 +19,8 @@ import {
   Brain,
   Compass,
   Sun,
-  Moon
+  Moon,
+  User
 } from 'lucide-react';
 import { useTheme } from '@/components/ui/theme-provider';
 import { useLanguage } from '@/components/ui/language-provider';
