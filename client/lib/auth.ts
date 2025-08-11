@@ -294,13 +294,13 @@ export const authService = new AuthService();
 export const OAUTH_URLS = {
   google: {
     authUrl: 'https://accounts.google.com/oauth/authorize',
-    clientId: process.env.GOOGLE_CLIENT_ID || 'your-google-client-id',
+    clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID || 'your-google-client-id',
     redirectUri: `${window.location.origin}/auth/google/callback`,
     scope: 'openid email profile'
   },
   github: {
     authUrl: 'https://github.com/login/oauth/authorize',
-    clientId: process.env.GITHUB_CLIENT_ID || 'your-github-client-id',
+    clientId: import.meta.env.VITE_GITHUB_CLIENT_ID || 'your-github-client-id',
     redirectUri: `${window.location.origin}/auth/github/callback`,
     scope: 'user:email'
   }
