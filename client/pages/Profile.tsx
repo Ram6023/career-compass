@@ -1,0 +1,1066 @@
+import React, { useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Switch } from '@/components/ui/switch';
+import {
+  User,
+  Camera,
+  Edit,
+  Save,
+  X,
+  Mail,
+  Phone,
+  MapPin,
+  Calendar,
+  Briefcase,
+  GraduationCap,
+  Award,
+  Star,
+  Settings,
+  Bell,
+  Shield,
+  Download,
+  Upload,
+  Compass,
+  Sun,
+  Moon,
+  Check,
+  Plus,
+  Trash2
+} from 'lucide-react';
+import { useTheme } from '@/components/ui/theme-provider';
+import { useLanguage } from '@/components/ui/language-provider';
+import { LanguageSelector } from '@/components/ui/language-selector';
+import { toast } from '@/components/ui/use-toast';
+
+interface UserProfile {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  dateOfBirth: string;
+  location: string;
+  bio: string;
+  profilePicture: string;
+  jobTitle: string;
+  company: string;
+  experience: string;
+  education: string;
+  skills: string[];
+  interests: string[];
+  socialLinks: {
+    linkedin: string;
+    github: string;
+    twitter: string;
+    portfolio: string;
+  };
+  preferences: {
+    emailNotifications: boolean;
+    smsNotifications: boolean;
+    careerTips: boolean;
+    goalReminders: boolean;
+    profileVisibility: 'public' | 'private';
+  };
+  achievements: Array<{
+    title: string;
+    description: string;
+    date: string;
+    type: 'goal' | 'skill' | 'career';
+  }>;
+}
+
+const SAMPLE_USER: UserProfile = {
+  id: '1',
+  firstName: 'John',
+  lastName: 'Doe',
+  email: 'john.doe@example.com',
+  phone: '+1 (555) 123-4567',
+  dateOfBirth: '1995-06-15',
+  location: 'San Francisco, CA',
+  bio: 'Passionate software developer with 5+ years of experience in full-stack development. Always eager to learn new technologies and solve complex problems.',
+  profilePicture: '',
+  jobTitle: 'Senior Software Engineer',
+  company: 'TechCorp Inc.',
+  experience: '5+ years',
+  education: 'Bachelor of Science in Computer Science',
+  skills: ['React', 'TypeScript', 'Node.js', 'Python', 'AWS'],
+  interests: ['AI/ML', 'Web Development', 'Open Source', 'Tech Startups'],
+  socialLinks: {
+    linkedin: 'https://linkedin.com/in/johndoe',
+    github: 'https://github.com/johndoe',
+    twitter: 'https://twitter.com/johndoe',
+    portfolio: 'https://johndoe.dev'
+  },
+  preferences: {
+    emailNotifications: true,
+    smsNotifications: false,
+    careerTips: true,
+    goalReminders: true,
+    profileVisibility: 'public'
+  },
+  achievements: [
+    {
+      title: 'React Mastery Goal Completed',
+      description: 'Successfully completed 3-month React learning goal with 95% progress',
+      date: '2024-01-15',
+      type: 'goal'
+    },
+    {
+      title: 'Full Stack Certification',
+      description: 'Earned certification in Full Stack Web Development',
+      date: '2023-12-10',
+      type: 'skill'
+    },
+    {
+      title: 'Career Milestone',
+      description: 'Promoted to Senior Software Engineer position',
+      date: '2023-11-01',
+      type: 'career'
+    }
+  ]
+};
+
+export default function Profile() {
+  const { theme, setTheme } = useTheme();
+  const { t } = useLanguage();
+  const [profile, setProfile] = useState<UserProfile>(SAMPLE_USER);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingSection, setEditingSection] = useState<string | null>(null);
+  const [newSkill, setNewSkill] = useState('');
+  const [newInterest, setNewInterest] = useState('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleProfilePictureUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setProfile(prev => ({
+          ...prev,
+          profilePicture: e.target?.result as string
+        }));
+        toast({
+          title: "Profile Picture Updated! 📸",
+          description: "Your profile picture has been successfully updated",
+          duration: 3000,
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const addSkill = () => {
+    if (newSkill.trim() && !profile.skills.includes(newSkill.trim())) {
+      setProfile(prev => ({
+        ...prev,
+        skills: [...prev.skills, newSkill.trim()]
+      }));
+      setNewSkill('');
+      toast({
+        title: "Skill Added! 🚀",
+        description: `${newSkill} has been added to your skills`,
+        duration: 2000,
+      });
+    }
+  };
+
+  const removeSkill = (skill: string) => {
+    setProfile(prev => ({
+      ...prev,
+      skills: prev.skills.filter(s => s !== skill)
+    }));
+  };
+
+  const addInterest = () => {
+    if (newInterest.trim() && !profile.interests.includes(newInterest.trim())) {
+      setProfile(prev => ({
+        ...prev,
+        interests: [...prev.interests, newInterest.trim()]
+      }));
+      setNewInterest('');
+      toast({
+        title: "Interest Added! ⭐",
+        description: `${newInterest} has been added to your interests`,
+        duration: 2000,
+      });
+    }
+  };
+
+  const removeInterest = (interest: string) => {
+    setProfile(prev => ({
+      ...prev,
+      interests: prev.interests.filter(i => i !== interest)
+    }));
+  };
+
+  const saveProfile = () => {
+    // Here you would typically save to backend
+    setIsEditing(false);
+    setEditingSection(null);
+    toast({
+      title: "Profile Saved! ✅",
+      description: "Your profile changes have been saved successfully",
+      duration: 3000,
+    });
+  };
+
+  const exportProfile = () => {
+    const profileData = {
+      personalInfo: {
+        name: `${profile.firstName} ${profile.lastName}`,
+        email: profile.email,
+        phone: profile.phone,
+        location: profile.location,
+        bio: profile.bio
+      },
+      professionalInfo: {
+        jobTitle: profile.jobTitle,
+        company: profile.company,
+        experience: profile.experience,
+        education: profile.education
+      },
+      skills: profile.skills,
+      interests: profile.interests,
+      socialLinks: profile.socialLinks,
+      achievements: profile.achievements
+    };
+
+    const dataStr = JSON.stringify(profileData, null, 2);
+    const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+    
+    const exportFileDefaultName = 'career_profile.json';
+    
+    const linkElement = document.createElement('a');
+    linkElement.setAttribute('href', dataUri);
+    linkElement.setAttribute('download', exportFileDefaultName);
+    linkElement.click();
+
+    toast({
+      title: "Profile Exported! 📄",
+      description: "Your profile data has been exported successfully",
+      duration: 3000,
+    });
+  };
+
+  const getAchievementIcon = (type: string) => {
+    switch (type) {
+      case 'goal': return <Star className="w-4 h-4 text-yellow-500" />;
+      case 'skill': return <Award className="w-4 h-4 text-blue-500" />;
+      case 'career': return <Briefcase className="w-4 h-4 text-green-500" />;
+      default: return <Award className="w-4 h-4 text-gray-500" />;
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-zinc-100 dark:from-slate-900 dark:via-gray-900 dark:to-zinc-900">
+      {/* Header */}
+      <header className="border-b border-slate-200/60 bg-white/80 backdrop-blur-md dark:bg-slate-900/80 dark:border-slate-700/60 sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <Link to="/" className="flex items-center space-x-3">
+              <div className="p-2 bg-gradient-to-br from-rose-500 to-pink-600 rounded-xl shadow-lg">
+                <Compass className="h-8 w-8 text-white" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-rose-600 to-pink-600 bg-clip-text text-transparent">
+                  CareerCompass
+                </h1>
+                <p className="text-xs text-slate-500 dark:text-slate-400">My Profile</p>
+              </div>
+            </Link>
+            <nav className="hidden md:flex items-center space-x-8">
+              <Link to="/careers" className="text-slate-600 hover:text-rose-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-rose-400">Explore Careers</Link>
+              <Link to="/resume-analyzer" className="text-slate-600 hover:text-rose-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-rose-400">Resume Analyzer</Link>
+              <Link to="/tips" className="text-slate-600 hover:text-rose-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-rose-400">Daily Tips</Link>
+              <Link to="/goals" className="text-slate-600 hover:text-rose-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-rose-400">Goal Tracker</Link>
+              <Link to="/chat" className="text-slate-600 hover:text-rose-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-rose-400">AI Assistant</Link>
+            </nav>
+            <div className="flex items-center space-x-4">
+              <LanguageSelector />
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+                className="w-9 px-0"
+              >
+                <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                <span className="sr-only">Toggle theme</span>
+              </Button>
+              <Button variant="outline" onClick={exportProfile}>
+                <Download className="w-4 h-4 mr-2" />
+                Export
+              </Button>
+              <Button 
+                onClick={() => setIsEditing(!isEditing)}
+                className={isEditing ? "bg-green-600 hover:bg-green-700" : "bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700"}
+              >
+                {isEditing ? <Save className="w-4 h-4 mr-2" /> : <Edit className="w-4 h-4 mr-2" />}
+                {isEditing ? 'Save Changes' : 'Edit Profile'}
+              </Button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main className="container mx-auto px-4 py-8">
+        {/* Profile Header */}
+        <div className="mb-8">
+          <Card className="overflow-hidden shadow-xl">
+            <div className="h-32 bg-gradient-to-r from-rose-500 via-pink-500 to-purple-600"></div>
+            <CardContent className="relative px-6 pb-6">
+              <div className="flex flex-col md:flex-row items-start md:items-end space-y-4 md:space-y-0 md:space-x-6 -mt-16">
+                {/* Profile Picture */}
+                <div className="relative">
+                  <div className="w-32 h-32 bg-white dark:bg-slate-800 rounded-full p-2 shadow-xl">
+                    {profile.profilePicture ? (
+                      <img
+                        src={profile.profilePicture}
+                        alt="Profile"
+                        className="w-full h-full rounded-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full rounded-full bg-gradient-to-br from-rose-500 to-pink-600 flex items-center justify-center">
+                        <User className="w-16 h-16 text-white" />
+                      </div>
+                    )}
+                  </div>
+                  {isEditing && (
+                    <Button
+                      size="sm"
+                      className="absolute bottom-0 right-0 rounded-full w-10 h-10 p-0 bg-rose-600 hover:bg-rose-700"
+                      onClick={() => fileInputRef.current?.click()}
+                    >
+                      <Camera className="w-4 h-4" />
+                    </Button>
+                  )}
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleProfilePictureUpload}
+                    className="hidden"
+                  />
+                </div>
+
+                {/* Profile Info */}
+                <div className="flex-1 md:mt-16">
+                  <div className="flex flex-col md:flex-row md:items-end md:justify-between">
+                    <div>
+                      <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100">
+                        {profile.firstName} {profile.lastName}
+                      </h1>
+                      <p className="text-lg text-slate-600 dark:text-slate-400 mt-1">
+                        {profile.jobTitle} at {profile.company}
+                      </p>
+                      <div className="flex items-center space-x-4 mt-2 text-sm text-slate-500">
+                        <span className="flex items-center space-x-1">
+                          <MapPin className="w-4 h-4" />
+                          <span>{profile.location}</span>
+                        </span>
+                        <span className="flex items-center space-x-1">
+                          <Mail className="w-4 h-4" />
+                          <span>{profile.email}</span>
+                        </span>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center space-x-2 mt-4 md:mt-0">
+                      <Badge variant="secondary" className="bg-green-100 text-green-700">
+                        {profile.experience} Experience
+                      </Badge>
+                      <Badge variant="secondary" className="bg-blue-100 text-blue-700">
+                        {profile.skills.length} Skills
+                      </Badge>
+                      <Badge variant="secondary" className="bg-purple-100 text-purple-700">
+                        {profile.achievements.length} Achievements
+                      </Badge>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Profile Content */}
+        <Tabs defaultValue="overview" className="max-w-7xl mx-auto">
+          <TabsList className="grid w-full grid-cols-4 mb-8">
+            <TabsTrigger value="overview" className="flex items-center space-x-2">
+              <User className="w-4 h-4" />
+              <span>Overview</span>
+            </TabsTrigger>
+            <TabsTrigger value="professional" className="flex items-center space-x-2">
+              <Briefcase className="w-4 h-4" />
+              <span>Professional</span>
+            </TabsTrigger>
+            <TabsTrigger value="achievements" className="flex items-center space-x-2">
+              <Award className="w-4 h-4" />
+              <span>Achievements</span>
+            </TabsTrigger>
+            <TabsTrigger value="settings" className="flex items-center space-x-2">
+              <Settings className="w-4 h-4" />
+              <span>Settings</span>
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="overview" className="space-y-6">
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Personal Information */}
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <div>
+                    <CardTitle>Personal Information</CardTitle>
+                    <CardDescription>Your basic personal details</CardDescription>
+                  </div>
+                  {!isEditing && (
+                    <Button variant="ghost" size="sm" onClick={() => setEditingSection('personal')}>
+                      <Edit className="w-4 h-4" />
+                    </Button>
+                  )}
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {editingSection === 'personal' || isEditing ? (
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="firstName">First Name</Label>
+                          <Input
+                            id="firstName"
+                            value={profile.firstName}
+                            onChange={(e) => setProfile(prev => ({...prev, firstName: e.target.value}))}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="lastName">Last Name</Label>
+                          <Input
+                            id="lastName"
+                            value={profile.lastName}
+                            onChange={(e) => setProfile(prev => ({...prev, lastName: e.target.value}))}
+                          />
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="email">Email</Label>
+                        <Input
+                          id="email"
+                          type="email"
+                          value={profile.email}
+                          onChange={(e) => setProfile(prev => ({...prev, email: e.target.value}))}
+                        />
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="phone">Phone</Label>
+                          <Input
+                            id="phone"
+                            value={profile.phone}
+                            onChange={(e) => setProfile(prev => ({...prev, phone: e.target.value}))}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="dateOfBirth">Date of Birth</Label>
+                          <Input
+                            id="dateOfBirth"
+                            type="date"
+                            value={profile.dateOfBirth}
+                            onChange={(e) => setProfile(prev => ({...prev, dateOfBirth: e.target.value}))}
+                          />
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="location">Location</Label>
+                        <Input
+                          id="location"
+                          value={profile.location}
+                          onChange={(e) => setProfile(prev => ({...prev, location: e.target.value}))}
+                        />
+                      </div>
+                      {!isEditing && (
+                        <div className="flex space-x-2">
+                          <Button size="sm" onClick={() => setEditingSection(null)}>
+                            <Check className="w-4 h-4 mr-1" />
+                            Save
+                          </Button>
+                          <Button variant="outline" size="sm" onClick={() => setEditingSection(null)}>
+                            Cancel
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      <div className="flex items-center space-x-2">
+                        <Mail className="w-4 h-4 text-slate-500" />
+                        <span>{profile.email}</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Phone className="w-4 h-4 text-slate-500" />
+                        <span>{profile.phone}</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <MapPin className="w-4 h-4 text-slate-500" />
+                        <span>{profile.location}</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Calendar className="w-4 h-4 text-slate-500" />
+                        <span>{new Date(profile.dateOfBirth).toLocaleDateString()}</span>
+                      </div>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
+              {/* Bio */}
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <div>
+                    <CardTitle>About Me</CardTitle>
+                    <CardDescription>Tell others about yourself</CardDescription>
+                  </div>
+                  {!isEditing && (
+                    <Button variant="ghost" size="sm" onClick={() => setEditingSection('bio')}>
+                      <Edit className="w-4 h-4" />
+                    </Button>
+                  )}
+                </CardHeader>
+                <CardContent>
+                  {editingSection === 'bio' || isEditing ? (
+                    <div className="space-y-4">
+                      <Textarea
+                        value={profile.bio}
+                        onChange={(e) => setProfile(prev => ({...prev, bio: e.target.value}))}
+                        rows={6}
+                        placeholder="Write something about yourself..."
+                      />
+                      {!isEditing && (
+                        <div className="flex space-x-2">
+                          <Button size="sm" onClick={() => setEditingSection(null)}>
+                            <Check className="w-4 h-4 mr-1" />
+                            Save
+                          </Button>
+                          <Button variant="outline" size="sm" onClick={() => setEditingSection(null)}>
+                            Cancel
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
+                      {profile.bio}
+                    </p>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Skills and Interests */}
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Skills */}
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <div>
+                    <CardTitle>Skills</CardTitle>
+                    <CardDescription>Your technical and professional skills</CardDescription>
+                  </div>
+                  {!isEditing && (
+                    <Button variant="ghost" size="sm" onClick={() => setEditingSection('skills')}>
+                      <Edit className="w-4 h-4" />
+                    </Button>
+                  )}
+                </CardHeader>
+                <CardContent>
+                  {editingSection === 'skills' || isEditing ? (
+                    <div className="space-y-4">
+                      <div className="flex space-x-2">
+                        <Input
+                          placeholder="Add a skill"
+                          value={newSkill}
+                          onChange={(e) => setNewSkill(e.target.value)}
+                          onKeyPress={(e) => e.key === 'Enter' && addSkill()}
+                        />
+                        <Button onClick={addSkill}>
+                          <Plus className="w-4 h-4" />
+                        </Button>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {profile.skills.map((skill) => (
+                          <Badge key={skill} variant="secondary" className="flex items-center space-x-1">
+                            <span>{skill}</span>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-auto p-0 ml-1"
+                              onClick={() => removeSkill(skill)}
+                            >
+                              <X className="w-3 h-3" />
+                            </Button>
+                          </Badge>
+                        ))}
+                      </div>
+                      {!isEditing && (
+                        <div className="flex space-x-2">
+                          <Button size="sm" onClick={() => setEditingSection(null)}>
+                            <Check className="w-4 h-4 mr-1" />
+                            Save
+                          </Button>
+                          <Button variant="outline" size="sm" onClick={() => setEditingSection(null)}>
+                            Cancel
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="flex flex-wrap gap-2">
+                      {profile.skills.map((skill) => (
+                        <Badge key={skill} variant="secondary">
+                          {skill}
+                        </Badge>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
+              {/* Interests */}
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <div>
+                    <CardTitle>Interests</CardTitle>
+                    <CardDescription>Your career interests and passions</CardDescription>
+                  </div>
+                  {!isEditing && (
+                    <Button variant="ghost" size="sm" onClick={() => setEditingSection('interests')}>
+                      <Edit className="w-4 h-4" />
+                    </Button>
+                  )}
+                </CardHeader>
+                <CardContent>
+                  {editingSection === 'interests' || isEditing ? (
+                    <div className="space-y-4">
+                      <div className="flex space-x-2">
+                        <Input
+                          placeholder="Add an interest"
+                          value={newInterest}
+                          onChange={(e) => setNewInterest(e.target.value)}
+                          onKeyPress={(e) => e.key === 'Enter' && addInterest()}
+                        />
+                        <Button onClick={addInterest}>
+                          <Plus className="w-4 h-4" />
+                        </Button>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {profile.interests.map((interest) => (
+                          <Badge key={interest} variant="outline" className="flex items-center space-x-1">
+                            <span>{interest}</span>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-auto p-0 ml-1"
+                              onClick={() => removeInterest(interest)}
+                            >
+                              <X className="w-3 h-3" />
+                            </Button>
+                          </Badge>
+                        ))}
+                      </div>
+                      {!isEditing && (
+                        <div className="flex space-x-2">
+                          <Button size="sm" onClick={() => setEditingSection(null)}>
+                            <Check className="w-4 h-4 mr-1" />
+                            Save
+                          </Button>
+                          <Button variant="outline" size="sm" onClick={() => setEditingSection(null)}>
+                            Cancel
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="flex flex-wrap gap-2">
+                      {profile.interests.map((interest) => (
+                        <Badge key={interest} variant="outline">
+                          {interest}
+                        </Badge>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="professional" className="space-y-6">
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Professional Info */}
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <div>
+                    <CardTitle>Professional Information</CardTitle>
+                    <CardDescription>Your career and work details</CardDescription>
+                  </div>
+                  {!isEditing && (
+                    <Button variant="ghost" size="sm" onClick={() => setEditingSection('professional')}>
+                      <Edit className="w-4 h-4" />
+                    </Button>
+                  )}
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {editingSection === 'professional' || isEditing ? (
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="jobTitle">Job Title</Label>
+                        <Input
+                          id="jobTitle"
+                          value={profile.jobTitle}
+                          onChange={(e) => setProfile(prev => ({...prev, jobTitle: e.target.value}))}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="company">Company</Label>
+                        <Input
+                          id="company"
+                          value={profile.company}
+                          onChange={(e) => setProfile(prev => ({...prev, company: e.target.value}))}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="experience">Experience</Label>
+                        <Select value={profile.experience} onValueChange={(value) => setProfile(prev => ({...prev, experience: value}))}>
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="0-1 years">0-1 years</SelectItem>
+                            <SelectItem value="1-3 years">1-3 years</SelectItem>
+                            <SelectItem value="3-5 years">3-5 years</SelectItem>
+                            <SelectItem value="5+ years">5+ years</SelectItem>
+                            <SelectItem value="10+ years">10+ years</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="education">Education</Label>
+                        <Input
+                          id="education"
+                          value={profile.education}
+                          onChange={(e) => setProfile(prev => ({...prev, education: e.target.value}))}
+                        />
+                      </div>
+                      {!isEditing && (
+                        <div className="flex space-x-2">
+                          <Button size="sm" onClick={() => setEditingSection(null)}>
+                            <Check className="w-4 h-4 mr-1" />
+                            Save
+                          </Button>
+                          <Button variant="outline" size="sm" onClick={() => setEditingSection(null)}>
+                            Cancel
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      <div className="flex items-center space-x-2">
+                        <Briefcase className="w-4 h-4 text-slate-500" />
+                        <span>{profile.jobTitle}</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <span className="w-4 h-4" />
+                        <span>{profile.company}</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <GraduationCap className="w-4 h-4 text-slate-500" />
+                        <span>{profile.education}</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <span className="w-4 h-4" />
+                        <span>{profile.experience}</span>
+                      </div>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
+              {/* Social Links */}
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <div>
+                    <CardTitle>Social Links</CardTitle>
+                    <CardDescription>Your professional social media profiles</CardDescription>
+                  </div>
+                  {!isEditing && (
+                    <Button variant="ghost" size="sm" onClick={() => setEditingSection('social')}>
+                      <Edit className="w-4 h-4" />
+                    </Button>
+                  )}
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {editingSection === 'social' || isEditing ? (
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="linkedin">LinkedIn</Label>
+                        <Input
+                          id="linkedin"
+                          value={profile.socialLinks.linkedin}
+                          onChange={(e) => setProfile(prev => ({
+                            ...prev,
+                            socialLinks: {...prev.socialLinks, linkedin: e.target.value}
+                          }))}
+                          placeholder="https://linkedin.com/in/username"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="github">GitHub</Label>
+                        <Input
+                          id="github"
+                          value={profile.socialLinks.github}
+                          onChange={(e) => setProfile(prev => ({
+                            ...prev,
+                            socialLinks: {...prev.socialLinks, github: e.target.value}
+                          }))}
+                          placeholder="https://github.com/username"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="twitter">Twitter</Label>
+                        <Input
+                          id="twitter"
+                          value={profile.socialLinks.twitter}
+                          onChange={(e) => setProfile(prev => ({
+                            ...prev,
+                            socialLinks: {...prev.socialLinks, twitter: e.target.value}
+                          }))}
+                          placeholder="https://twitter.com/username"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="portfolio">Portfolio</Label>
+                        <Input
+                          id="portfolio"
+                          value={profile.socialLinks.portfolio}
+                          onChange={(e) => setProfile(prev => ({
+                            ...prev,
+                            socialLinks: {...prev.socialLinks, portfolio: e.target.value}
+                          }))}
+                          placeholder="https://yourportfolio.com"
+                        />
+                      </div>
+                      {!isEditing && (
+                        <div className="flex space-x-2">
+                          <Button size="sm" onClick={() => setEditingSection(null)}>
+                            <Check className="w-4 h-4 mr-1" />
+                            Save
+                          </Button>
+                          <Button variant="outline" size="sm" onClick={() => setEditingSection(null)}>
+                            Cancel
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      {Object.entries(profile.socialLinks).map(([platform, url]) => (
+                        url && (
+                          <div key={platform} className="flex items-center space-x-2">
+                            <span className="w-4 h-4 capitalize text-slate-500">{platform}:</span>
+                            <a href={url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                              {url}
+                            </a>
+                          </div>
+                        )
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="achievements" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Your Achievements</CardTitle>
+                <CardDescription>Track your career milestones and accomplishments</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {profile.achievements.map((achievement, index) => (
+                    <div key={index} className="flex items-start space-x-4 p-4 border rounded-lg">
+                      <div className="flex-shrink-0 mt-1">
+                        {getAchievementIcon(achievement.type)}
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-slate-900 dark:text-slate-100">
+                          {achievement.title}
+                        </h3>
+                        <p className="text-slate-600 dark:text-slate-400 text-sm mt-1">
+                          {achievement.description}
+                        </p>
+                        <div className="flex items-center space-x-4 mt-2">
+                          <span className="text-xs text-slate-500">
+                            {new Date(achievement.date).toLocaleDateString()}
+                          </span>
+                          <Badge variant="outline" className="text-xs capitalize">
+                            {achievement.type}
+                          </Badge>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="settings" className="space-y-6">
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Notification Preferences */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Notification Preferences</CardTitle>
+                  <CardDescription>Manage how you receive notifications</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <Label htmlFor="email-notifications">Email Notifications</Label>
+                      <p className="text-sm text-slate-500">Receive notifications via email</p>
+                    </div>
+                    <Switch
+                      id="email-notifications"
+                      checked={profile.preferences.emailNotifications}
+                      onCheckedChange={(checked) => setProfile(prev => ({
+                        ...prev,
+                        preferences: {...prev.preferences, emailNotifications: checked}
+                      }))}
+                    />
+                  </div>
+                  
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <Label htmlFor="sms-notifications">SMS Notifications</Label>
+                      <p className="text-sm text-slate-500">Receive notifications via SMS</p>
+                    </div>
+                    <Switch
+                      id="sms-notifications"
+                      checked={profile.preferences.smsNotifications}
+                      onCheckedChange={(checked) => setProfile(prev => ({
+                        ...prev,
+                        preferences: {...prev.preferences, smsNotifications: checked}
+                      }))}
+                    />
+                  </div>
+                  
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <Label htmlFor="career-tips">Daily Career Tips</Label>
+                      <p className="text-sm text-slate-500">Receive daily career tips and motivation</p>
+                    </div>
+                    <Switch
+                      id="career-tips"
+                      checked={profile.preferences.careerTips}
+                      onCheckedChange={(checked) => setProfile(prev => ({
+                        ...prev,
+                        preferences: {...prev.preferences, careerTips: checked}
+                      }))}
+                    />
+                  </div>
+                  
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <Label htmlFor="goal-reminders">Goal Reminders</Label>
+                      <p className="text-sm text-slate-500">Receive reminders for your goals and habits</p>
+                    </div>
+                    <Switch
+                      id="goal-reminders"
+                      checked={profile.preferences.goalReminders}
+                      onCheckedChange={(checked) => setProfile(prev => ({
+                        ...prev,
+                        preferences: {...prev.preferences, goalReminders: checked}
+                      }))}
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Privacy Settings */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Privacy Settings</CardTitle>
+                  <CardDescription>Control your profile visibility and data</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="profile-visibility">Profile Visibility</Label>
+                    <Select 
+                      value={profile.preferences.profileVisibility} 
+                      onValueChange={(value: 'public' | 'private') => setProfile(prev => ({
+                        ...prev,
+                        preferences: {...prev.preferences, profileVisibility: value}
+                      }))}
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="public">Public - Visible to everyone</SelectItem>
+                        <SelectItem value="private">Private - Only visible to you</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  
+                  <div className="pt-4 border-t">
+                    <h4 className="font-medium text-slate-900 dark:text-slate-100 mb-2">Data Management</h4>
+                    <div className="space-y-2">
+                      <Button variant="outline" size="sm" onClick={exportProfile}>
+                        <Download className="w-4 h-4 mr-2" />
+                        Export Profile Data
+                      </Button>
+                      <Button variant="outline" size="sm" className="text-red-600">
+                        <Trash2 className="w-4 h-4 mr-2" />
+                        Delete Account
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+        </Tabs>
+
+        {/* Save Changes Button (when editing) */}
+        {isEditing && (
+          <div className="fixed bottom-6 right-6 z-50">
+            <Button onClick={saveProfile} size="lg" className="bg-green-600 hover:bg-green-700 shadow-xl">
+              <Save className="w-5 h-5 mr-2" />
+              Save All Changes
+            </Button>
+          </div>
+        )}
+      </main>
+
+      {/* Footer */}
+      <footer className="bg-slate-100 dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 mt-16">
+        <div className="container mx-auto px-4 py-8">
+          <div className="text-center">
+            <p className="text-slate-600 dark:text-slate-400 text-sm">
+              Developed and Designed by <span className="font-semibold text-rose-600 dark:text-rose-400">Sriram</span>
+            </p>
+            <p className="text-slate-500 dark:text-slate-500 text-xs mt-1">
+              © {new Date().getFullYear()} CareerCompass. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
