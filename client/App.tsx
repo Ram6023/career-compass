@@ -18,6 +18,7 @@ import ChatAssistant from "./pages/ChatAssistant";
 import CareerComparison from "./pages/CareerComparison";
 import DailyTips from "./pages/DailyTips";
 import GoalTracker from "./pages/GoalTracker";
+import Profile from "./pages/Profile";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +42,7 @@ const App = () => (
               <Route path="/roadmaps" element={<Index />} />
               <Route path="/tips" element={<DailyTips />} />
               <Route path="/goals" element={<GoalTracker />} />
+              <Route path="/profile" element={<Profile />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
