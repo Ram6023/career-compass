@@ -242,6 +242,49 @@ class AuthService {
     const user = this.getCurrentUser();
     return !!(token && user);
   }
+
+  // Update user profile
+  async updateProfile(profileData: Partial<User>): Promise<AuthResponse> {
+    try {
+      await new Promise(resolve => setTimeout(resolve, 500)); // Simulate API delay
+
+      const currentUser = this.getCurrentUser();
+      if (!currentUser) {
+        return {
+          success: false,
+          error: 'User not logged in'
+        };
+      }
+
+      const updatedUser = { ...currentUser, ...profileData };
+      this.currentUser = updatedUser;
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+
+      return {
+        success: true,
+        user: updatedUser
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: 'Failed to update profile'
+      };
+    }
+  }
+
+  // Upload profile picture
+  async uploadProfilePicture(file: File): Promise<{success: boolean; url?: string; error?: string}> {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const url = reader.result as string;
+          resolve({ success: true, url });
+        };
+        reader.readAsDataURL(file);
+      }, 1000); // Simulate upload delay
+    });
+  }
 }
 
 // Export singleton instance
