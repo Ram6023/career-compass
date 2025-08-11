@@ -25,6 +25,7 @@ import { useTheme } from '@/components/ui/theme-provider';
 import { useLanguage } from '@/components/ui/language-provider';
 import { LanguageSelector } from '@/components/ui/language-selector';
 import { toast } from '@/components/ui/use-toast';
+import { authService } from '@/lib/auth';
 
 const DAILY_TIPS = [
   {
@@ -114,6 +115,8 @@ const INDUSTRY_NEWS = [
 export default function DailyTips() {
   const { theme, setTheme } = useTheme();
   const { t } = useLanguage();
+  const [user, setUser] = useState(authService.getCurrentUser());
+  const [isLoggedIn, setIsLoggedIn] = useState(authService.isAuthenticated());
   const [bookmarkedTips, setBookmarkedTips] = useState<number[]>([]);
   const [currentQuote, setCurrentQuote] = useState(0);
 
@@ -189,12 +192,39 @@ export default function DailyTips() {
                 <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
                 <span className="sr-only">Toggle theme</span>
               </Button>
-              <Button variant="ghost" asChild>
-                <Link to="/login">Login</Link>
-              </Button>
-              <Button asChild className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 shadow-lg">
-                <Link to="/register">Get Started</Link>
-              </Button>
+              {isLoggedIn && user ? (
+                <>
+                  <Button variant="ghost" asChild>
+                    <Link to="/profile" className="flex items-center space-x-2">
+                      {user.avatar ? (
+                        <img src={user.avatar} alt="Profile" className="w-6 h-6 rounded-full" />
+                      ) : (
+                        <User className="w-4 h-4" />
+                      )}
+                      <span>Profile</span>
+                    </Link>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      authService.signOut();
+                      setUser(null);
+                      setIsLoggedIn(false);
+                    }}
+                  >
+                    Sign Out
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button variant="ghost" asChild>
+                    <Link to="/login">Login</Link>
+                  </Button>
+                  <Button asChild className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 shadow-lg">
+                    <Link to="/register">Get Started</Link>
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </div>
