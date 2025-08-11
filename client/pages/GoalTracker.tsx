@@ -32,7 +32,8 @@ import {
   Moon,
   Edit,
   Trash2,
-  Send
+  Send,
+  User
 } from 'lucide-react';
 import { useTheme } from '@/components/ui/theme-provider';
 import { useLanguage } from '@/components/ui/language-provider';
