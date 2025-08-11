@@ -7,6 +7,31 @@ export interface User {
   name: string;
   avatar?: string;
   provider: 'google' | 'github' | 'email';
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+  dateOfBirth?: string;
+  location?: string;
+  bio?: string;
+  jobTitle?: string;
+  company?: string;
+  experience?: string;
+  education?: string;
+  skills?: string[];
+  interests?: string[];
+  socialLinks?: {
+    linkedin?: string;
+    github?: string;
+    twitter?: string;
+    portfolio?: string;
+  };
+  preferences?: {
+    emailNotifications?: boolean;
+    smsNotifications?: boolean;
+    careerTips?: boolean;
+    goalReminders?: boolean;
+    profileVisibility?: 'public' | 'private';
+  };
 }
 
 export interface AuthResponse {
