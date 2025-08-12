@@ -100,24 +100,14 @@ const CAREER_CATEGORIES = [
     title: "Product & Design",
     subtitle: "Build amazing products",
     gradient: "from-pink-500 via-rose-500 to-orange-500",
-    topics: [
-      "Product Manager",
-      "UX Designer",
-      "UI Developer",
-      "Design Systems",
-    ],
+    topics: ["Product Manager", "UX Designer", "UI Developer", "Design Systems"],
   },
   {
     icon: Globe,
     title: "Business & Strategy",
     subtitle: "Drive growth & innovation",
     gradient: "from-emerald-500 via-teal-500 to-cyan-500",
-    topics: [
-      "Business Analyst",
-      "Strategy Consultant",
-      "Growth Hacker",
-      "Operations",
-    ],
+    topics: ["Business Analyst", "Strategy Consultant", "Growth Hacker", "Operations"],
   },
   {
     icon: Shield,
@@ -165,13 +155,7 @@ const SAMPLE_CAREERS: { [key: string]: CareerRecommendation } = {
       "Create intuitive and engaging user experiences for digital products",
     salary: "₹6-20 LPA",
     growth: "13% (Faster than average)",
-    skills: [
-      "Figma",
-      "Adobe Creative Suite",
-      "User Research",
-      "Prototyping",
-      "CSS",
-    ],
+    skills: ["Figma", "Adobe Creative Suite", "User Research", "Prototyping", "CSS"],
     difficulty: "Beginner",
     timeToLearn: "3-6 months",
   },
@@ -244,13 +228,7 @@ Ready to dive into AI? I can create your personalized learning plan!`,
           salary: "₹15-50 LPA",
           growth: "45% (Extremely high growth)",
           difficulty: "Advanced",
-          skills: [
-            "Python",
-            "TensorFlow",
-            "PyTorch",
-            "Statistics",
-            "ML Algorithms",
-          ],
+          skills: ["Python", "TensorFlow", "PyTorch", "Statistics", "ML Algorithms"],
         },
       };
     }
@@ -612,29 +590,27 @@ export default function ChatAssistant() {
   const { theme, setTheme } = useTheme();
   const { t } = useLanguage();
   const [user, setUser] = useState(authService.getCurrentUser());
-  const [isLoggedIn, setIsLoggedIn] = useState(authService.isAuthenticated());
+  const [isLoggedIn, setIsLoggedIn] = useState(authService.isAuthenticatedSync());
 
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
       content: `Hello ${user?.firstName || "there"}! 👋 
 
-I'm your **AI Career Strategist** powered by advanced artificial intelligence. 
+I'm your **AI Career Strategist** - your personal guide to navigating the future of work. 
 
-✨ **I'm here to help you:**
-• Discover your perfect career path
-• Get real-time market insights  
-• Create personalized learning plans
+✨ **What I can help you with:**
+• Discover your ideal career path
+• Get real-time salary insights  
+• Create personalized learning roadmaps
+• Stay ahead of industry trends
 • Master interview strategies
-• Navigate career transitions
 
-🚀 **Ask me anything about careers, skills, salaries, or the job market!**
-
-What career goals would you like to explore today?`,
+Let's unlock your potential together! What career goals are you exploring today?`,
       sender: "bot",
       timestamp: new Date(),
       suggestions: [
-        "🎯 Find my ideal career",
+        "🎯 Find my dream career",
         "💰 Show me salary trends",
         "🚀 Build learning roadmap",
         "🔮 Future job predictions",
@@ -650,17 +626,28 @@ What career goals would you like to explore today?`,
   const messagesContainerRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "end",
+    if (messagesEndRef.current && messagesContainerRef.current) {
+      // Use requestAnimationFrame to ensure DOM has updated
+      requestAnimationFrame(() => {
+        messagesEndRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "end",
+          inline: "nearest",
+        });
       });
     }
   };
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages.length]);
+    // Only scroll when new messages are added, not on every render
+    const lastMessage = messages[messages.length - 1];
+    if (
+      lastMessage &&
+      (lastMessage.sender === "bot" || lastMessage.sender === "user")
+    ) {
+      scrollToBottom();
+    }
+  }, [messages.length]); // Only depend on message count, not full messages array
 
   const handleSendMessage = async () => {
     if (!inputMessage.trim()) return;
@@ -676,25 +663,24 @@ What career goals would you like to explore today?`,
     setInputMessage("");
     setIsTyping(true);
 
-    // Focus back to input
+    // Focus back to input after sending
     setTimeout(() => {
       inputRef.current?.focus();
     }, 100);
 
-    // Simulate AI processing time
-    const processingTime = Math.random() * 2000 + 1000; // 1-3 seconds
-    await new Promise((resolve) => setTimeout(resolve, processingTime));
+    // Simulate AI thinking time with more realistic delays
+    const thinkingTime = Math.random() * 2000 + 1500; // 1.5-3.5 seconds
+    await new Promise((resolve) => setTimeout(resolve, thinkingTime));
 
-    // Generate AI response
-    const aiResponse = generateAIResponse(inputMessage);
+    const response = generateAIResponse(inputMessage);
     const botResponse: Message = {
       id: (Date.now() + 1).toString(),
-      content: aiResponse.content,
+      content: response.content,
       sender: "bot",
       timestamp: new Date(),
-      suggestions: aiResponse.suggestions,
-      type: aiResponse.type || "text",
-      metadata: aiResponse.metadata,
+      suggestions: response.suggestions,
+      type: response.type || "text",
+      metadata: response.metadata,
     };
 
     setMessages((prev) => [...prev, botResponse]);
@@ -742,7 +728,7 @@ What career goals would you like to explore today?`,
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950">
-      {/* Header */}
+      {/* Modern Floating Header */}
       <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/80 dark:bg-slate-900/80 border-b border-slate-200/50 dark:border-slate-700/50">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
@@ -755,7 +741,7 @@ What career goals would you like to explore today?`,
                   CareerCompass AI
                 </h1>
                 <p className="text-xs text-slate-500 dark:text-slate-400">
-                  Powered by Advanced AI
+                  Your Future Starts Here
                 </p>
               </div>
             </Link>
@@ -818,8 +804,8 @@ What career goals would you like to explore today?`,
                   <Button
                     variant="outline"
                     className="rounded-xl"
-                    onClick={() => {
-                      authService.signOut();
+                    onClick={async () => {
+                      await authService.signOut();
                       setUser(null);
                       setIsLoggedIn(false);
                     }}
@@ -845,14 +831,17 @@ What career goals would you like to explore today?`,
         </div>
       </header>
 
-      {/* Main Content */}
-      <div className="flex h-[calc(100vh-80px)]">
-        {/* Sidebar */}
-        {showSidebar && (
-          <div className="w-80 border-r border-slate-200/50 dark:border-slate-700/50 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl">
-            <div className="p-6 space-y-6 h-full overflow-y-auto">
-              {/* AI Status */}
-              <Card className="overflow-hidden shadow-xl border-0 bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-cyan-500/10">
+      <div className="container mx-auto px-6 py-8 max-w-8xl">
+        <div
+          className={`grid gap-8 transition-all duration-300 ${
+            showSidebar ? "lg:grid-cols-4" : "lg:grid-cols-1"
+          }`}
+        >
+          {/* Enhanced Sidebar */}
+          {showSidebar && (
+            <div className="lg:col-span-1 space-y-6">
+              {/* AI Assistant Status */}
+              <Card className="overflow-hidden shadow-xl border-0 bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-cyan-500/10 backdrop-blur-sm">
                 <CardHeader className="pb-4">
                   <div className="flex items-center space-x-3">
                     <div className="p-3 bg-gradient-to-br from-indigo-500 via-purple-600 to-cyan-500 rounded-xl shadow-lg">
@@ -864,7 +853,7 @@ What career goals would you like to explore today?`,
                       </CardTitle>
                       <div className="flex items-center space-x-2 text-sm text-slate-600 dark:text-slate-400">
                         <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-                        <span>AI-Powered Guidance</span>
+                        <span>Powered by Advanced AI</span>
                       </div>
                     </div>
                   </div>
@@ -888,11 +877,11 @@ What career goals would you like to explore today?`,
               </Card>
 
               {/* Quick Questions */}
-              <Card className="shadow-xl border-0">
+              <Card className="shadow-xl border-0 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm">
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2 text-lg">
                     <Lightbulb className="h-5 w-5 text-amber-500" />
-                    <span>Quick Questions</span>
+                    <span>Quick Start Questions</span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-2">
@@ -911,7 +900,7 @@ What career goals would you like to explore today?`,
               </Card>
 
               {/* Career Categories */}
-              <Card className="shadow-xl border-0">
+              <Card className="shadow-xl border-0 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm">
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2 text-lg">
                     <Layers className="h-5 w-5 text-indigo-500" />
@@ -961,275 +950,306 @@ What career goals would you like to explore today?`,
                 </CardContent>
               </Card>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Chat Interface */}
-        <div className="flex-1 flex flex-col">
-          {/* Chat Header */}
-          <div className="p-4 border-b border-slate-200/50 dark:border-slate-700/50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <Avatar className="h-12 w-12 ring-2 ring-indigo-500/20">
-                  <AvatarFallback className="bg-gradient-to-br from-indigo-500 via-purple-600 to-cyan-500 text-white font-bold text-lg">
-                    AI
-                  </AvatarFallback>
-                </Avatar>
-                <div>
-                  <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-100 flex items-center space-x-2">
-                    <span>AI Career Strategist</span>
-                    <Badge className="bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300">
-                      ✨ AI-Powered
-                    </Badge>
-                  </h2>
-                  <div className="flex items-center space-x-2 text-sm text-slate-600 dark:text-slate-400">
-                    <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-                    <span>Online • Ready to help with your career</span>
+          {/* Main Chat Interface */}
+          <div
+            className={`${
+              showSidebar ? "lg:col-span-3" : "lg:col-span-1"
+            } transition-all duration-300`}
+          >
+            <Card className="h-[calc(100vh-140px)] flex flex-col shadow-2xl border-0 overflow-hidden bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl">
+              {/* Modern Chat Header */}
+              <CardHeader className="bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-cyan-500/10 border-b border-slate-200/50 dark:border-slate-700/50">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-4">
+                    <Avatar className="h-12 w-12 ring-2 ring-indigo-500/20">
+                      <AvatarImage src="/ai-avatar.png" alt="AI Assistant" />
+                      <AvatarFallback className="bg-gradient-to-br from-indigo-500 via-purple-600 to-cyan-500 text-white font-bold text-lg">
+                        AI
+                      </AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <CardTitle className="text-xl text-slate-900 dark:text-slate-100 flex items-center space-x-2">
+                        <span>AI Career Strategist</span>
+                        <Badge className="bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300">
+                          ✨ GPT-4 Powered
+                        </Badge>
+                      </CardTitle>
+                      <div className="flex items-center space-x-2 text-sm text-slate-600 dark:text-slate-400">
+                        <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                        <span>Online • Responds instantly</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-9 w-9 p-0 rounded-xl"
+                      onClick={() => setShowSidebar(!showSidebar)}
+                    >
+                      <Layers className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-9 w-9 p-0 rounded-xl"
+                    >
+                      <Search className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-9 w-9 p-0 rounded-xl"
+                    >
+                      <MoreVertical className="h-4 w-4" />
+                    </Button>
                   </div>
                 </div>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-9 w-9 p-0 rounded-xl"
-                  onClick={() => setShowSidebar(!showSidebar)}
-                >
-                  <Layers className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-9 w-9 p-0 rounded-xl"
-                >
-                  <Search className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-9 w-9 p-0 rounded-xl"
-                >
-                  <MoreVertical className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-          </div>
+              </CardHeader>
 
-          {/* Messages */}
-          <div className="flex-1 relative overflow-hidden">
-            <ScrollArea className="h-full" ref={messagesContainerRef}>
-              <div className="p-6 space-y-6">
-                {messages.map((message) => (
-                  <div
-                    key={message.id}
-                    className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"}`}
-                  >
-                    <div
-                      className={`max-w-[85%] ${message.sender === "user" ? "order-2" : "order-1"}`}
-                    >
-                      <div className="flex items-start space-x-3">
-                        {message.sender === "bot" && (
-                          <Avatar className="h-9 w-9 flex-shrink-0 ring-2 ring-indigo-500/20">
+              {/* Enhanced Messages Container */}
+              <div className="flex-1 relative">
+                <ScrollArea className="h-full" ref={messagesContainerRef}>
+                  <div className="p-6 space-y-6">
+                    {messages.map((message) => (
+                      <div
+                        key={message.id}
+                        className={`flex ${
+                          message.sender === "user"
+                            ? "justify-end"
+                            : "justify-start"
+                        }`}
+                      >
+                        <div
+                          className={`max-w-[85%] ${
+                            message.sender === "user" ? "order-2" : "order-1"
+                          }`}
+                        >
+                          <div className="flex items-start space-x-3">
+                            {message.sender === "bot" && (
+                              <Avatar className="h-9 w-9 flex-shrink-0 ring-2 ring-indigo-500/20">
+                                <AvatarFallback className="bg-gradient-to-br from-indigo-500 via-purple-600 to-cyan-500 text-white text-xs font-bold">
+                                  AI
+                                </AvatarFallback>
+                              </Avatar>
+                            )}
+
+                            <div
+                              className={`rounded-2xl p-5 shadow-lg backdrop-blur-sm ${
+                                message.sender === "user"
+                                  ? "bg-gradient-to-r from-indigo-500 via-purple-600 to-cyan-500 text-white"
+                                  : "bg-white/90 dark:bg-slate-800/90 text-slate-900 dark:text-slate-100 border border-slate-200/50 dark:border-slate-700/50"
+                              }`}
+                            >
+                              <div className="whitespace-pre-line text-sm leading-relaxed">
+                                {message.content}
+                              </div>
+
+                              {/* Enhanced Career Card */}
+                              {message.type === "career_card" &&
+                                message.metadata && (
+                                  <div className="mt-4 p-4 bg-slate-50/80 dark:bg-slate-700/80 rounded-xl border border-slate-200/50 dark:border-slate-600/50 backdrop-blur-sm">
+                                    <div className="flex items-center justify-between mb-3">
+                                      <h4 className="font-semibold text-slate-900 dark:text-slate-100">
+                                        {message.metadata.title}
+                                      </h4>
+                                      <Badge
+                                        className={getDifficultyColor(
+                                          message.metadata.difficulty,
+                                        )}
+                                      >
+                                        {message.metadata.difficulty}
+                                      </Badge>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-3 text-sm">
+                                      <div className="p-3 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg">
+                                        <span className="text-emerald-700 dark:text-emerald-300 font-medium">
+                                          💰 Salary:
+                                        </span>
+                                        <br />
+                                        <span className="text-emerald-900 dark:text-emerald-100 font-semibold">
+                                          {message.metadata.salary}
+                                        </span>
+                                      </div>
+                                      <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                                        <span className="text-blue-700 dark:text-blue-300 font-medium">
+                                          📈 Growth:
+                                        </span>
+                                        <br />
+                                        <span className="text-blue-900 dark:text-blue-100 font-semibold">
+                                          {message.metadata.growth}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
+
+                              <div className="flex items-center justify-between mt-4">
+                                <div
+                                  className={`text-xs ${
+                                    message.sender === "user"
+                                      ? "text-indigo-100"
+                                      : "text-slate-500 dark:text-slate-400"
+                                  }`}
+                                >
+                                  {message.timestamp.toLocaleTimeString([], {
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                  })}
+                                </div>
+                                {message.sender === "bot" && (
+                                  <div className="flex items-center space-x-1">
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      className="h-7 w-7 p-0 opacity-60 hover:opacity-100 rounded-lg"
+                                      onClick={() =>
+                                        copyMessage(message.content)
+                                      }
+                                    >
+                                      <Copy className="h-3 w-3" />
+                                    </Button>
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      className="h-7 w-7 p-0 opacity-60 hover:opacity-100 rounded-lg"
+                                    >
+                                      <ThumbsUp className="h-3 w-3" />
+                                    </Button>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+
+                            {message.sender === "user" && (
+                              <Avatar className="h-9 w-9 flex-shrink-0 ring-2 ring-slate-200 dark:ring-slate-700">
+                                <AvatarFallback className="bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300">
+                                  {user?.firstName?.[0] || "U"}
+                                </AvatarFallback>
+                              </Avatar>
+                            )}
+                          </div>
+
+                          {/* Enhanced Suggestions */}
+                          {message.sender === "bot" && message.suggestions && (
+                            <div className="mt-4 ml-12 flex flex-wrap gap-2">
+                              {message.suggestions.map((suggestion, index) => (
+                                <Button
+                                  key={index}
+                                  variant="outline"
+                                  size="sm"
+                                  className="text-xs h-9 bg-white/90 dark:bg-slate-800/90 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 border-indigo-200 dark:border-indigo-800 hover:border-indigo-300 dark:hover:border-indigo-700 rounded-xl backdrop-blur-sm"
+                                  onClick={() => handleSuggestion(suggestion)}
+                                >
+                                  {suggestion}
+                                </Button>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+
+                    {/* Enhanced Typing Indicator */}
+                    {isTyping && (
+                      <div className="flex justify-start">
+                        <div className="flex items-start space-x-3">
+                          <Avatar className="h-9 w-9 ring-2 ring-indigo-500/20">
                             <AvatarFallback className="bg-gradient-to-br from-indigo-500 via-purple-600 to-cyan-500 text-white text-xs font-bold">
                               AI
                             </AvatarFallback>
                           </Avatar>
-                        )}
-
-                        <div
-                          className={`rounded-2xl p-5 shadow-lg backdrop-blur-sm ${
-                            message.sender === "user"
-                              ? "bg-gradient-to-r from-indigo-500 via-purple-600 to-cyan-500 text-white"
-                              : "bg-white/90 dark:bg-slate-800/90 text-slate-900 dark:text-slate-100 border border-slate-200/50 dark:border-slate-700/50"
-                          }`}
-                        >
-                          <div className="whitespace-pre-line text-sm leading-relaxed">
-                            {message.content}
-                          </div>
-
-                          {/* Career Card */}
-                          {message.type === "career_card" &&
-                            message.metadata && (
-                              <div className="mt-4 p-4 bg-slate-50/80 dark:bg-slate-700/80 rounded-xl border border-slate-200/50 dark:border-slate-600/50">
-                                <div className="flex items-center justify-between mb-3">
-                                  <h4 className="font-semibold text-slate-900 dark:text-slate-100">
-                                    {message.metadata.title}
-                                  </h4>
-                                  <Badge
-                                    className={getDifficultyColor(
-                                      message.metadata.difficulty,
-                                    )}
-                                  >
-                                    {message.metadata.difficulty}
-                                  </Badge>
-                                </div>
-                                <div className="grid grid-cols-2 gap-3 text-sm">
-                                  <div className="p-3 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg">
-                                    <span className="text-emerald-700 dark:text-emerald-300 font-medium">
-                                      💰 Salary:
-                                    </span>
-                                    <br />
-                                    <span className="text-emerald-900 dark:text-emerald-100 font-semibold">
-                                      {message.metadata.salary}
-                                    </span>
-                                  </div>
-                                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-                                    <span className="text-blue-700 dark:text-blue-300 font-medium">
-                                      📈 Growth:
-                                    </span>
-                                    <br />
-                                    <span className="text-blue-900 dark:text-blue-100 font-semibold">
-                                      {message.metadata.growth}
-                                    </span>
-                                  </div>
-                                </div>
+                          <div className="bg-white/90 dark:bg-slate-800/90 rounded-2xl p-4 shadow-lg border border-slate-200/50 dark:border-slate-700/50 backdrop-blur-sm">
+                            <div className="flex items-center space-x-3">
+                              <div className="flex space-x-1">
+                                <div className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce"></div>
+                                <div
+                                  className="w-2 h-2 bg-purple-400 rounded-full animate-bounce"
+                                  style={{ animationDelay: "0.1s" }}
+                                ></div>
+                                <div
+                                  className="w-2 h-2 bg-cyan-400 rounded-full animate-bounce"
+                                  style={{ animationDelay: "0.2s" }}
+                                ></div>
                               </div>
-                            )}
-
-                          <div className="flex items-center justify-between mt-4">
-                            <div
-                              className={`text-xs ${
-                                message.sender === "user"
-                                  ? "text-indigo-100"
-                                  : "text-slate-500 dark:text-slate-400"
-                              }`}
-                            >
-                              {message.timestamp.toLocaleTimeString([], {
-                                hour: "2-digit",
-                                minute: "2-digit",
-                              })}
+                              <span className="text-xs text-slate-500 dark:text-slate-400">
+                                AI is analyzing & crafting response...
+                              </span>
                             </div>
-                            {message.sender === "bot" && (
-                              <div className="flex items-center space-x-1">
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  className="h-7 w-7 p-0 opacity-60 hover:opacity-100 rounded-lg"
-                                  onClick={() => copyMessage(message.content)}
-                                >
-                                  <Copy className="h-3 w-3" />
-                                </Button>
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  className="h-7 w-7 p-0 opacity-60 hover:opacity-100 rounded-lg"
-                                >
-                                  <ThumbsUp className="h-3 w-3" />
-                                </Button>
-                              </div>
-                            )}
                           </div>
                         </div>
-
-                        {message.sender === "user" && (
-                          <Avatar className="h-9 w-9 flex-shrink-0 ring-2 ring-slate-200 dark:ring-slate-700">
-                            <AvatarFallback className="bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300">
-                              {user?.firstName?.[0] || "U"}
-                            </AvatarFallback>
-                          </Avatar>
-                        )}
                       </div>
-
-                      {/* Suggestions */}
-                      {message.sender === "bot" && message.suggestions && (
-                        <div className="mt-4 ml-12 flex flex-wrap gap-2">
-                          {message.suggestions.map((suggestion, index) => (
-                            <Button
-                              key={index}
-                              variant="outline"
-                              size="sm"
-                              className="text-xs h-9 bg-white/90 dark:bg-slate-800/90 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 border-indigo-200 dark:border-indigo-800 hover:border-indigo-300 dark:hover:border-indigo-700 rounded-xl"
-                              onClick={() => handleSuggestion(suggestion)}
-                            >
-                              {suggestion}
-                            </Button>
-                          ))}
-                        </div>
-                      )}
-                    </div>
+                    )}
+                    <div ref={messagesEndRef} />
                   </div>
-                ))}
+                </ScrollArea>
+              </div>
 
-                {/* Typing Indicator */}
-                {isTyping && (
-                  <div className="flex justify-start">
-                    <div className="flex items-start space-x-3">
-                      <Avatar className="h-9 w-9 ring-2 ring-indigo-500/20">
-                        <AvatarFallback className="bg-gradient-to-br from-indigo-500 via-purple-600 to-cyan-500 text-white text-xs font-bold">
-                          AI
-                        </AvatarFallback>
-                      </Avatar>
-                      <div className="bg-white/90 dark:bg-slate-800/90 rounded-2xl p-4 shadow-lg border border-slate-200/50 dark:border-slate-700/50">
-                        <div className="flex items-center space-x-3">
-                          <div className="flex space-x-1">
-                            <div className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce"></div>
-                            <div
-                              className="w-2 h-2 bg-purple-400 rounded-full animate-bounce"
-                              style={{ animationDelay: "0.1s" }}
-                            ></div>
-                            <div
-                              className="w-2 h-2 bg-cyan-400 rounded-full animate-bounce"
-                              style={{ animationDelay: "0.2s" }}
-                            ></div>
-                          </div>
-                          <span className="text-xs text-slate-500 dark:text-slate-400">
-                            AI is analyzing and crafting response...
-                          </span>
-                        </div>
-                      </div>
-                    </div>
+              {/* Enhanced Input Area */}
+              <div className="p-6 border-t border-slate-200/50 dark:border-slate-700/50 bg-slate-50/80 dark:bg-slate-800/80 backdrop-blur-xl">
+                <div className="flex space-x-4 items-end">
+                  <div className="flex-1 space-y-2">
+                    <Textarea
+                      ref={inputRef}
+                      value={inputMessage}
+                      onChange={(e) => setInputMessage(e.target.value)}
+                      onKeyPress={handleKeyPress}
+                      placeholder="Ask me anything about careers, skills, salaries, or job market trends..."
+                      className="min-h-[60px] max-h-[120px] resize-none bg-white/90 dark:bg-slate-700/90 border-slate-300/50 dark:border-slate-600/50 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent backdrop-blur-sm"
+                      disabled={isTyping}
+                    />
                   </div>
-                )}
-                <div ref={messagesEndRef} />
-              </div>
-            </ScrollArea>
-          </div>
-
-          {/* Input Area - FIXED */}
-          <div className="border-t border-slate-200/50 dark:border-slate-700/50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl">
-            <div className="p-4">
-              <div className="flex space-x-3 items-end">
-                <div className="flex-1">
-                  <Textarea
-                    ref={inputRef}
-                    value={inputMessage}
-                    onChange={(e) => setInputMessage(e.target.value)}
-                    onKeyPress={handleKeyPress}
-                    placeholder="Ask me anything about careers, skills, salaries, or job market trends..."
-                    className="min-h-[60px] max-h-[120px] resize-none bg-white/90 dark:bg-slate-700/90 border-slate-300/50 dark:border-slate-600/50 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                    disabled={isTyping}
-                  />
+                  <div className="flex space-x-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="h-12 w-12 p-0 border-slate-300/50 dark:border-slate-600/50 rounded-xl backdrop-blur-sm"
+                      disabled={isTyping}
+                    >
+                      <Mic className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      onClick={handleSendMessage}
+                      disabled={!inputMessage.trim() || isTyping}
+                      className="h-12 px-6 bg-gradient-to-r from-indigo-500 via-purple-600 to-cyan-500 hover:from-indigo-600 hover:via-purple-700 hover:to-cyan-600 shadow-lg rounded-xl backdrop-blur-sm"
+                    >
+                      <Send className="h-4 w-4 mr-2" />
+                      Send
+                    </Button>
+                  </div>
                 </div>
-                <div className="flex space-x-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="h-12 w-12 p-0 border-slate-300/50 dark:border-slate-600/50 rounded-xl"
-                    disabled={isTyping}
-                  >
-                    <Paperclip className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    onClick={handleSendMessage}
-                    disabled={!inputMessage.trim() || isTyping}
-                    className="h-12 px-6 bg-gradient-to-r from-indigo-500 via-purple-600 to-cyan-500 hover:from-indigo-600 hover:via-purple-700 hover:to-cyan-600 shadow-lg rounded-xl"
-                  >
-                    <Send className="h-4 w-4 mr-2" />
-                    Send
-                  </Button>
+                <div className="flex items-center justify-between mt-3 text-xs text-slate-500 dark:text-slate-400">
+                  <span>Press Enter to send • Shift + Enter for new line</span>
+                  <div className="flex items-center space-x-1">
+                    <Sparkles className="h-3 w-3" />
+                    <span>Powered by GPT-4 & Advanced AI</span>
+                  </div>
                 </div>
               </div>
-              <div className="flex items-center justify-between mt-3 text-xs text-slate-500 dark:text-slate-400">
-                <span>Press Enter to send • Shift + Enter for new line</span>
-                <div className="flex items-center space-x-1">
-                  <Sparkles className="h-3 w-3" />
-                  <span>Powered by Advanced AI</span>
-                </div>
-              </div>
-            </div>
+            </Card>
           </div>
         </div>
       </div>
+
+      {/* Modern Footer */}
+      <footer className="bg-slate-100/70 dark:bg-slate-800/70 border-t border-slate-200/50 dark:border-slate-700/50 mt-16 backdrop-blur-xl">
+        <div className="container mx-auto px-6 py-8">
+          <div className="text-center">
+            <p className="text-slate-600 dark:text-slate-400 text-sm">
+              Developed and Designed by{" "}
+              <span className="font-semibold text-indigo-600 dark:text-indigo-400">
+                Sriram
+              </span>
+            </p>
+            <p className="text-slate-500 dark:text-slate-500 text-xs mt-1">
+              © {new Date().getFullYear()} CareerCompass AI. Empowering careers
+              with artificial intelligence.
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
