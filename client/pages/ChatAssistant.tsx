@@ -100,14 +100,24 @@ const CAREER_CATEGORIES = [
     title: "Product & Design",
     subtitle: "Build amazing products",
     gradient: "from-pink-500 via-rose-500 to-orange-500",
-    topics: ["Product Manager", "UX Designer", "UI Developer", "Design Systems"],
+    topics: [
+      "Product Manager",
+      "UX Designer",
+      "UI Developer",
+      "Design Systems",
+    ],
   },
   {
     icon: Globe,
     title: "Business & Strategy",
     subtitle: "Drive growth & innovation",
     gradient: "from-emerald-500 via-teal-500 to-cyan-500",
-    topics: ["Business Analyst", "Strategy Consultant", "Growth Hacker", "Operations"],
+    topics: [
+      "Business Analyst",
+      "Strategy Consultant",
+      "Growth Hacker",
+      "Operations",
+    ],
   },
   {
     icon: Shield,
@@ -155,7 +165,13 @@ const SAMPLE_CAREERS: { [key: string]: CareerRecommendation } = {
       "Create intuitive and engaging user experiences for digital products",
     salary: "₹6-20 LPA",
     growth: "13% (Faster than average)",
-    skills: ["Figma", "Adobe Creative Suite", "User Research", "Prototyping", "CSS"],
+    skills: [
+      "Figma",
+      "Adobe Creative Suite",
+      "User Research",
+      "Prototyping",
+      "CSS",
+    ],
     difficulty: "Beginner",
     timeToLearn: "3-6 months",
   },
@@ -228,7 +244,13 @@ Ready to dive into AI? I can create your personalized learning plan!`,
           salary: "₹15-50 LPA",
           growth: "45% (Extremely high growth)",
           difficulty: "Advanced",
-          skills: ["Python", "TensorFlow", "PyTorch", "Statistics", "ML Algorithms"],
+          skills: [
+            "Python",
+            "TensorFlow",
+            "PyTorch",
+            "Statistics",
+            "ML Algorithms",
+          ],
         },
       };
     }
@@ -590,7 +612,9 @@ export default function ChatAssistant() {
   const { theme, setTheme } = useTheme();
   const { t } = useLanguage();
   const [user, setUser] = useState(authService.getCurrentUser());
-  const [isLoggedIn, setIsLoggedIn] = useState(authService.isAuthenticatedSync());
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    authService.isAuthenticatedSync(),
+  );
 
   const [messages, setMessages] = useState<Message[]>([
     {
