@@ -7,21 +7,21 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Progress } from '@/components/ui/progress';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { 
-  Compass, 
-  ArrowRight, 
-  Lightbulb, 
-  TrendingUp, 
-  Users, 
-  Briefcase, 
-  GraduationCap, 
-  Target, 
-  Clock, 
-  DollarSign, 
-  Star, 
-  CheckCircle, 
-  AlertCircle, 
-  Search, 
+import {
+  Compass,
+  ArrowRight,
+  Lightbulb,
+  TrendingUp,
+  Users,
+  Briefcase,
+  GraduationCap,
+  Target,
+  Clock,
+  DollarSign,
+  Star,
+  CheckCircle,
+  AlertCircle,
+  Search,
   Filter,
   MapPin,
   ExternalLink,
@@ -43,7 +43,8 @@ import {
   Palette,
   BarChart,
   Shield,
-  Smartphone
+  Smartphone,
+  MessageSquare
 } from 'lucide-react';
 import { useTheme } from '@/components/ui/theme-provider';
 import { useLanguage } from '@/components/ui/language-provider';
