@@ -1,17 +1,17 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Textarea } from '@/components/ui/textarea';
-import { 
-  Compass, 
-  Send, 
-  Bot, 
-  User, 
+import React, { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Compass,
+  Send,
+  Bot,
+  User,
   Sparkles,
   MessageSquare,
   Lightbulb,
@@ -48,21 +48,21 @@ import {
   Layers,
   PlusCircle,
   Paperclip,
-  Smile
-} from 'lucide-react';
-import { useTheme } from '@/components/ui/theme-provider';
-import { useLanguage } from '@/components/ui/language-provider';
-import { LanguageSelector } from '@/components/ui/language-selector';
-import { authService } from '@/lib/auth';
-import { toast } from '@/components/ui/use-toast';
+  Smile,
+} from "lucide-react";
+import { useTheme } from "@/components/ui/theme-provider";
+import { useLanguage } from "@/components/ui/language-provider";
+import { LanguageSelector } from "@/components/ui/language-selector";
+import { authService } from "@/lib/auth";
+import { toast } from "@/components/ui/use-toast";
 
 interface Message {
   id: string;
   content: string;
-  sender: 'user' | 'bot';
+  sender: "user" | "bot";
   timestamp: Date;
   suggestions?: string[];
-  type?: 'text' | 'quick_reply' | 'career_card' | 'learning_path';
+  type?: "text" | "quick_reply" | "career_card" | "learning_path";
   metadata?: any;
 }
 
@@ -72,7 +72,7 @@ interface CareerRecommendation {
   salary: string;
   growth: string;
   skills: string[];
-  difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
+  difficulty: "Beginner" | "Intermediate" | "Advanced";
   timeToLearn: string;
 }
 
@@ -84,86 +84,121 @@ const QUICK_QUESTIONS = [
   "🏠 Remote work opportunities",
   "💰 Salary negotiation secrets",
   "🚀 Startup vs Big Tech",
-  "📈 Future-proof skills"
+  "📈 Future-proof skills",
 ];
 
 const CAREER_CATEGORIES = [
-  { 
-    icon: Cpu, 
-    title: "AI & Tech", 
+  {
+    icon: Cpu,
+    title: "AI & Tech",
     subtitle: "Future of technology",
     gradient: "from-cyan-500 via-blue-500 to-purple-600",
-    topics: ["AI Engineer", "ML Scientist", "Data Engineer", "Cloud Architect"]
+    topics: ["AI Engineer", "ML Scientist", "Data Engineer", "Cloud Architect"],
   },
-  { 
-    icon: Rocket, 
-    title: "Product & Design", 
+  {
+    icon: Rocket,
+    title: "Product & Design",
     subtitle: "Build amazing products",
     gradient: "from-pink-500 via-rose-500 to-orange-500",
-    topics: ["Product Manager", "UX Designer", "UI Developer", "Design Systems"]
+    topics: [
+      "Product Manager",
+      "UX Designer",
+      "UI Developer",
+      "Design Systems",
+    ],
   },
-  { 
-    icon: Globe, 
-    title: "Business & Strategy", 
+  {
+    icon: Globe,
+    title: "Business & Strategy",
     subtitle: "Drive growth & innovation",
     gradient: "from-emerald-500 via-teal-500 to-cyan-500",
-    topics: ["Business Analyst", "Strategy Consultant", "Growth Hacker", "Operations"]
+    topics: [
+      "Business Analyst",
+      "Strategy Consultant",
+      "Growth Hacker",
+      "Operations",
+    ],
   },
-  { 
-    icon: Shield, 
-    title: "Security & Finance", 
+  {
+    icon: Shield,
+    title: "Security & Finance",
     subtitle: "Protect & optimize",
     gradient: "from-orange-500 via-red-500 to-pink-500",
-    topics: ["Cybersecurity", "FinTech", "Blockchain", "Risk Analysis"]
-  }
+    topics: ["Cybersecurity", "FinTech", "Blockchain", "Risk Analysis"],
+  },
 ];
 
 const SAMPLE_CAREERS: { [key: string]: CareerRecommendation } = {
-  'software engineer': {
-    title: 'Software Engineer',
-    description: 'Design, develop, and maintain software applications and systems',
-    salary: '₹8-25 LPA',
-    growth: '22% (Much faster than average)',
-    skills: ['JavaScript', 'Python', 'React', 'Node.js', 'Git'],
-    difficulty: 'Intermediate',
-    timeToLearn: '6-12 months'
+  "software engineer": {
+    title: "Software Engineer",
+    description:
+      "Design, develop, and maintain software applications and systems",
+    salary: "₹8-25 LPA",
+    growth: "22% (Much faster than average)",
+    skills: ["JavaScript", "Python", "React", "Node.js", "Git"],
+    difficulty: "Intermediate",
+    timeToLearn: "6-12 months",
   },
-  'data scientist': {
-    title: 'Data Scientist',
-    description: 'Extract insights from complex data to drive business decisions',
-    salary: '₹12-35 LPA',
-    growth: '35% (Much faster than average)',
-    skills: ['Python', 'SQL', 'Machine Learning', 'Statistics', 'Tableau'],
-    difficulty: 'Advanced',
-    timeToLearn: '8-15 months'
+  "data scientist": {
+    title: "Data Scientist",
+    description:
+      "Extract insights from complex data to drive business decisions",
+    salary: "₹12-35 LPA",
+    growth: "35% (Much faster than average)",
+    skills: ["Python", "SQL", "Machine Learning", "Statistics", "Tableau"],
+    difficulty: "Advanced",
+    timeToLearn: "8-15 months",
   },
-  'product manager': {
-    title: 'Product Manager',
-    description: 'Lead product strategy and development from conception to launch',
-    salary: '₹15-40 LPA',
-    growth: '19% (Much faster than average)',
-    skills: ['Strategy', 'Analytics', 'Communication', 'Leadership', 'Agile'],
-    difficulty: 'Intermediate',
-    timeToLearn: '4-8 months'
+  "product manager": {
+    title: "Product Manager",
+    description:
+      "Lead product strategy and development from conception to launch",
+    salary: "₹15-40 LPA",
+    growth: "19% (Much faster than average)",
+    skills: ["Strategy", "Analytics", "Communication", "Leadership", "Agile"],
+    difficulty: "Intermediate",
+    timeToLearn: "4-8 months",
   },
-  'ui ux designer': {
-    title: 'UI/UX Designer',
-    description: 'Create intuitive and engaging user experiences for digital products',
-    salary: '₹6-20 LPA',
-    growth: '13% (Faster than average)',
-    skills: ['Figma', 'Adobe Creative Suite', 'User Research', 'Prototyping', 'CSS'],
-    difficulty: 'Beginner',
-    timeToLearn: '3-6 months'
-  }
+  "ui ux designer": {
+    title: "UI/UX Designer",
+    description:
+      "Create intuitive and engaging user experiences for digital products",
+    salary: "₹6-20 LPA",
+    growth: "13% (Faster than average)",
+    skills: [
+      "Figma",
+      "Adobe Creative Suite",
+      "User Research",
+      "Prototyping",
+      "CSS",
+    ],
+    difficulty: "Beginner",
+    timeToLearn: "3-6 months",
+  },
 };
 
 // Integrated AI Response System
-const generateAIResponse = (userMessage: string): { content: string; suggestions?: string[]; type?: string; metadata?: any } => {
+const generateAIResponse = (
+  userMessage: string,
+): {
+  content: string;
+  suggestions?: string[];
+  type?: string;
+  metadata?: any;
+} => {
   const message = userMessage.toLowerCase();
-  
+
   // Advanced AI pattern matching for career guidance
-  if (message.includes('career') || message.includes('job') || message.includes('work')) {
-    if (message.includes('ai') || message.includes('artificial intelligence') || message.includes('machine learning')) {
+  if (
+    message.includes("career") ||
+    message.includes("job") ||
+    message.includes("work")
+  ) {
+    if (
+      message.includes("ai") ||
+      message.includes("artificial intelligence") ||
+      message.includes("machine learning")
+    ) {
       return {
         content: `🤖 **AI & Machine Learning Career Path**
 
@@ -201,20 +236,30 @@ Ready to dive into AI? I can create your personalized learning plan!`,
           "💻 Best AI programming languages",
           "🎯 AI portfolio project ideas",
           "💰 AI job market & salaries",
-          "🏢 Top AI companies to work for"
+          "🏢 Top AI companies to work for",
         ],
-        type: 'career_card',
+        type: "career_card",
         metadata: {
-          title: 'AI/ML Engineer',
-          salary: '₹15-50 LPA',
-          growth: '45% (Extremely high growth)',
-          difficulty: 'Advanced',
-          skills: ['Python', 'TensorFlow', 'PyTorch', 'Statistics', 'ML Algorithms']
-        }
+          title: "AI/ML Engineer",
+          salary: "₹15-50 LPA",
+          growth: "45% (Extremely high growth)",
+          difficulty: "Advanced",
+          skills: [
+            "Python",
+            "TensorFlow",
+            "PyTorch",
+            "Statistics",
+            "ML Algorithms",
+          ],
+        },
       };
     }
-    
-    if (message.includes('software') || message.includes('developer') || message.includes('programming')) {
+
+    if (
+      message.includes("software") ||
+      message.includes("developer") ||
+      message.includes("programming")
+    ) {
       return {
         content: `💻 **Software Development Career Guide**
 
@@ -257,12 +302,16 @@ Want me to create a detailed roadmap for your chosen specialization?`,
           "⚙️ Backend development guide",
           "📱 Mobile app development",
           "☁️ Cloud & DevOps career",
-          "📁 Portfolio project ideas"
-        ]
+          "📁 Portfolio project ideas",
+        ],
       };
     }
-    
-    if (message.includes('design') || message.includes('ui') || message.includes('ux')) {
+
+    if (
+      message.includes("design") ||
+      message.includes("ui") ||
+      message.includes("ux")
+    ) {
       return {
         content: `🎨 **UI/UX Design Career Roadmap**
 
@@ -305,13 +354,17 @@ Ready to start your design journey?`,
           "🔍 UX research methods",
           "🛠️ Best design tools to learn",
           "📐 Design system creation",
-          "💼 Design job interview prep"
-        ]
+          "💼 Design job interview prep",
+        ],
       };
     }
   }
-  
-  if (message.includes('salary') || message.includes('pay') || message.includes('earn')) {
+
+  if (
+    message.includes("salary") ||
+    message.includes("pay") ||
+    message.includes("earn")
+  ) {
     return {
       content: `💰 **2024 Tech Salary Guide - Complete Breakdown**
 
@@ -363,12 +416,12 @@ Want specific salary negotiation strategies?`,
         "📈 How to get a 30% raise",
         "🏢 Best paying companies",
         "🌐 Remote salary trends",
-        "📊 Salary by city comparison"
-      ]
+        "📊 Salary by city comparison",
+      ],
     };
   }
-  
-  if (message.includes('interview') || message.includes('job search')) {
+
+  if (message.includes("interview") || message.includes("job search")) {
     return {
       content: `🎯 **Master Tech Interviews - Complete Guide**
 
@@ -425,12 +478,16 @@ Ready to crush your next interview?`,
         "🗣️ Behavioral questions prep",
         "💰 Salary negotiation guide",
         "🏢 Company research tips",
-        "📝 Resume optimization"
-      ]
+        "📝 Resume optimization",
+      ],
     };
   }
-  
-  if (message.includes('learn') || message.includes('skill') || message.includes('course')) {
+
+  if (
+    message.includes("learn") ||
+    message.includes("skill") ||
+    message.includes("course")
+  ) {
     return {
       content: `🚀 **2024's Most In-Demand Skills & Learning Strategy**
 
@@ -495,8 +552,8 @@ Which skill would you like to master first?`,
         "☁️ Cloud certification guide",
         "💻 Programming roadmap",
         "📊 Data science track",
-        "🎨 Design skills development"
-      ]
+        "🎨 Design skills development",
+      ],
     };
   }
 
@@ -543,11 +600,11 @@ I'm powered by advanced AI to provide personalized career guidance!
 What would you like to explore first?`,
     suggestions: [
       "🎯 Find my ideal career",
-      "📊 Show salary trends 2024", 
+      "📊 Show salary trends 2024",
       "🚀 Create learning roadmap",
       "💼 Interview preparation",
-      "🔄 Plan career transition"
-    ]
+      "🔄 Plan career transition",
+    ],
   };
 };
 
@@ -556,11 +613,11 @@ export default function ChatAssistant() {
   const { t } = useLanguage();
   const [user, setUser] = useState(authService.getCurrentUser());
   const [isLoggedIn, setIsLoggedIn] = useState(authService.isAuthenticated());
-  
+
   const [messages, setMessages] = useState<Message[]>([
     {
-      id: '1',
-      content: `Hello ${user?.firstName || 'there'}! 👋 
+      id: "1",
+      content: `Hello ${user?.firstName || "there"}! 👋 
 
 I'm your **AI Career Strategist** powered by advanced artificial intelligence. 
 
@@ -574,18 +631,18 @@ I'm your **AI Career Strategist** powered by advanced artificial intelligence.
 🚀 **Ask me anything about careers, skills, salaries, or the job market!**
 
 What career goals would you like to explore today?`,
-      sender: 'bot',
+      sender: "bot",
       timestamp: new Date(),
       suggestions: [
         "🎯 Find my ideal career",
         "💰 Show me salary trends",
         "🚀 Build learning roadmap",
-        "🔮 Future job predictions"
-      ]
-    }
+        "🔮 Future job predictions",
+      ],
+    },
   ]);
-  
-  const [inputMessage, setInputMessage] = useState('');
+
+  const [inputMessage, setInputMessage] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [showSidebar, setShowSidebar] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -594,9 +651,9 @@ What career goals would you like to explore today?`,
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ 
+      messagesEndRef.current.scrollIntoView({
         behavior: "smooth",
-        block: "end"
+        block: "end",
       });
     }
   };
@@ -611,12 +668,12 @@ What career goals would you like to explore today?`,
     const userMessage: Message = {
       id: Date.now().toString(),
       content: inputMessage,
-      sender: 'user',
-      timestamp: new Date()
+      sender: "user",
+      timestamp: new Date(),
     };
 
-    setMessages(prev => [...prev, userMessage]);
-    setInputMessage('');
+    setMessages((prev) => [...prev, userMessage]);
+    setInputMessage("");
     setIsTyping(true);
 
     // Focus back to input
@@ -626,21 +683,21 @@ What career goals would you like to explore today?`,
 
     // Simulate AI processing time
     const processingTime = Math.random() * 2000 + 1000; // 1-3 seconds
-    await new Promise(resolve => setTimeout(resolve, processingTime));
+    await new Promise((resolve) => setTimeout(resolve, processingTime));
 
     // Generate AI response
     const aiResponse = generateAIResponse(inputMessage);
     const botResponse: Message = {
       id: (Date.now() + 1).toString(),
       content: aiResponse.content,
-      sender: 'bot',
+      sender: "bot",
       timestamp: new Date(),
       suggestions: aiResponse.suggestions,
-      type: aiResponse.type || 'text',
-      metadata: aiResponse.metadata
+      type: aiResponse.type || "text",
+      metadata: aiResponse.metadata,
     };
 
-    setMessages(prev => [...prev, botResponse]);
+    setMessages((prev) => [...prev, botResponse]);
     setIsTyping(false);
   };
 
@@ -655,7 +712,7 @@ What career goals would you like to explore today?`,
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage();
     }
@@ -672,10 +729,14 @@ What career goals would you like to explore today?`,
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
-      case 'Beginner': return 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-300';
-      case 'Intermediate': return 'bg-amber-100 text-amber-700 dark:bg-amber-900/20 dark:text-amber-300';
-      case 'Advanced': return 'bg-rose-100 text-rose-700 dark:bg-rose-900/20 dark:text-rose-300';
-      default: return 'bg-slate-100 text-slate-700 dark:bg-slate-900/20 dark:text-slate-300';
+      case "Beginner":
+        return "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-300";
+      case "Intermediate":
+        return "bg-amber-100 text-amber-700 dark:bg-amber-900/20 dark:text-amber-300";
+      case "Advanced":
+        return "bg-rose-100 text-rose-700 dark:bg-rose-900/20 dark:text-rose-300";
+      default:
+        return "bg-slate-100 text-slate-700 dark:bg-slate-900/20 dark:text-slate-300";
     }
   };
 
@@ -693,51 +754,69 @@ What career goals would you like to explore today?`,
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent">
                   CareerCompass AI
                 </h1>
-                <p className="text-xs text-slate-500 dark:text-slate-400">Powered by Advanced AI</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">
+                  Powered by Advanced AI
+                </p>
               </div>
             </Link>
-            
+
             <nav className="hidden lg:flex items-center space-x-8">
-              <Link to="/careers" className="text-slate-600 hover:text-indigo-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-indigo-400">
+              <Link
+                to="/careers"
+                className="text-slate-600 hover:text-indigo-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-indigo-400"
+              >
                 Explore Careers
               </Link>
-              <Link to="/resume-analyzer" className="text-slate-600 hover:text-indigo-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-indigo-400">
+              <Link
+                to="/resume-analyzer"
+                className="text-slate-600 hover:text-indigo-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-indigo-400"
+              >
                 Resume AI
               </Link>
-              <Link to="/tips" className="text-slate-600 hover:text-indigo-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-indigo-400">
+              <Link
+                to="/tips"
+                className="text-slate-600 hover:text-indigo-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-indigo-400"
+              >
                 Daily Tips
               </Link>
-              <Link to="/goals" className="text-slate-600 hover:text-indigo-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-indigo-400">
+              <Link
+                to="/goals"
+                className="text-slate-600 hover:text-indigo-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-indigo-400"
+              >
                 Goal Tracker
               </Link>
             </nav>
-            
+
             <div className="flex items-center space-x-4">
               <LanguageSelector />
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+                onClick={() => setTheme(theme === "light" ? "dark" : "light")}
                 className="w-10 h-10 rounded-xl"
               >
                 <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
                 <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
               </Button>
-              
+
               {isLoggedIn && user ? (
                 <div className="flex items-center space-x-3">
                   <Button variant="ghost" asChild className="rounded-xl">
                     <Link to="/profile" className="flex items-center space-x-2">
                       {user.avatar ? (
-                        <img src={user.avatar} alt="Profile" className="w-6 h-6 rounded-full" />
+                        <img
+                          src={user.avatar}
+                          alt="Profile"
+                          className="w-6 h-6 rounded-full"
+                        />
                       ) : (
                         <User className="w-4 h-4" />
                       )}
                       <span>Profile</span>
                     </Link>
                   </Button>
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     className="rounded-xl"
                     onClick={() => {
                       authService.signOut();
@@ -753,7 +832,10 @@ What career goals would you like to explore today?`,
                   <Button variant="ghost" asChild className="rounded-xl">
                     <Link to="/login">Login</Link>
                   </Button>
-                  <Button asChild className="bg-gradient-to-r from-indigo-500 via-purple-600 to-cyan-500 hover:from-indigo-600 hover:via-purple-700 hover:to-cyan-600 shadow-lg rounded-xl">
+                  <Button
+                    asChild
+                    className="bg-gradient-to-r from-indigo-500 via-purple-600 to-cyan-500 hover:from-indigo-600 hover:via-purple-700 hover:to-cyan-600 shadow-lg rounded-xl"
+                  >
                     <Link to="/register">Get Started Free</Link>
                   </Button>
                 </div>
@@ -777,7 +859,9 @@ What career goals would you like to explore today?`,
                       <Brain className="h-6 w-6 text-white" />
                     </div>
                     <div>
-                      <CardTitle className="text-lg">AI Career Strategist</CardTitle>
+                      <CardTitle className="text-lg">
+                        AI Career Strategist
+                      </CardTitle>
                       <div className="flex items-center space-x-2 text-sm text-slate-600 dark:text-slate-400">
                         <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
                         <span>AI-Powered Guidance</span>
@@ -836,21 +920,35 @@ What career goals would you like to explore today?`,
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {CAREER_CATEGORIES.map((category, index) => (
-                    <div 
-                      key={index} 
+                    <div
+                      key={index}
                       className="p-4 border border-slate-200/50 dark:border-slate-700/50 rounded-xl hover:shadow-lg transition-all cursor-pointer group bg-gradient-to-r hover:from-slate-50 hover:to-gray-50 dark:hover:from-slate-800 dark:hover:to-gray-800"
-                      onClick={() => handleQuickQuestion(`Tell me about careers in ${category.title}`)}
+                      onClick={() =>
+                        handleQuickQuestion(
+                          `Tell me about careers in ${category.title}`,
+                        )
+                      }
                     >
                       <div className="flex items-start space-x-3">
-                        <div className={`p-2 bg-gradient-to-r ${category.gradient} rounded-lg shadow-sm group-hover:shadow-md transition-shadow`}>
+                        <div
+                          className={`p-2 bg-gradient-to-r ${category.gradient} rounded-lg shadow-sm group-hover:shadow-md transition-shadow`}
+                        >
                           <category.icon className="h-4 w-4 text-white" />
                         </div>
                         <div className="flex-1">
-                          <h4 className="font-semibold text-sm text-slate-900 dark:text-slate-100">{category.title}</h4>
-                          <p className="text-xs text-slate-600 dark:text-slate-400 mb-2">{category.subtitle}</p>
+                          <h4 className="font-semibold text-sm text-slate-900 dark:text-slate-100">
+                            {category.title}
+                          </h4>
+                          <p className="text-xs text-slate-600 dark:text-slate-400 mb-2">
+                            {category.subtitle}
+                          </p>
                           <div className="flex flex-wrap gap-1">
                             {category.topics.slice(0, 2).map((topic, idx) => (
-                              <Badge key={idx} variant="outline" className="text-xs px-2 py-0">
+                              <Badge
+                                key={idx}
+                                variant="outline"
+                                className="text-xs px-2 py-0"
+                              >
                                 {topic}
                               </Badge>
                             ))}
@@ -891,18 +989,26 @@ What career goals would you like to explore today?`,
                 </div>
               </div>
               <div className="flex items-center space-x-2">
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
+                <Button
+                  variant="ghost"
+                  size="sm"
                   className="h-9 w-9 p-0 rounded-xl"
                   onClick={() => setShowSidebar(!showSidebar)}
                 >
                   <Layers className="h-4 w-4" />
                 </Button>
-                <Button variant="ghost" size="sm" className="h-9 w-9 p-0 rounded-xl">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-9 w-9 p-0 rounded-xl"
+                >
                   <Search className="h-4 w-4" />
                 </Button>
-                <Button variant="ghost" size="sm" className="h-9 w-9 p-0 rounded-xl">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-9 w-9 p-0 rounded-xl"
+                >
                   <MoreVertical className="h-4 w-4" />
                 </Button>
               </div>
@@ -914,85 +1020,118 @@ What career goals would you like to explore today?`,
             <ScrollArea className="h-full" ref={messagesContainerRef}>
               <div className="p-6 space-y-6">
                 {messages.map((message) => (
-                  <div key={message.id} className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                    <div className={`max-w-[85%] ${message.sender === 'user' ? 'order-2' : 'order-1'}`}>
+                  <div
+                    key={message.id}
+                    className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"}`}
+                  >
+                    <div
+                      className={`max-w-[85%] ${message.sender === "user" ? "order-2" : "order-1"}`}
+                    >
                       <div className="flex items-start space-x-3">
-                        {message.sender === 'bot' && (
+                        {message.sender === "bot" && (
                           <Avatar className="h-9 w-9 flex-shrink-0 ring-2 ring-indigo-500/20">
                             <AvatarFallback className="bg-gradient-to-br from-indigo-500 via-purple-600 to-cyan-500 text-white text-xs font-bold">
                               AI
                             </AvatarFallback>
                           </Avatar>
                         )}
-                        
-                        <div className={`rounded-2xl p-5 shadow-lg backdrop-blur-sm ${
-                          message.sender === 'user' 
-                            ? 'bg-gradient-to-r from-indigo-500 via-purple-600 to-cyan-500 text-white' 
-                            : 'bg-white/90 dark:bg-slate-800/90 text-slate-900 dark:text-slate-100 border border-slate-200/50 dark:border-slate-700/50'
-                        }`}>
+
+                        <div
+                          className={`rounded-2xl p-5 shadow-lg backdrop-blur-sm ${
+                            message.sender === "user"
+                              ? "bg-gradient-to-r from-indigo-500 via-purple-600 to-cyan-500 text-white"
+                              : "bg-white/90 dark:bg-slate-800/90 text-slate-900 dark:text-slate-100 border border-slate-200/50 dark:border-slate-700/50"
+                          }`}
+                        >
                           <div className="whitespace-pre-line text-sm leading-relaxed">
                             {message.content}
                           </div>
-                          
+
                           {/* Career Card */}
-                          {message.type === 'career_card' && message.metadata && (
-                            <div className="mt-4 p-4 bg-slate-50/80 dark:bg-slate-700/80 rounded-xl border border-slate-200/50 dark:border-slate-600/50">
-                              <div className="flex items-center justify-between mb-3">
-                                <h4 className="font-semibold text-slate-900 dark:text-slate-100">{message.metadata.title}</h4>
-                                <Badge className={getDifficultyColor(message.metadata.difficulty)}>
-                                  {message.metadata.difficulty}
-                                </Badge>
-                              </div>
-                              <div className="grid grid-cols-2 gap-3 text-sm">
-                                <div className="p-3 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg">
-                                  <span className="text-emerald-700 dark:text-emerald-300 font-medium">💰 Salary:</span>
-                                  <br />
-                                  <span className="text-emerald-900 dark:text-emerald-100 font-semibold">{message.metadata.salary}</span>
+                          {message.type === "career_card" &&
+                            message.metadata && (
+                              <div className="mt-4 p-4 bg-slate-50/80 dark:bg-slate-700/80 rounded-xl border border-slate-200/50 dark:border-slate-600/50">
+                                <div className="flex items-center justify-between mb-3">
+                                  <h4 className="font-semibold text-slate-900 dark:text-slate-100">
+                                    {message.metadata.title}
+                                  </h4>
+                                  <Badge
+                                    className={getDifficultyColor(
+                                      message.metadata.difficulty,
+                                    )}
+                                  >
+                                    {message.metadata.difficulty}
+                                  </Badge>
                                 </div>
-                                <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-                                  <span className="text-blue-700 dark:text-blue-300 font-medium">📈 Growth:</span>
-                                  <br />
-                                  <span className="text-blue-900 dark:text-blue-100 font-semibold">{message.metadata.growth}</span>
+                                <div className="grid grid-cols-2 gap-3 text-sm">
+                                  <div className="p-3 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg">
+                                    <span className="text-emerald-700 dark:text-emerald-300 font-medium">
+                                      💰 Salary:
+                                    </span>
+                                    <br />
+                                    <span className="text-emerald-900 dark:text-emerald-100 font-semibold">
+                                      {message.metadata.salary}
+                                    </span>
+                                  </div>
+                                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                                    <span className="text-blue-700 dark:text-blue-300 font-medium">
+                                      📈 Growth:
+                                    </span>
+                                    <br />
+                                    <span className="text-blue-900 dark:text-blue-100 font-semibold">
+                                      {message.metadata.growth}
+                                    </span>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          )}
-                          
+                            )}
+
                           <div className="flex items-center justify-between mt-4">
-                            <div className={`text-xs ${
-                              message.sender === 'user' ? 'text-indigo-100' : 'text-slate-500 dark:text-slate-400'
-                            }`}>
-                              {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            <div
+                              className={`text-xs ${
+                                message.sender === "user"
+                                  ? "text-indigo-100"
+                                  : "text-slate-500 dark:text-slate-400"
+                              }`}
+                            >
+                              {message.timestamp.toLocaleTimeString([], {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              })}
                             </div>
-                            {message.sender === 'bot' && (
+                            {message.sender === "bot" && (
                               <div className="flex items-center space-x-1">
-                                <Button 
-                                  variant="ghost" 
-                                  size="sm" 
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
                                   className="h-7 w-7 p-0 opacity-60 hover:opacity-100 rounded-lg"
                                   onClick={() => copyMessage(message.content)}
                                 >
                                   <Copy className="h-3 w-3" />
                                 </Button>
-                                <Button variant="ghost" size="sm" className="h-7 w-7 p-0 opacity-60 hover:opacity-100 rounded-lg">
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="h-7 w-7 p-0 opacity-60 hover:opacity-100 rounded-lg"
+                                >
                                   <ThumbsUp className="h-3 w-3" />
                                 </Button>
                               </div>
                             )}
                           </div>
                         </div>
-                        
-                        {message.sender === 'user' && (
+
+                        {message.sender === "user" && (
                           <Avatar className="h-9 w-9 flex-shrink-0 ring-2 ring-slate-200 dark:ring-slate-700">
                             <AvatarFallback className="bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300">
-                              {user?.firstName?.[0] || 'U'}
+                              {user?.firstName?.[0] || "U"}
                             </AvatarFallback>
                           </Avatar>
                         )}
                       </div>
-                      
+
                       {/* Suggestions */}
-                      {message.sender === 'bot' && message.suggestions && (
+                      {message.sender === "bot" && message.suggestions && (
                         <div className="mt-4 ml-12 flex flex-wrap gap-2">
                           {message.suggestions.map((suggestion, index) => (
                             <Button
@@ -1010,7 +1149,7 @@ What career goals would you like to explore today?`,
                     </div>
                   </div>
                 ))}
-                
+
                 {/* Typing Indicator */}
                 {isTyping && (
                   <div className="flex justify-start">
@@ -1024,10 +1163,18 @@ What career goals would you like to explore today?`,
                         <div className="flex items-center space-x-3">
                           <div className="flex space-x-1">
                             <div className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce"></div>
-                            <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                            <div className="w-2 h-2 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                            <div
+                              className="w-2 h-2 bg-purple-400 rounded-full animate-bounce"
+                              style={{ animationDelay: "0.1s" }}
+                            ></div>
+                            <div
+                              className="w-2 h-2 bg-cyan-400 rounded-full animate-bounce"
+                              style={{ animationDelay: "0.2s" }}
+                            ></div>
                           </div>
-                          <span className="text-xs text-slate-500 dark:text-slate-400">AI is analyzing and crafting response...</span>
+                          <span className="text-xs text-slate-500 dark:text-slate-400">
+                            AI is analyzing and crafting response...
+                          </span>
                         </div>
                       </div>
                     </div>
