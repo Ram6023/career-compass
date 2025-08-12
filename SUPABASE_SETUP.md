@@ -12,6 +12,7 @@ This guide will walk you through setting up Supabase database integration for us
 
 1. **Sign up/Log in** to [Supabase](https://app.supabase.com)
 2. **Create a new project**:
+
    - Click "New project"
    - Choose your organization
    - Name: `career-compass-ai`
@@ -32,6 +33,7 @@ This guide will walk you through setting up Supabase database integration for us
 ## 📝 Step 3: Configure Environment Variables
 
 1. **Copy the environment template**:
+
    ```bash
    cp .env.example .env
    ```
@@ -50,8 +52,9 @@ This guide will walk you through setting up Supabase database integration for us
 3. **Run the query** to create all tables and policies
 
 The schema includes:
+
 - ✅ User profiles table
-- ✅ User goals table  
+- ✅ User goals table
 - ✅ Career tips table
 - ✅ Chat sessions table
 - ✅ User interactions table
@@ -65,6 +68,7 @@ The schema includes:
 
 1. Go to **Authentication** → **Settings** in Supabase
 2. **Configure Site URL**:
+
    - Development: `http://localhost:5173`
    - Production: `https://your-domain.com`
 
@@ -75,6 +79,7 @@ The schema includes:
 ### Set Up OAuth (Optional)
 
 #### Google OAuth:
+
 1. Go to [Google Cloud Console](https://console.cloud.google.com)
 2. Create a new project or select existing
 3. Enable Google+ API
@@ -89,6 +94,7 @@ The schema includes:
 8. Enable Google and paste your Client ID and Client Secret
 
 #### GitHub OAuth:
+
 1. Go to GitHub → Settings → Developer settings → OAuth Apps
 2. Create a new OAuth App:
    - Homepage URL: `http://localhost:5173`
@@ -126,6 +132,7 @@ Your app should now be running with Supabase integration!
 ## 📊 Step 9: Monitor and Debug
 
 ### Useful Supabase Dashboard Sections:
+
 - **Authentication**: View users and sessions
 - **Table Editor**: Browse and edit data
 - **SQL Editor**: Run custom queries
@@ -135,30 +142,36 @@ Your app should now be running with Supabase integration!
 ### Common Issues:
 
 #### Authentication not working:
+
 - Check redirect URLs are correct
 - Verify API keys in environment variables
 - Check browser console for errors
 
 #### Database connection issues:
+
 - Ensure RLS policies are set up correctly
 - Check if user has proper permissions
 - Verify schema was created successfully
 
 #### OAuth redirect issues:
+
 - Double-check callback URLs in OAuth provider settings
 - Ensure Supabase auth settings match your domain
 
 ## 🔧 Advanced Configuration
 
 ### Custom Email Templates
+
 1. Go to **Authentication** → **Settings** → **Email Templates**
 2. Customize signup, recovery, and other email templates
 
 ### Database Backups
-1. Go to **Settings** → **Database** 
+
+1. Go to **Settings** → **Database**
 2. Set up automated backups for production
 
 ### Performance Monitoring
+
 1. Go to **Reports** to monitor database performance
 2. Set up alerts for high usage
 
@@ -193,6 +206,7 @@ avatars              -- Profile picture uploads
 ## 📈 Production Checklist
 
 Before going live:
+
 - [ ] Update environment variables for production
 - [ ] Configure proper redirect URLs
 - [ ] Set up database backups

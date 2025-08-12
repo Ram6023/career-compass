@@ -1,12 +1,12 @@
-import { supabase } from './supabase'
-import type { User as SupabaseUser } from '@supabase/supabase-js'
+import { supabase } from "./supabase";
+import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 export interface User {
   id: string;
   email: string;
   name: string;
   avatar?: string;
-  provider: 'google' | 'github' | 'email';
+  provider: "google" | "github" | "email";
   firstName?: string;
   lastName?: string;
   phone?: string;
@@ -30,7 +30,7 @@ export interface User {
     smsNotifications?: boolean;
     careerTips?: boolean;
     goalReminders?: boolean;
-    profileVisibility?: 'public' | 'private';
+    profileVisibility?: "public" | "private";
   };
 }
 
@@ -47,9 +47,9 @@ class AuthService {
   constructor() {
     // Listen for auth state changes
     supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_IN' && session?.user) {
+      if (event === "SIGNED_IN" && session?.user) {
         this.loadUserProfile(session.user.id);
-      } else if (event === 'SIGNED_OUT') {
+      } else if (event === "SIGNED_OUT") {
         this.currentUser = null;
       }
     });
@@ -59,7 +59,9 @@ class AuthService {
   }
 
   private async initializeUser() {
-    const { data: { session } } = await supabase.auth.getSession();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
     if (session?.user) {
       await this.loadUserProfile(session.user.id);
     }
@@ -68,13 +70,13 @@ class AuthService {
   private async loadUserProfile(userId: string): Promise<User | null> {
     try {
       const { data: profile, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', userId)
+        .from("profiles")
+        .select("*")
+        .eq("id", userId)
         .single();
 
       if (error) {
-        console.error('Error loading profile:', error);
+        console.error("Error loading profile:", error);
         return null;
       }
 
@@ -85,7 +87,7 @@ class AuthService {
 
       return null;
     } catch (error) {
-      console.error('Error in loadUserProfile:', error);
+      console.error("Error in loadUserProfile:", error);
       return null;
     }
   }
@@ -109,30 +111,43 @@ class AuthService {
       education: profile.education,
       skills: profile.skills,
       interests: profile.interests,
-      socialLinks: profile.social_links ? {
-        linkedin: profile.social_links.linkedin,
-        github: profile.social_links.github,
-        twitter: profile.social_links.twitter,
-        portfolio: profile.social_links.portfolio,
-      } : undefined,
-      preferences: profile.preferences ? {
-        emailNotifications: profile.preferences.email_notifications,
-        smsNotifications: profile.preferences.sms_notifications,
-        careerTips: profile.preferences.career_tips,
-        goalReminders: profile.preferences.goal_reminders,
-        profileVisibility: profile.preferences.profile_visibility,
-      } : undefined,
+      socialLinks: profile.social_links
+        ? {
+            linkedin: profile.social_links.linkedin,
+            github: profile.social_links.github,
+            twitter: profile.social_links.twitter,
+            portfolio: profile.social_links.portfolio,
+          }
+        : undefined,
+      preferences: profile.preferences
+        ? {
+            emailNotifications: profile.preferences.email_notifications,
+            smsNotifications: profile.preferences.sms_notifications,
+            careerTips: profile.preferences.career_tips,
+            goalReminders: profile.preferences.goal_reminders,
+            profileVisibility: profile.preferences.profile_visibility,
+          }
+        : undefined,
     };
   }
 
-  private async createUserProfile(user: SupabaseUser, additionalData?: Partial<User>): Promise<User | null> {
+  private async createUserProfile(
+    user: SupabaseUser,
+    additionalData?: Partial<User>,
+  ): Promise<User | null> {
     try {
       const profileData = {
         id: user.id,
-        email: user.email || '',
-        name: additionalData?.name || user.user_metadata?.full_name || user.email?.split('@')[0] || 'User',
+        email: user.email || "",
+        name:
+          additionalData?.name ||
+          user.user_metadata?.full_name ||
+          user.email?.split("@")[0] ||
+          "User",
         avatar_url: user.user_metadata?.avatar_url || additionalData?.avatar,
-        provider: (user.app_metadata?.provider as 'google' | 'github' | 'email') || 'email',
+        provider:
+          (user.app_metadata?.provider as "google" | "github" | "email") ||
+          "email",
         first_name: additionalData?.firstName || user.user_metadata?.first_name,
         last_name: additionalData?.lastName || user.user_metadata?.last_name,
         created_at: new Date().toISOString(),
@@ -142,25 +157,25 @@ class AuthService {
           sms_notifications: false,
           career_tips: true,
           goal_reminders: true,
-          profile_visibility: 'public'
-        }
+          profile_visibility: "public",
+        },
       };
 
       const { data: profile, error } = await supabase
-        .from('profiles')
+        .from("profiles")
         .insert(profileData)
         .select()
         .single();
 
       if (error) {
-        console.error('Error creating profile:', error);
+        console.error("Error creating profile:", error);
         return null;
       }
 
       this.currentUser = this.transformSupabaseProfile(profile);
       return this.currentUser;
     } catch (error) {
-      console.error('Error in createUserProfile:', error);
+      console.error("Error in createUserProfile:", error);
       return null;
     }
   }
@@ -169,31 +184,31 @@ class AuthService {
   async signInWithGoogle(): Promise<AuthResponse> {
     try {
       const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
+        provider: "google",
         options: {
           redirectTo: `${window.location.origin}/auth/callback`,
           queryParams: {
-            access_type: 'offline',
-            prompt: 'consent',
+            access_type: "offline",
+            prompt: "consent",
           },
-        }
+        },
       });
 
       if (error) {
         return {
           success: false,
-          error: error.message
+          error: error.message,
         };
       }
 
       return {
         success: true,
-        user: this.currentUser || undefined
+        user: this.currentUser || undefined,
       };
     } catch (error) {
       return {
         success: false,
-        error: 'Google authentication failed'
+        error: "Google authentication failed",
       };
     }
   }
@@ -202,43 +217,46 @@ class AuthService {
   async signInWithGitHub(): Promise<AuthResponse> {
     try {
       const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: 'github',
+        provider: "github",
         options: {
-          redirectTo: `${window.location.origin}/auth/callback`
-        }
+          redirectTo: `${window.location.origin}/auth/callback`,
+        },
       });
 
       if (error) {
         return {
           success: false,
-          error: error.message
+          error: error.message,
         };
       }
 
       return {
         success: true,
-        user: this.currentUser || undefined
+        user: this.currentUser || undefined,
       };
     } catch (error) {
       return {
         success: false,
-        error: 'GitHub authentication failed'
+        error: "GitHub authentication failed",
       };
     }
   }
 
   // Email/password authentication
-  async signInWithEmail(email: string, password: string): Promise<AuthResponse> {
+  async signInWithEmail(
+    email: string,
+    password: string,
+  ): Promise<AuthResponse> {
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
-        password
+        password,
       });
 
       if (error) {
         return {
           success: false,
-          error: error.message
+          error: error.message,
         };
       }
 
@@ -247,24 +265,28 @@ class AuthService {
         return {
           success: true,
           user: user || undefined,
-          token: data.session?.access_token
+          token: data.session?.access_token,
         };
       }
 
       return {
         success: false,
-        error: 'Authentication failed'
+        error: "Authentication failed",
       };
     } catch (error) {
       return {
         success: false,
-        error: 'Email authentication failed'
+        error: "Email authentication failed",
       };
     }
   }
 
   // Registration with email
-  async registerWithEmail(name: string, email: string, password: string): Promise<AuthResponse> {
+  async registerWithEmail(
+    name: string,
+    email: string,
+    password: string,
+  ): Promise<AuthResponse> {
     try {
       const { data, error } = await supabase.auth.signUp({
         email,
@@ -272,36 +294,36 @@ class AuthService {
         options: {
           data: {
             full_name: name,
-          }
-        }
+          },
+        },
       });
 
       if (error) {
         return {
           success: false,
-          error: error.message
+          error: error.message,
         };
       }
 
       if (data.user) {
         // Create user profile
         const user = await this.createUserProfile(data.user, { name });
-        
+
         return {
           success: true,
           user: user || undefined,
-          token: data.session?.access_token
+          token: data.session?.access_token,
         };
       }
 
       return {
         success: false,
-        error: 'Registration failed'
+        error: "Registration failed",
       };
     } catch (error) {
       return {
         success: false,
-        error: 'Registration failed'
+        error: "Registration failed",
       };
     }
   }
@@ -312,7 +334,7 @@ class AuthService {
       await supabase.auth.signOut();
       this.currentUser = null;
     } catch (error) {
-      console.error('Error signing out:', error);
+      console.error("Error signing out:", error);
     }
   }
 
@@ -324,7 +346,9 @@ class AuthService {
   // Check if user is authenticated
   async isAuthenticated(): Promise<boolean> {
     try {
-      const { data: { session } } = await supabase.auth.getSession();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
       return !!session?.user;
     } catch {
       return false;
@@ -343,30 +367,32 @@ class AuthService {
       if (!currentUser) {
         return {
           success: false,
-          error: 'User not logged in'
+          error: "User not logged in",
         };
       }
 
       // Transform camelCase to snake_case for database
       const updateData: any = {
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       };
 
       if (profileData.name) updateData.name = profileData.name;
       if (profileData.firstName) updateData.first_name = profileData.firstName;
       if (profileData.lastName) updateData.last_name = profileData.lastName;
       if (profileData.phone) updateData.phone = profileData.phone;
-      if (profileData.dateOfBirth) updateData.date_of_birth = profileData.dateOfBirth;
+      if (profileData.dateOfBirth)
+        updateData.date_of_birth = profileData.dateOfBirth;
       if (profileData.location) updateData.location = profileData.location;
       if (profileData.bio) updateData.bio = profileData.bio;
       if (profileData.jobTitle) updateData.job_title = profileData.jobTitle;
       if (profileData.company) updateData.company = profileData.company;
-      if (profileData.experience) updateData.experience = profileData.experience;
+      if (profileData.experience)
+        updateData.experience = profileData.experience;
       if (profileData.education) updateData.education = profileData.education;
       if (profileData.skills) updateData.skills = profileData.skills;
       if (profileData.interests) updateData.interests = profileData.interests;
       if (profileData.avatar) updateData.avatar_url = profileData.avatar;
-      
+
       if (profileData.socialLinks) {
         updateData.social_links = {
           linkedin: profileData.socialLinks.linkedin,
@@ -387,50 +413,52 @@ class AuthService {
       }
 
       const { data: updatedProfile, error } = await supabase
-        .from('profiles')
+        .from("profiles")
         .update(updateData)
-        .eq('id', currentUser.id)
+        .eq("id", currentUser.id)
         .select()
         .single();
 
       if (error) {
         return {
           success: false,
-          error: error.message
+          error: error.message,
         };
       }
 
       this.currentUser = this.transformSupabaseProfile(updatedProfile);
-      
+
       return {
         success: true,
-        user: this.currentUser
+        user: this.currentUser,
       };
     } catch (error) {
       return {
         success: false,
-        error: 'Failed to update profile'
+        error: "Failed to update profile",
       };
     }
   }
 
   // Upload profile picture to Supabase Storage
-  async uploadProfilePicture(file: File): Promise<{success: boolean; url?: string; error?: string}> {
+  async uploadProfilePicture(
+    file: File,
+  ): Promise<{ success: boolean; url?: string; error?: string }> {
     try {
       const currentUser = this.getCurrentUser();
       if (!currentUser) {
-        return { success: false, error: 'User not logged in' };
+        return { success: false, error: "User not logged in" };
       }
 
-      const fileExt = file.name.split('.').pop();
+      const fileExt = file.name.split(".").pop();
       const fileName = `${currentUser.id}/avatar.${fileExt}`;
 
       // Upload file to Supabase Storage
       const { data: uploadData, error: uploadError } = await supabase.storage
-        .from('avatars')
+        .from("avatars")
         .upload(fileName, file, {
-          cacheControl: '3600',
-          upsert: true
+          cacheControl: "3600",
+          upsert: true,
         });
 
       if (uploadError) {
@@ -439,7 +467,7 @@ class AuthService {
 
       // Get public URL
       const { data: urlData } = supabase.storage
-        .from('avatars')
+        .from("avatars")
         .getPublicUrl(fileName);
 
       const avatarUrl = urlData.publicUrl;
@@ -449,15 +477,17 @@ class AuthService {
 
       return { success: true, url: avatarUrl };
     } catch (error) {
-      return { success: false, error: 'Upload failed' };
+      return { success: false, error: "Upload failed" };
     }
   }
 
   // Reset password
-  async resetPassword(email: string): Promise<{success: boolean; error?: string}> {
+  async resetPassword(
+    email: string,
+  ): Promise<{ success: boolean; error?: string }> {
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/auth/reset-password`
+        redirectTo: `${window.location.origin}/auth/reset-password`,
       });
 
       if (error) {
@@ -466,15 +496,17 @@ class AuthService {
 
       return { success: true };
     } catch (error) {
-      return { success: false, error: 'Password reset failed' };
+      return { success: false, error: "Password reset failed" };
     }
   }
 
   // Update password
-  async updatePassword(newPassword: string): Promise<{success: boolean; error?: string}> {
+  async updatePassword(
+    newPassword: string,
+  ): Promise<{ success: boolean; error?: string }> {
     try {
       const { error } = await supabase.auth.updateUser({
-        password: newPassword
+        password: newPassword,
       });
 
       if (error) {
@@ -483,13 +515,15 @@ class AuthService {
 
       return { success: true };
     } catch (error) {
-      return { success: false, error: 'Password update failed' };
+      return { success: false, error: "Password update failed" };
     }
   }
 
   // Get session
   async getSession() {
-    const { data: { session } } = await supabase.auth.getSession();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
     return session;
   }
 }
@@ -500,29 +534,29 @@ export const authService = new AuthService();
 // OAuth Provider URLs (still available for manual implementation if needed)
 export const OAUTH_URLS = {
   google: {
-    authUrl: 'https://accounts.google.com/oauth/authorize',
-    clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID || 'your-google-client-id',
+    authUrl: "https://accounts.google.com/oauth/authorize",
+    clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID || "your-google-client-id",
     redirectUri: `${window.location.origin}/auth/callback`,
-    scope: 'openid email profile'
+    scope: "openid email profile",
   },
   github: {
-    authUrl: 'https://github.com/login/oauth/authorize',
-    clientId: import.meta.env.VITE_GITHUB_CLIENT_ID || 'your-github-client-id',
+    authUrl: "https://github.com/login/oauth/authorize",
+    clientId: import.meta.env.VITE_GITHUB_CLIENT_ID || "your-github-client-id",
     redirectUri: `${window.location.origin}/auth/callback`,
-    scope: 'user:email'
-  }
+    scope: "user:email",
+  },
 };
 
 // Helper function to build OAuth URL (for manual implementation if needed)
-export function buildOAuthUrl(provider: 'google' | 'github'): string {
+export function buildOAuthUrl(provider: "google" | "github"): string {
   const config = OAUTH_URLS[provider];
   const params = new URLSearchParams({
     client_id: config.clientId,
     redirect_uri: config.redirectUri,
     scope: config.scope,
-    response_type: 'code',
-    state: Math.random().toString(36).substr(2, 15) // CSRF protection
+    response_type: "code",
+    state: Math.random().toString(36).substr(2, 15), // CSRF protection
   });
-  
+
   return `${config.authUrl}?${params.toString()}`;
 }

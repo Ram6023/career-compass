@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { supabase } from '@/lib/supabase';
-import { Loader2 } from 'lucide-react';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/lib/supabase";
+import { Loader2 } from "lucide-react";
 
 export default function AuthCallback() {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ export default function AuthCallback() {
     const handleAuthCallback = async () => {
       try {
         const { data, error } = await supabase.auth.getSession();
-        
+
         if (error) {
           setError(error.message);
           setLoading(false);
@@ -21,13 +21,13 @@ export default function AuthCallback() {
 
         if (data.session) {
           // Authentication successful, redirect to dashboard
-          navigate('/', { replace: true });
+          navigate("/", { replace: true });
         } else {
           // No session found, redirect to login
-          navigate('/login', { replace: true });
+          navigate("/login", { replace: true });
         }
       } catch (err) {
-        setError('Authentication failed');
+        setError("Authentication failed");
         setLoading(false);
       }
     };
@@ -59,11 +59,9 @@ export default function AuthCallback() {
           <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
             Authentication Error
           </h2>
-          <p className="text-slate-600 dark:text-slate-400">
-            {error}
-          </p>
+          <p className="text-slate-600 dark:text-slate-400">{error}</p>
           <button
-            onClick={() => navigate('/login', { replace: true })}
+            onClick={() => navigate("/login", { replace: true })}
             className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
           >
             Back to Login
