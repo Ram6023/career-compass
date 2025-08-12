@@ -19,6 +19,7 @@ import CareerComparison from "./pages/CareerComparison";
 import DailyTips from "./pages/DailyTips";
 import GoalTracker from "./pages/GoalTracker";
 import Profile from "./pages/Profile";
+import AuthCallback from "./pages/AuthCallback";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +44,7 @@ const App = () => (
               <Route path="/tips" element={<DailyTips />} />
               <Route path="/goals" element={<GoalTracker />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/auth/callback" element={<AuthCallback />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
