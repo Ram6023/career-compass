@@ -1,82 +1,67 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import {
-  Compass,
-  GraduationCap,
-  Brain,
-  TrendingUp,
-  Users,
-  DollarSign,
-  BookOpen,
-  Building,
-  FileText,
-  BarChart3,
-  MessageSquare,
-  Download,
-  ExternalLink,
-  Award,
+import { Progress } from '@/components/ui/progress';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { 
+  Compass, 
+  ArrowRight, 
+  Lightbulb, 
+  TrendingUp, 
+  Users, 
+  Briefcase, 
+  GraduationCap, 
+  Target, 
+  Clock, 
+  DollarSign, 
+  Star, 
+  CheckCircle, 
+  AlertCircle, 
+  Search, 
+  Filter,
   MapPin,
-  Clock,
-  Star,
-  ArrowRight,
+  ExternalLink,
+  BookOpen,
+  Award,
+  Calendar,
+  BarChart3,
+  Zap,
   Sparkles,
-  Target,
-  Briefcase,
-  Moon,
+  Heart,
   Sun,
-  User
+  Moon,
+  User,
+  Play,
+  ChevronRight,
+  Globe,
+  Building,
+  Code,
+  Palette,
+  BarChart,
+  Shield,
+  Smartphone
 } from 'lucide-react';
 import { useTheme } from '@/components/ui/theme-provider';
 import { useLanguage } from '@/components/ui/language-provider';
 import { LanguageSelector } from '@/components/ui/language-selector';
-import { toast } from '@/components/ui/use-toast';
 import { authService } from '@/lib/auth';
-
-const ACADEMIC_STREAMS = [
-  'Science (PCM)', 'Science (PCB)', 'Science (PCMB)', 'Commerce', 'Arts/Humanities',
-  'Engineering', 'Medicine', 'Law', 'Management', 'Design', 'Agriculture',
-  'Pharmacy', 'Architecture', 'Mass Communication', 'Hotel Management',
-  'Fashion Technology', 'Computer Applications', 'Social Work'
-];
-
-const SKILLS = [
-  'Programming', 'Data Analysis', 'Communication', 'Leadership', 'Problem Solving',
-  'Creativity', 'Project Management', 'Research', 'Design', 'Marketing',
-  'Sales', 'Finance', 'Teaching', 'Mathematics', 'Writing', 'Public Speaking',
-  'Team Management', 'Critical Thinking', 'Time Management', 'Adaptability',
-  'Technical Writing', 'Data Visualization', 'Machine Learning', 'Cloud Computing',
-  'Digital Marketing', 'Financial Analysis', 'Strategic Planning', 'Quality Assurance'
-];
-
-const INTERESTS = [
-  'Machine Learning', 'Web Development', 'Mobile Development', 'Data Science',
-  'Artificial Intelligence', 'Cybersecurity', 'UI/UX Design', 'Digital Marketing',
-  'Business Analytics', 'Healthcare', 'Finance', 'Education', 'Research',
-  'Entrepreneurship', 'Content Creation', 'Game Development', 'DevOps',
-  'Blockchain', 'IoT', 'Robotics', 'Biotechnology', 'Environmental Science',
-  'Renewable Energy', 'Space Technology', 'Virtual Reality'
-];
+import { toast } from '@/components/ui/use-toast';
 
 interface CareerRecommendation {
   title: string;
   description: string;
   requiredSkills: string[];
   averageSalary: string;
+  jobGrowth: string;
+  difficulty: 'Easy' | 'Medium' | 'Hard';
+  timeToStart: string;
   learningPath: string[];
   topCompanies: string[];
   matchScore: number;
-  jobGrowth: string;
-  difficulty: string;
-  timeToStart: string;
   courses: Array<{
     title: string;
     provider: string;
@@ -103,99 +88,140 @@ interface CareerRecommendation {
   }>;
 }
 
+const careerIcons: { [key: string]: React.ComponentType<{ className?: string }> } = {
+  'Data Scientist': BarChart,
+  'Full Stack Developer': Code,
+  'UX/UI Designer': Palette,
+  'Product Manager': Target,
+  'DevOps Engineer': Shield,
+  'Mobile Developer': Smartphone,
+  'Default': Briefcase
+};
+
 export default function Index() {
   const { theme, setTheme } = useTheme();
   const { t } = useLanguage();
   const [user, setUser] = useState(authService.getCurrentUser());
-  const [isLoggedIn, setIsLoggedIn] = useState(authService.isAuthenticated());
-  const [formData, setFormData] = useState({
-    stream: '',
-    cgpa: '',
-    skills: [] as string[],
-    interests: [] as string[],
-    experience: '',
-    careerGoal: ''
-  });
+  const [isLoggedIn, setIsLoggedIn] = useState(authService.isAuthenticatedSync());
+  
+  const [interests, setInterests] = useState<string[]>([]);
+  const [skills, setSkills] = useState<string[]>([]);
+  const [experience, setExperience] = useState('');
   const [recommendations, setRecommendations] = useState<CareerRecommendation[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(0);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedDifficulty, setSelectedDifficulty] = useState<string>('');
 
-  const toggleSkill = (skill: string) => {
-    const isAdding = !formData.skills.includes(skill);
-    setFormData(prev => ({
-      ...prev,
-      skills: prev.skills.includes(skill)
-        ? prev.skills.filter(s => s !== skill)
-        : [...prev.skills, skill]
-    }));
+  const availableInterests = [
+    'Technology', 'Design', 'Business', 'Data', 'Marketing', 'Healthcare', 
+    'Education', 'Finance', 'Gaming', 'AI/ML', 'Startups', 'Social Impact'
+  ];
 
-    if (isAdding) {
-      toast({
-        title: "Skill added! ✨",
-        description: `${skill} has been added to your skills profile.`,
-        duration: 2000,
-      });
-    }
+  const availableSkills = [
+    'Programming', 'Data Analysis', 'Design', 'Communication', 'Leadership', 
+    'Problem Solving', 'Creativity', 'Critical Thinking', 'Project Management', 
+    'Research', 'Writing', 'Public Speaking'
+  ];
+
+  const handleInterestToggle = (interest: string) => {
+    setInterests(prev => 
+      prev.includes(interest) 
+        ? prev.filter(i => i !== interest)
+        : [...prev, interest]
+    );
   };
 
-  const toggleInterest = (interest: string) => {
-    const isAdding = !formData.interests.includes(interest);
-    setFormData(prev => ({
-      ...prev,
-      interests: prev.interests.includes(interest)
-        ? prev.interests.filter(i => i !== interest)
-        : [...prev.interests, interest]
-    }));
-
-    if (isAdding) {
-      toast({
-        title: "Interest added! 🎯",
-        description: `${interest} has been added to your interests profile.`,
-        duration: 2000,
-      });
-    }
+  const handleSkillToggle = (skill: string) => {
+    setSkills(prev => 
+      prev.includes(skill) 
+        ? prev.filter(s => s !== skill)
+        : [...prev, skill]
+    );
   };
 
   const generateRecommendations = async () => {
+    if (interests.length === 0 || skills.length === 0) {
+      toast({
+        title: "Missing Information",
+        description: "Please select at least one interest and one skill to get recommendations.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsLoading(true);
     setLoadingProgress(0);
-    
-    // Simulate AI processing with progress
-    const steps = [
-      'Analyzing your academic background...',
-      'Processing your skills and interests...',
-      'Matching with career opportunities...',
-      'Generating personalized roadmaps...',
-      'Finalizing recommendations...'
+
+    // Simulate AI processing with progress updates
+    const progressSteps = [
+      { progress: 20, message: "Analyzing your interests..." },
+      { progress: 40, message: "Evaluating your skills..." },
+      { progress: 60, message: "Matching with career opportunities..." },
+      { progress: 80, message: "Calculating compatibility scores..." },
+      { progress: 100, message: "Generating personalized recommendations..." }
     ];
-    
-    for (let i = 0; i <= 100; i += 20) {
-      await new Promise(resolve => setTimeout(resolve, 400));
-      setLoadingProgress(i);
+
+    for (const step of progressSteps) {
+      await new Promise(resolve => setTimeout(resolve, 800));
+      setLoadingProgress(step.progress);
     }
-    
-    // Enhanced mock recommendations
+
+    // Mock recommendations with real course URLs
     const mockRecommendations: CareerRecommendation[] = [
       {
         title: 'Data Scientist',
-        description: 'Analyze complex data to help organizations make informed decisions using statistical analysis and machine learning algorithms.',
-        requiredSkills: ['Data Analysis', 'Programming', 'Machine Learning', 'Statistics', 'Python', 'SQL'],
-        averageSalary: '₹8-25 LPA ($70k-150k)',
+        description: 'Analyze complex datasets to extract insights and drive business decisions using statistical methods and machine learning.',
+        requiredSkills: ['Python', 'Statistics', 'Machine Learning', 'SQL', 'Data Visualization', 'Critical Thinking'],
+        averageSalary: '₹8-25 LPA ($60k-150k)',
         jobGrowth: '+35% (Next 5 years)',
-        difficulty: 'Medium-Hard',
+        difficulty: 'Hard',
         timeToStart: '6-12 months',
         learningPath: ['Python Programming', 'Statistics & Probability', 'Machine Learning', 'Data Visualization', 'SQL', 'Deep Learning'],
         topCompanies: ['Google', 'Meta', 'Microsoft', 'Amazon', 'Netflix', 'Flipkart', 'Zomato'],
         matchScore: 95,
         courses: [
-          { title: 'Python for Data Science', provider: 'Coursera', duration: '3 months', url: '#', type: 'paid' },
-          { title: 'Machine Learning A-Z', provider: 'Udemy', duration: '4 months', url: '#', type: 'paid' },
-          { title: 'Data Science Fundamentals', provider: 'YouTube', duration: '2 months', url: '#', type: 'free' }
+          { 
+            title: 'Python for Data Science', 
+            provider: 'freeCodeCamp', 
+            duration: '12 hours', 
+            url: 'https://www.freecodecamp.org/learn/data-analysis-with-python/', 
+            type: 'free' 
+          },
+          { 
+            title: 'Machine Learning Course', 
+            provider: 'Andrew Ng - Coursera', 
+            duration: '11 weeks', 
+            url: 'https://www.coursera.org/learn/machine-learning', 
+            type: 'free' 
+          },
+          { 
+            title: 'Data Science Fundamentals', 
+            provider: 'Khan Academy', 
+            duration: '40 hours', 
+            url: 'https://www.khanacademy.org/computing/intro-to-programming', 
+            type: 'free' 
+          }
         ],
         certifications: [
-          { name: 'Google Data Analytics Certificate', provider: 'Google', difficulty: 'Beginner', url: '#' },
-          { name: 'AWS Machine Learning', provider: 'Amazon', difficulty: 'Intermediate', url: '#' },
-          { name: 'Microsoft Azure Data Scientist', provider: 'Microsoft', difficulty: 'Advanced', url: '#' }
+          { 
+            name: 'Google Data Analytics Certificate', 
+            provider: 'Google', 
+            difficulty: 'Beginner', 
+            url: 'https://www.coursera.org/professional-certificates/google-data-analytics' 
+          },
+          { 
+            name: 'IBM Data Science Certificate', 
+            provider: 'IBM', 
+            difficulty: 'Intermediate', 
+            url: 'https://www.coursera.org/professional-certificates/ibm-data-science' 
+          },
+          { 
+            name: 'Microsoft Azure Data Scientist', 
+            provider: 'Microsoft', 
+            difficulty: 'Advanced', 
+            url: 'https://docs.microsoft.com/en-us/learn/certifications/azure-data-scientist/' 
+          }
         ],
         roadmap: [
           { level: 'Beginner (0-3 months)', skills: ['Python', 'SQL', 'Statistics'], duration: '3 months', projects: ['Exploratory Data Analysis', 'Basic Visualization'] },
@@ -220,14 +246,47 @@ export default function Index() {
         topCompanies: ['Swiggy', 'Paytm', 'Razorpay', 'Freshworks', 'Zoho', 'Byju\'s', 'Unacademy'],
         matchScore: 88,
         courses: [
-          { title: 'The Complete Web Developer Bootcamp', provider: 'Udemy', duration: '6 months', url: '#', type: 'paid' },
-          { title: 'Full Stack Open', provider: 'University of Helsinki', duration: '4 months', url: '#', type: 'free' },
-          { title: 'React - The Complete Guide', provider: 'Udemy', duration: '3 months', url: '#', type: 'paid' }
+          { 
+            title: 'The Complete Web Developer Bootcamp', 
+            provider: 'freeCodeCamp', 
+            duration: '300 hours', 
+            url: 'https://www.freecodecamp.org/learn/responsive-web-design/', 
+            type: 'free' 
+          },
+          { 
+            title: 'Full Stack Open', 
+            provider: 'University of Helsinki', 
+            duration: '13 parts', 
+            url: 'https://fullstackopen.com/en/', 
+            type: 'free' 
+          },
+          { 
+            title: 'React Complete Guide', 
+            provider: 'React.dev', 
+            duration: '20 hours', 
+            url: 'https://react.dev/learn', 
+            type: 'free' 
+          }
         ],
         certifications: [
-          { name: 'freeCodeCamp Full Stack', provider: 'freeCodeCamp', difficulty: 'Beginner', url: '#' },
-          { name: 'Meta Front-End Developer', provider: 'Meta', difficulty: 'Intermediate', url: '#' },
-          { name: 'AWS Developer Associate', provider: 'Amazon', difficulty: 'Advanced', url: '#' }
+          { 
+            name: 'freeCodeCamp Full Stack', 
+            provider: 'freeCodeCamp', 
+            difficulty: 'Beginner', 
+            url: 'https://www.freecodecamp.org/learn/' 
+          },
+          { 
+            name: 'Meta Front-End Developer', 
+            provider: 'Meta', 
+            difficulty: 'Intermediate', 
+            url: 'https://www.coursera.org/professional-certificates/meta-front-end-developer' 
+          },
+          { 
+            name: 'AWS Developer Associate', 
+            provider: 'Amazon', 
+            difficulty: 'Advanced', 
+            url: 'https://aws.amazon.com/certification/certified-developer-associate/' 
+          }
         ],
         roadmap: [
           { level: 'Beginner (0-2 months)', skills: ['HTML', 'CSS', 'JavaScript'], duration: '2 months', projects: ['Static Websites', 'DOM Manipulation'] },
@@ -252,14 +311,47 @@ export default function Index() {
         topCompanies: ['Adobe', 'Figma', 'Airbnb', 'Uber', 'Spotify', 'Ola', 'PhonePe'],
         matchScore: 82,
         courses: [
-          { title: 'Google UX Design Certificate', provider: 'Coursera', duration: '4 months', url: '#', type: 'paid' },
-          { title: 'UI/UX Design Specialization', provider: 'CalArts', duration: '5 months', url: '#', type: 'paid' },
-          { title: 'Design Thinking Process', provider: 'YouTube', duration: '1 month', url: '#', type: 'free' }
+          { 
+            title: 'Google UX Design Certificate', 
+            provider: 'Coursera', 
+            duration: '6 months', 
+            url: 'https://www.coursera.org/professional-certificates/google-ux-design', 
+            type: 'free' 
+          },
+          { 
+            title: 'UI/UX Design Specialization', 
+            provider: 'California Institute of Arts', 
+            duration: '8 months', 
+            url: 'https://www.coursera.org/specializations/ui-ux-design', 
+            type: 'free' 
+          },
+          { 
+            title: 'Design Thinking Process', 
+            provider: 'MIT OpenCourseWare', 
+            duration: '6 weeks', 
+            url: 'https://ocw.mit.edu/courses/15-390-new-enterprises-spring-2013/', 
+            type: 'free' 
+          }
         ],
         certifications: [
-          { name: 'Google UX Design Certificate', provider: 'Google', difficulty: 'Beginner', url: '#' },
-          { name: 'Adobe Certified Expert', provider: 'Adobe', difficulty: 'Intermediate', url: '#' },
-          { name: 'Interaction Design Foundation', provider: 'IxDF', difficulty: 'Advanced', url: '#' }
+          { 
+            name: 'Google UX Design Certificate', 
+            provider: 'Google', 
+            difficulty: 'Beginner', 
+            url: 'https://www.coursera.org/professional-certificates/google-ux-design' 
+          },
+          { 
+            name: 'Adobe Certified Expert', 
+            provider: 'Adobe', 
+            difficulty: 'Intermediate', 
+            url: 'https://www.adobe.com/training/certification.html' 
+          },
+          { 
+            name: 'Interaction Design Foundation', 
+            provider: 'IxDF', 
+            difficulty: 'Advanced', 
+            url: 'https://www.interaction-design.org/courses' 
+          }
         ],
         roadmap: [
           { level: 'Beginner (0-2 months)', skills: ['Design Principles', 'Figma', 'User Research'], duration: '2 months', projects: ['App Redesign', 'User Journey Maps'] },
@@ -286,280 +378,84 @@ export default function Index() {
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const filteredRecommendations = recommendations.filter(rec => {
+    const matchesSearch = rec.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         rec.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesDifficulty = selectedDifficulty === '' || rec.difficulty === selectedDifficulty;
+    return matchesSearch && matchesDifficulty;
+  });
 
-    // Show starting notification
-    toast({
-      title: "Starting AI Analysis... 🤖",
-      description: "Analyzing your profile to find the perfect career matches.",
-      duration: 3000,
-    });
-
-    generateRecommendations();
+  const getMatchScoreColor = (score: number) => {
+    if (score >= 90) return 'text-green-600 dark:text-green-400';
+    if (score >= 75) return 'text-yellow-600 dark:text-yellow-400';
+    return 'text-orange-600 dark:text-orange-400';
   };
 
-  const exportResults = () => {
-    if (recommendations.length === 0) return;
+  const getDifficultyColor = (difficulty: string) => {
+    switch (difficulty) {
+      case 'Easy': return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
+      case 'Medium': return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200';
+      case 'Hard': return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
+      default: return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200';
+    }
+  };
 
-    // Create a comprehensive report content
-    const reportContent = {
-      title: 'CareerCompass - AI Career Recommendations Report',
-      generatedDate: new Date().toLocaleDateString(),
-      studentProfile: {
-        stream: formData.stream,
-        cgpa: formData.cgpa,
-        skills: formData.skills,
-        interests: formData.interests,
-        experience: formData.experience,
-        careerGoal: formData.careerGoal
-      },
-      recommendations: recommendations.map((career, index) => ({
-        rank: index + 1,
-        title: career.title,
-        description: career.description,
-        matchScore: career.matchScore,
-        averageSalary: career.averageSalary,
-        jobGrowth: career.jobGrowth,
-        difficulty: career.difficulty,
-        timeToStart: career.timeToStart,
-        requiredSkills: career.requiredSkills,
-        topCompanies: career.topCompanies,
-        courses: career.courses,
-        certifications: career.certifications,
-        roadmap: career.roadmap,
-        locations: career.locations
-      }))
-    };
-
-    // Generate HTML content for the report
-    const htmlContent = `
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>CareerCompass Report</title>
-        <style>
-            body { font-family: Arial, sans-serif; margin: 40px; color: #333; }
-            .header { text-align: center; margin-bottom: 40px; }
-            .logo { font-size: 28px; font-weight: bold; color: #e11d48; margin-bottom: 10px; }
-            .subtitle { color: #666; margin-bottom: 20px; }
-            .profile { background: #f8fafc; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
-            .career { margin-bottom: 40px; page-break-inside: avoid; }
-            .career-title { font-size: 24px; font-weight: bold; color: #e11d48; margin-bottom: 10px; }
-            .match-score { background: #10b981; color: white; padding: 4px 12px; border-radius: 20px; font-size: 14px; }
-            .section { margin: 15px 0; }
-            .section-title { font-weight: bold; color: #374151; margin-bottom: 8px; }
-            .skills, .companies { display: flex; flex-wrap: wrap; gap: 8px; }
-            .skill, .company { background: #e5e7eb; padding: 4px 8px; border-radius: 4px; font-size: 12px; }
-            .roadmap { margin: 10px 0; }
-            .roadmap-level { margin: 8px 0; padding: 10px; background: #f9fafb; border-left: 3px solid #e11d48; }
-            table { width: 100%; border-collapse: collapse; margin: 10px 0; }
-            th, td { border: 1px solid #d1d5db; padding: 8px; text-align: left; }
-            th { background: #f3f4f6; }
-            @media print { .no-print { display: none; } }
-        </style>
-    </head>
-    <body>
-        <div class="header">
-            <div class="logo">🧭 CareerCompass</div>
-            <div class="subtitle">AI-Powered Career Recommendations Report</div>
-            <div>Generated on: ${reportContent.generatedDate}</div>
-        </div>
-
-        <div class="profile">
-            <h2>Student Profile</h2>
-            <p><strong>Academic Stream:</strong> ${reportContent.studentProfile.stream}</p>
-            <p><strong>CGPA:</strong> ${reportContent.studentProfile.cgpa}</p>
-            <p><strong>Experience Level:</strong> ${reportContent.studentProfile.experience || 'Not specified'}</p>
-            <p><strong>Career Goal:</strong> ${reportContent.studentProfile.careerGoal || 'Not specified'}</p>
-            <div class="section">
-                <div class="section-title">Skills:</div>
-                <div class="skills">
-                    ${reportContent.studentProfile.skills.map(skill => `<span class="skill">${skill}</span>`).join('')}
-                </div>
-            </div>
-            <div class="section">
-                <div class="section-title">Interests:</div>
-                <div class="skills">
-                    ${reportContent.studentProfile.interests.map(interest => `<span class="skill">${interest}</span>`).join('')}
-                </div>
-            </div>
-        </div>
-
-        ${reportContent.recommendations.map(career => `
-            <div class="career">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                    <h2 class="career-title">${career.rank}. ${career.title}</h2>
-                    <span class="match-score">${career.matchScore}% Match</span>
-                </div>
-
-                <p>${career.description}</p>
-
-                <table>
-                    <tr><th>Salary Range</th><td>${career.averageSalary}</td></tr>
-                    <tr><th>Job Growth</th><td>${career.jobGrowth}</td></tr>
-                    <tr><th>Difficulty</th><td>${career.difficulty}</td></tr>
-                    <tr><th>Time to Start</th><td>${career.timeToStart}</td></tr>
-                </table>
-
-                <div class="section">
-                    <div class="section-title">Required Skills:</div>
-                    <div class="skills">
-                        ${career.requiredSkills.map(skill => `<span class="skill">${skill}</span>`).join('')}
-                    </div>
-                </div>
-
-                <div class="section">
-                    <div class="section-title">Top Hiring Companies:</div>
-                    <div class="companies">
-                        ${career.topCompanies.map(company => `<span class="company">${company}</span>`).join('')}
-                    </div>
-                </div>
-
-                <div class="section">
-                    <div class="section-title">Learning Roadmap:</div>
-                    ${career.roadmap.map(level => `
-                        <div class="roadmap-level">
-                            <strong>${level.level}</strong> (${level.duration})
-                            <br>Skills: ${level.skills.join(', ')}
-                            <br>Projects: ${level.projects.join(', ')}
-                        </div>
-                    `).join('')}
-                </div>
-
-                <div class="section">
-                    <div class="section-title">Recommended Courses:</div>
-                    ${career.courses.map(course => `
-                        <div style="margin: 5px 0; padding: 8px; background: #f9fafb;">
-                            <strong>${course.title}</strong> (${course.provider})
-                            <br>Duration: ${course.duration} | Type: ${course.type}
-                        </div>
-                    `).join('')}
-                </div>
-
-                <div class="section">
-                    <div class="section-title">Location-wise Opportunities:</div>
-                    ${career.locations.map(location => `
-                        <div style="margin: 5px 0;">
-                            <strong>${location.city}:</strong> ${location.demand} demand, ${location.avgSalary}
-                        </div>
-                    `).join('')}
-                </div>
-            </div>
-        `).join('')}
-
-        <div style="text-align: center; margin-top: 40px; color: #666; font-size: 12px;">
-            <p>This report was generated by CareerCompass AI Career Recommendation System</p>
-            <p>For more information, visit CareerCompass.ai</p>
-        </div>
-    </body>
-    </html>
-    `;
-
-    // Create and download the file
-    const blob = new Blob([htmlContent], { type: 'text/html' });
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `CareerCompass_Report_${new Date().toISOString().split('T')[0]}.html`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    window.URL.revokeObjectURL(url);
-
-    // Also create a simple text version
-    const textContent = `
-CAREERCOMPASS - AI CAREER RECOMMENDATIONS REPORT
-Generated on: ${reportContent.generatedDate}
-
-STUDENT PROFILE:
-- Academic Stream: ${reportContent.studentProfile.stream}
-- CGPA: ${reportContent.studentProfile.cgpa}
-- Skills: ${reportContent.studentProfile.skills.join(', ')}
-- Interests: ${reportContent.studentProfile.interests.join(', ')}
-
-CAREER RECOMMENDATIONS:
-
-${reportContent.recommendations.map((career, index) => `
-${index + 1}. ${career.title} (${career.matchScore}% Match)
-   ${career.description}
-
-   Salary: ${career.averageSalary}
-   Growth: ${career.jobGrowth}
-   Difficulty: ${career.difficulty}
-   Time to Start: ${career.timeToStart}
-
-   Required Skills: ${career.requiredSkills.join(', ')}
-   Top Companies: ${career.topCompanies.join(', ')}
-
-   Learning Path:
-   ${career.roadmap.map(level => `   - ${level.level}: ${level.skills.join(', ')}`).join('\n')}
-`).join('\n')}
-
----
-Report generated by CareerCompass AI Career Recommendation System
-    `;
-
-    // Download text version as well
-    const textBlob = new Blob([textContent], { type: 'text/plain' });
-    const textUrl = window.URL.createObjectURL(textBlob);
-    const textLink = document.createElement('a');
-    textLink.href = textUrl;
-    textLink.download = `CareerCompass_Report_${new Date().toISOString().split('T')[0]}.txt`;
-    document.body.appendChild(textLink);
-    setTimeout(() => {
-      textLink.click();
-      document.body.removeChild(textLink);
-      window.URL.revokeObjectURL(textUrl);
-
-      // Show success notification
-      toast({
-        title: "Export Successful! 📄",
-        description: "Your career recommendations have been downloaded as HTML and TXT files.",
-        duration: 5000,
-      });
-    }, 100);
+  const getCareerIcon = (title: string) => {
+    const IconComponent = careerIcons[title] || careerIcons['Default'];
+    return IconComponent;
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-zinc-100 dark:from-slate-900 dark:via-gray-900 dark:to-zinc-900">
-      {/* Enhanced Header */}
-      <header className="border-b border-slate-200/60 bg-white/80 backdrop-blur-md dark:bg-slate-900/80 dark:border-slate-700/60 sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950">
+      {/* Header */}
+      <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/80 dark:bg-slate-900/80 border-b border-slate-200/50 dark:border-slate-700/50">
+        <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <Link to="/" className="flex items-center space-x-3">
-              <div className="p-2 bg-gradient-to-br from-rose-500 to-pink-600 rounded-xl shadow-lg">
+            <Link to="/" className="flex items-center space-x-4">
+              <div className="p-3 bg-gradient-to-br from-indigo-500 via-purple-600 to-cyan-500 rounded-2xl shadow-lg">
                 <Compass className="h-8 w-8 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-rose-600 to-pink-600 bg-clip-text text-transparent">
-                  {t('header.title')}
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent">
+                  CareerCompass AI
                 </h1>
-                <p className="text-xs text-slate-500 dark:text-slate-400">{t('header.subtitle')}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">Your Future Starts Here</p>
               </div>
             </Link>
-            <nav className="hidden md:flex items-center space-x-8">
-              <Link to="/careers" className="text-slate-600 hover:text-rose-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-rose-400">{t('header.explorecareers')}</Link>
-              <Link to="/resume-analyzer" className="text-slate-600 hover:text-rose-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-rose-400">{t('header.resumeAnalyzer')}</Link>
-              <Link to="/tips" className="text-slate-600 hover:text-rose-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-rose-400">Daily Tips</Link>
-              <Link to="/goals" className="text-slate-600 hover:text-rose-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-rose-400">Goal Tracker</Link>
-              <Link to="/chat" className="text-slate-600 hover:text-rose-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-rose-400">{t('header.aiAssistant')}</Link>
+            
+            <nav className="hidden lg:flex items-center space-x-8">
+              <Link to="/careers" className="text-slate-600 hover:text-indigo-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-indigo-400">
+                Explore Careers
+              </Link>
+              <Link to="/resume-analyzer" className="text-slate-600 hover:text-indigo-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-indigo-400">
+                Resume AI
+              </Link>
+              <Link to="/chat" className="text-slate-600 hover:text-indigo-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-indigo-400">
+                AI Assistant
+              </Link>
+              <Link to="/tips" className="text-slate-600 hover:text-indigo-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-indigo-400">
+                Daily Tips
+              </Link>
+              <Link to="/goals" className="text-slate-600 hover:text-indigo-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-indigo-400">
+                Goal Tracker
+              </Link>
             </nav>
+            
             <div className="flex items-center space-x-4">
               <LanguageSelector />
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                className="w-9 px-0"
+                className="w-10 h-10 rounded-xl"
               >
-                <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-                <span className="sr-only">Toggle theme</span>
+                <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
               </Button>
+              
               {isLoggedIn && user ? (
-                <>
-                  <Button variant="ghost" asChild>
+                <div className="flex items-center space-x-3">
+                  <Button variant="ghost" asChild className="rounded-xl">
                     <Link to="/profile" className="flex items-center space-x-2">
                       {user.avatar ? (
                         <img src={user.avatar} alt="Profile" className="w-6 h-6 rounded-full" />
@@ -569,591 +465,518 @@ Report generated by CareerCompass AI Career Recommendation System
                       <span>Profile</span>
                     </Link>
                   </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      authService.signOut();
+                  <Button 
+                    variant="outline" 
+                    className="rounded-xl"
+                    onClick={async () => {
+                      await authService.signOut();
                       setUser(null);
                       setIsLoggedIn(false);
-                      toast({
-                        title: "Signed Out",
-                        description: "You have been successfully signed out.",
-                      });
                     }}
                   >
                     Sign Out
                   </Button>
-                </>
+                </div>
               ) : (
-                <>
-                  <Button variant="ghost" asChild>
-                    <Link to="/login">{t('header.login')}</Link>
+                <div className="flex items-center space-x-3">
+                  <Button variant="ghost" asChild className="rounded-xl">
+                    <Link to="/login">Login</Link>
                   </Button>
-                  <Button asChild className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 shadow-lg">
-                    <Link to="/register">{t('header.getStarted')}</Link>
+                  <Button asChild className="bg-gradient-to-r from-indigo-500 via-purple-600 to-cyan-500 hover:from-indigo-600 hover:via-purple-700 hover:to-cyan-600 shadow-lg rounded-xl">
+                    <Link to="/register">Get Started Free</Link>
                   </Button>
-                </>
+                </div>
               )}
             </div>
           </div>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8">
-        {/* Enhanced Hero Section */}
-        <div className="text-center mb-16">
-          <div className="flex justify-center mb-6">
-            <div className="relative">
-              <div className="p-4 bg-gradient-to-br from-rose-500/20 to-pink-600/20 rounded-2xl backdrop-blur-sm shadow-xl">
-                <div className="p-3 bg-gradient-to-br from-rose-500 to-pink-600 rounded-xl shadow-lg">
-                  <Sparkles className="h-12 w-12 text-white" />
-                </div>
-              </div>
-              <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full animate-pulse shadow-lg"></div>
-            </div>
+      {/* Hero Section */}
+      <section className="py-20 px-6">
+        <div className="container mx-auto max-w-6xl text-center">
+          <div className="mb-8">
+            <h2 className="text-4xl md:text-6xl font-bold text-slate-900 dark:text-slate-100 mb-6">
+              Discover Your
+              <span className="block bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent">
+                Perfect Career Path
+              </span>
+            </h2>
+            <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
+              Let our AI analyze your interests, skills, and goals to recommend careers that match your unique profile. 
+              Start your journey towards a fulfilling career today.
+            </p>
           </div>
-          <h1 className="text-5xl md:text-7xl font-bold text-slate-900 dark:text-slate-100 mb-6 leading-tight">
-            {t('hero.title')}
-            <span className="bg-gradient-to-r from-rose-600 via-pink-600 to-purple-600 bg-clip-text text-transparent block">
-              {t('hero.subtitle')}
-            </span>
-          </h1>
-          <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-300 max-w-4xl mx-auto mb-8 leading-relaxed">
-            {t('hero.description')}
-            <br className="hidden md:block" />
-            <span className="text-rose-600 dark:text-rose-400 font-semibold">{t('hero.cta')}</span>
-          </p>
-          <div className="flex flex-wrap justify-center gap-4 mb-8">
-            <Badge variant="secondary" className="px-4 py-2 text-sm bg-rose-100 text-rose-700 shadow-sm border-rose-200/50 dark:bg-rose-900/20 dark:text-rose-300 dark:border-rose-700/50">
-              <Target className="w-4 h-4 mr-2" />
-              {t('stats.accuracy')}
-            </Badge>
-            <Badge variant="secondary" className="px-4 py-2 text-sm bg-pink-100 text-pink-700 shadow-sm border-pink-200/50 dark:bg-pink-900/20 dark:text-pink-300 dark:border-pink-700/50">
-              <Users className="w-4 h-4 mr-2" />
-              {t('stats.students')}
-            </Badge>
-            <Badge variant="secondary" className="px-4 py-2 text-sm bg-purple-100 text-purple-700 shadow-sm border-purple-200/50 dark:bg-purple-900/20 dark:text-purple-300 dark:border-purple-700/50">
-              <Briefcase className="w-4 h-4 mr-2" />
-              {t('stats.careers')}
-            </Badge>
-          </div>
-        </div>
-
-        {isLoading ? (
-          /* Enhanced Loading State */
-          <Card className="max-w-2xl mx-auto shadow-lg">
-            <CardContent className="p-8 text-center">
-              <div className="mb-6">
-                <div className="relative w-24 h-24 mx-auto">
-                  <div className="absolute inset-0 bg-gradient-to-r from-rose-500 to-pink-600 rounded-full animate-spin"></div>
-                  <div className="absolute inset-2 bg-white dark:bg-slate-900 rounded-full"></div>
-                  <div className="absolute inset-4 bg-gradient-to-r from-rose-500 to-pink-600 rounded-full flex items-center justify-center">
-                    <Brain className="h-8 w-8 text-white" />
-                  </div>
-                </div>
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                AI is Analyzing Your Profile
-              </h3>
-              <p className="text-slate-600 dark:text-slate-400 mb-6">
-                Please wait while we generate your personalized career recommendations
+          
+          {!isLoggedIn && (
+            <div className="mb-12">
+              <Button asChild size="lg" className="bg-gradient-to-r from-indigo-500 via-purple-600 to-cyan-500 hover:from-indigo-600 hover:via-purple-700 hover:to-cyan-600 shadow-xl rounded-xl text-lg px-8 py-6">
+                <Link to="/register">
+                  <Sparkles className="mr-2 h-5 w-5" />
+                  Get Started Free
+                </Link>
+              </Button>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-3">
+                No credit card required • 100% free to start
               </p>
-              <Progress value={loadingProgress} className="mb-4" />
-              <p className="text-sm text-gray-500 dark:text-gray-400">{loadingProgress}% Complete</p>
-            </CardContent>
-          </Card>
-        ) : recommendations.length === 0 ? (
-          /* Enhanced Career Assessment Form */
-          <Card className="max-w-5xl mx-auto shadow-2xl">
-            <CardHeader className="bg-gradient-to-r from-indigo-500/10 to-purple-600/10 border-b">
-              <CardTitle className="flex items-center space-x-3 text-2xl">
-                <div className="p-2 bg-gradient-to-br from-rose-500 to-pink-600 rounded-lg">
-                  <GraduationCap className="h-6 w-6 text-white" />
-                </div>
-                <span>Career Assessment</span>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Career Assessment Form */}
+      <section className="py-16 px-6 bg-white/50 dark:bg-slate-900/50">
+        <div className="container mx-auto max-w-4xl">
+          <Card className="shadow-2xl border-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl">
+            <CardHeader className="text-center pb-8">
+              <CardTitle className="text-3xl font-bold text-slate-900 dark:text-slate-100">
+                AI-Powered Career Assessment
               </CardTitle>
-              <CardDescription className="text-lg">
-                Complete this comprehensive assessment to get personalized AI-powered career recommendations
-              </CardDescription>
+              <p className="text-slate-600 dark:text-slate-400 mt-2">
+                Answer a few questions to get personalized career recommendations
+              </p>
             </CardHeader>
-            <CardContent className="p-8">
-              <form onSubmit={handleSubmit} className="space-y-10">
-                {/* Academic Information */}
-                <div className="space-y-6">
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center">
-                    <BookOpen className="h-5 w-5 mr-2 text-rose-600 dark:text-rose-400" />
-                    Academic Background
-                  </h3>
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="stream" className="text-base font-medium">Academic Stream</Label>
-                      <Select value={formData.stream} onValueChange={(value) => setFormData(prev => ({ ...prev, stream: value }))}>
-                        <SelectTrigger className="h-12">
-                          <SelectValue placeholder="Select your academic stream" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {ACADEMIC_STREAMS.map((stream) => (
-                            <SelectItem key={stream} value={stream}>{stream}</SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="cgpa" className="text-base font-medium">CGPA / Percentage</Label>
-                      <Input
-                        id="cgpa"
-                        type="number"
-                        step="0.1"
-                        min="0"
-                        max="10"
-                        placeholder="e.g., 8.5 or 85%"
-                        value={formData.cgpa}
-                        onChange={(e) => setFormData(prev => ({ ...prev, cgpa: e.target.value }))}
-                        className="h-12"
-                      />
-                    </div>
-                  </div>
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="experience" className="text-base font-medium">Experience Level</Label>
-                      <Select value={formData.experience} onValueChange={(value) => setFormData(prev => ({ ...prev, experience: value }))}>
-                        <SelectTrigger className="h-12">
-                          <SelectValue placeholder="Select your experience level" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="fresher">Fresher (0 years)</SelectItem>
-                          <SelectItem value="entry">Entry Level (0-2 years)</SelectItem>
-                          <SelectItem value="mid">Mid Level (2-5 years)</SelectItem>
-                          <SelectItem value="senior">Senior Level (5+ years)</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="careerGoal" className="text-base font-medium">Career Goal Timeline</Label>
-                      <Select value={formData.careerGoal} onValueChange={(value) => setFormData(prev => ({ ...prev, careerGoal: value }))}>
-                        <SelectTrigger className="h-12">
-                          <SelectValue placeholder="When do you want to start?" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="immediate">Immediate (0-6 months)</SelectItem>
-                          <SelectItem value="short">Short term (6-12 months)</SelectItem>
-                          <SelectItem value="medium">Medium term (1-2 years)</SelectItem>
-                          <SelectItem value="long">Long term (2+ years)</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
+            <CardContent className="space-y-8">
+              {/* Interests Selection */}
+              <div>
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4 flex items-center">
+                  <Heart className="h-5 w-5 mr-2 text-rose-500" />
+                  What are your interests?
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {availableInterests.map((interest) => (
+                    <Button
+                      key={interest}
+                      variant={interests.includes(interest) ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => handleInterestToggle(interest)}
+                      className={`rounded-full transition-all ${
+                        interests.includes(interest) 
+                          ? 'bg-gradient-to-r from-indigo-500 to-purple-600 shadow-lg' 
+                          : 'hover:border-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/20'
+                      }`}
+                    >
+                      {interest}
+                    </Button>
+                  ))}
                 </div>
+              </div>
 
-                {/* Skills Selection */}
-                <div className="space-y-6">
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center">
-                    <TrendingUp className="h-5 w-5 mr-2 text-rose-600 dark:text-rose-400" />
-                    Your Skills ({formData.skills.length} selected)
-                  </h3>
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {SKILLS.map((skill) => (
-                      <div key={skill} className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-rose-50 dark:hover:bg-rose-900/20 transition-colors">
-                        <Checkbox
-                          id={`skill-${skill}`}
-                          checked={formData.skills.includes(skill)}
-                          onCheckedChange={() => toggleSkill(skill)}
-                        />
-                        <Label
-                          htmlFor={`skill-${skill}`}
-                          className="text-sm font-medium cursor-pointer flex-1"
-                        >
-                          {skill}
-                        </Label>
-                      </div>
-                    ))}
-                  </div>
-                  {formData.skills.length > 0 && (
-                    <div className="flex flex-wrap gap-2">
-                      {formData.skills.map((skill) => (
-                        <Badge
-                          key={skill}
-                          variant="secondary"
-                          className="cursor-pointer bg-rose-100 text-rose-700 hover:bg-rose-200 transition-colors duration-200 border border-rose-200/50"
-                          onClick={() => {
-                            toggleSkill(skill);
-                            toast({
-                              title: "Skill removed",
-                              description: `${skill} has been removed from your skills list.`,
-                              duration: 2000,
-                            });
-                          }}
-                        >
-                          {skill} ×
-                        </Badge>
-                      ))}
-                    </div>
-                  )}
+              {/* Skills Selection */}
+              <div>
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4 flex items-center">
+                  <Zap className="h-5 w-5 mr-2 text-yellow-500" />
+                  What are your top skills?
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {availableSkills.map((skill) => (
+                    <Button
+                      key={skill}
+                      variant={skills.includes(skill) ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => handleSkillToggle(skill)}
+                      className={`rounded-full transition-all ${
+                        skills.includes(skill) 
+                          ? 'bg-gradient-to-r from-indigo-500 to-purple-600 shadow-lg' 
+                          : 'hover:border-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/20'
+                      }`}
+                    >
+                      {skill}
+                    </Button>
+                  ))}
                 </div>
+              </div>
 
-                {/* Interests Selection */}
-                <div className="space-y-6">
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center">
-                    <Star className="h-5 w-5 mr-2 text-rose-600 dark:text-rose-400" />
-                    Your Interests ({formData.interests.length} selected)
-                  </h3>
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {INTERESTS.map((interest) => (
-                      <div key={interest} className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-pink-50 dark:hover:bg-pink-900/20 transition-colors">
-                        <Checkbox
-                          id={`interest-${interest}`}
-                          checked={formData.interests.includes(interest)}
-                          onCheckedChange={() => toggleInterest(interest)}
-                        />
-                        <Label
-                          htmlFor={`interest-${interest}`}
-                          className="text-sm font-medium cursor-pointer flex-1"
-                        >
-                          {interest}
-                        </Label>
-                      </div>
-                    ))}
-                  </div>
-                  {formData.interests.length > 0 && (
-                    <div className="flex flex-wrap gap-2">
-                      {formData.interests.map((interest) => (
-                        <Badge
-                          key={interest}
-                          variant="outline"
-                          className="cursor-pointer border-pink-200 dark:border-pink-700 text-pink-700 dark:text-pink-300 hover:bg-pink-50 dark:hover:bg-pink-900/20 transition-colors duration-200"
-                          onClick={() => {
-                            toggleInterest(interest);
-                            toast({
-                              title: "Interest removed",
-                              description: `${interest} has been removed from your interests list.`,
-                              duration: 2000,
-                            });
-                          }}
-                        >
-                          {interest} ×
-                        </Badge>
-                      ))}
-                    </div>
-                  )}
+              {/* Experience Level */}
+              <div>
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4 flex items-center">
+                  <GraduationCap className="h-5 w-5 mr-2 text-blue-500" />
+                  What's your experience level?
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {['Beginner', 'Some Experience', 'Experienced', 'Expert'].map((level) => (
+                    <Button
+                      key={level}
+                      variant={experience === level ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => setExperience(level)}
+                      className={`rounded-full transition-all ${
+                        experience === level 
+                          ? 'bg-gradient-to-r from-indigo-500 to-purple-600 shadow-lg' 
+                          : 'hover:border-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/20'
+                      }`}
+                    >
+                      {level}
+                    </Button>
+                  ))}
                 </div>
+              </div>
 
+              {/* Generate Button */}
+              <div className="text-center pt-6">
                 <Button
-                  type="submit"
-                  className="w-full py-6 text-lg bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 shadow-lg"
-                  disabled={!formData.stream || !formData.cgpa || formData.skills.length === 0 || formData.interests.length === 0}
+                  onClick={generateRecommendations}
+                  disabled={isLoading || interests.length === 0 || skills.length === 0}
+                  size="lg"
+                  className="bg-gradient-to-r from-indigo-500 via-purple-600 to-cyan-500 hover:from-indigo-600 hover:via-purple-700 hover:to-cyan-600 shadow-xl rounded-xl px-12 py-6 text-lg"
                 >
-                  <div className="flex items-center space-x-3">
-                    <Brain className="h-6 w-6" />
-                    <span>Generate AI Career Recommendations</span>
-                    <ArrowRight className="h-5 w-5" />
-                  </div>
+                  {isLoading ? (
+                    <>
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                      Analyzing...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="mr-2 h-5 w-5" />
+                      Get My Career Recommendations
+                    </>
+                  )}
                 </Button>
-              </form>
+              </div>
+
+              {/* Progress Bar */}
+              {isLoading && (
+                <div className="space-y-2">
+                  <Progress value={loadingProgress} className="w-full" />
+                  <p className="text-center text-sm text-slate-600 dark:text-slate-400">
+                    {loadingProgress < 20 && "Analyzing your interests..."}
+                    {loadingProgress >= 20 && loadingProgress < 40 && "Evaluating your skills..."}
+                    {loadingProgress >= 40 && loadingProgress < 60 && "Matching with career opportunities..."}
+                    {loadingProgress >= 60 && loadingProgress < 80 && "Calculating compatibility scores..."}
+                    {loadingProgress >= 80 && "Generating personalized recommendations..."}
+                  </p>
+                </div>
+              )}
             </CardContent>
           </Card>
-        ) : (
-          /* Enhanced Career Recommendations */
-          <div className="max-w-7xl mx-auto space-y-8">
-            <div className="text-center">
-              <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+        </div>
+      </section>
+
+      {/* Career Recommendations */}
+      {recommendations.length > 0 && (
+        <section className="py-16 px-6">
+          <div className="container mx-auto max-w-7xl">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">
                 Your Personalized Career Recommendations
               </h2>
-              <p className="text-xl text-slate-600 dark:text-slate-300 mb-6">
-                Based on your profile analysis, here are the top career paths tailored for you
+              <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+                Based on your interests and skills, here are the careers that match your profile best.
               </p>
-              <div className="flex justify-center space-x-4">
+            </div>
+
+            {/* Search and Filter */}
+            <div className="flex flex-col md:flex-row gap-4 mb-8">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
+                <Input
+                  placeholder="Search career recommendations..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 rounded-xl"
+                />
+              </div>
+              <div className="flex gap-2">
                 <Button
-                  variant="outline"
-                  onClick={() => {
-                    setRecommendations([]);
-                    setFormData({
-                      stream: '',
-                      cgpa: '',
-                      skills: [],
-                      interests: [],
-                      experience: '',
-                      careerGoal: ''
-                    });
-                    toast({
-                      title: "Assessment Reset! 🔄",
-                      description: "You can now take the career assessment again with updated information.",
-                      duration: 3000,
-                    });
-                  }}
-                  className=""
+                  variant={selectedDifficulty === '' ? "default" : "outline"}
+                  onClick={() => setSelectedDifficulty('')}
+                  className="rounded-xl"
                 >
-                  <ArrowRight className="h-4 w-4 mr-2 rotate-180" />
-                  Take Assessment Again
+                  All Levels
                 </Button>
                 <Button
-                  onClick={exportResults}
-                  className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 shadow-lg"
+                  variant={selectedDifficulty === 'Easy' ? "default" : "outline"}
+                  onClick={() => setSelectedDifficulty('Easy')}
+                  className="rounded-xl"
                 >
-                  <Download className="h-4 w-4 mr-2" />
-                  Export Results
+                  Easy
+                </Button>
+                <Button
+                  variant={selectedDifficulty === 'Medium' ? "default" : "outline"}
+                  onClick={() => setSelectedDifficulty('Medium')}
+                  className="rounded-xl"
+                >
+                  Medium
+                </Button>
+                <Button
+                  variant={selectedDifficulty === 'Hard' ? "default" : "outline"}
+                  onClick={() => setSelectedDifficulty('Hard')}
+                  className="rounded-xl"
+                >
+                  Hard
                 </Button>
               </div>
             </div>
 
-            <div className="grid lg:grid-cols-3 gap-8">
-              {recommendations.map((career, index) => (
-                <Card key={index} className="relative overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border-0">
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-rose-500 to-pink-600"></div>
-                  <div className="absolute top-4 right-4">
-                    <Badge className="bg-gradient-to-r from-green-500 to-emerald-600 text-white">
-                      {career.matchScore}% Match
-                    </Badge>
-                  </div>
-                  
-                  <CardHeader className="pb-4">
-                    <div className="flex items-center space-x-3 mb-3">
-                      <div className="p-2 bg-gradient-to-br from-rose-500/10 to-pink-600/10 rounded-lg">
-                        <Briefcase className="h-6 w-6 text-rose-600 dark:text-rose-400" />
-                      </div>
-                      <div>
-                        <CardTitle className="text-xl">{career.title}</CardTitle>
-                        <div className="flex items-center space-x-2 mt-1">
-                          <Badge variant="outline" className="text-xs">{career.difficulty}</Badge>
-                          <Badge variant="outline" className="text-xs">{career.timeToStart}</Badge>
+            {/* Recommendation Cards */}
+            <div className="space-y-8">
+              {filteredRecommendations.map((career, index) => {
+                const IconComponent = getCareerIcon(career.title);
+                return (
+                  <Card key={index} className="shadow-xl border-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl overflow-hidden">
+                    <CardHeader className="bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-cyan-500/10">
+                      <div className="flex items-start justify-between">
+                        <div className="flex items-center space-x-4">
+                          <div className="p-3 bg-gradient-to-br from-indigo-500 via-purple-600 to-cyan-500 rounded-2xl shadow-lg">
+                            <IconComponent className="h-8 w-8 text-white" />
+                          </div>
+                          <div>
+                            <CardTitle className="text-2xl text-slate-900 dark:text-slate-100">
+                              {career.title}
+                            </CardTitle>
+                            <p className="text-slate-600 dark:text-slate-400 mt-1">
+                              {career.description}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <div className={`text-3xl font-bold ${getMatchScoreColor(career.matchScore)}`}>
+                            {career.matchScore}%
+                          </div>
+                          <p className="text-sm text-slate-500 dark:text-slate-400">Match Score</p>
                         </div>
                       </div>
-                    </div>
-                    <CardDescription className="text-sm leading-relaxed">
-                      {career.description}
-                    </CardDescription>
-                  </CardHeader>
-                  
-                  <CardContent className="space-y-6">
-                    <Tabs defaultValue="overview" className="w-full">
-                      <TabsList className="grid w-full grid-cols-4 text-xs">
-                        <TabsTrigger value="overview">Overview</TabsTrigger>
-                        <TabsTrigger value="roadmap">Roadmap</TabsTrigger>
-                        <TabsTrigger value="courses">Courses</TabsTrigger>
-                        <TabsTrigger value="jobs">Jobs</TabsTrigger>
-                      </TabsList>
-                      
-                      <TabsContent value="overview" className="space-y-4 mt-4">
-                        {/* Salary & Growth */}
-                        <div className="grid grid-cols-2 gap-4">
-                          <div className="p-3 bg-green-50 dark:bg-green-900/30 rounded-lg">
-                            <div className="flex items-center text-green-700 dark:text-green-300 mb-1">
-                              <DollarSign className="h-4 w-4 mr-1" />
-                              <span className="text-xs font-medium">Salary Range</span>
-                            </div>
-                            <p className="text-sm font-semibold text-green-900 dark:text-green-100">{career.averageSalary}</p>
+                    </CardHeader>
+                    
+                    <CardContent className="p-6">
+                      {/* Quick Stats */}
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                        <div className="p-3 bg-green-50 dark:bg-green-900/30 rounded-lg">
+                          <div className="flex items-center text-green-700 dark:text-green-300 mb-1">
+                            <DollarSign className="h-4 w-4 mr-1" />
+                            <span className="text-xs font-medium">Salary Range</span>
                           </div>
-                          <div className="p-3 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
-                            <div className="flex items-center text-blue-700 dark:text-blue-300 mb-1">
-                              <TrendingUp className="h-4 w-4 mr-1" />
-                              <span className="text-xs font-medium">Job Growth</span>
-                            </div>
-                            <p className="text-sm font-semibold text-blue-900 dark:text-blue-100">{career.jobGrowth}</p>
-                          </div>
+                          <p className="text-sm font-semibold text-green-900 dark:text-green-100">{career.averageSalary}</p>
                         </div>
-
-                        {/* Required Skills */}
-                        <div>
-                          <h4 className="font-medium text-sm text-slate-700 dark:text-slate-300 mb-2">
-                            Key Skills Required
-                          </h4>
-                          <div className="flex flex-wrap gap-1">
-                            {career.requiredSkills.slice(0, 4).map((skill) => (
-                              <Badge key={skill} variant="outline" className="text-xs">
-                                {skill}
-                              </Badge>
-                            ))}
+                        <div className="p-3 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
+                          <div className="flex items-center text-blue-700 dark:text-blue-300 mb-1">
+                            <TrendingUp className="h-4 w-4 mr-1" />
+                            <span className="text-xs font-medium">Job Growth</span>
                           </div>
+                          <p className="text-sm font-semibold text-blue-900 dark:text-blue-100">{career.jobGrowth}</p>
                         </div>
-
-                        {/* Top Companies */}
-                        <div>
-                          <h4 className="font-medium text-sm text-slate-700 dark:text-slate-300 mb-2">
-                            Top Hiring Companies
-                          </h4>
-                          <div className="flex flex-wrap gap-1">
-                            {career.topCompanies.slice(0, 4).map((company) => (
-                              <Badge key={company} variant="secondary" className="text-xs">
-                                {company}
-                              </Badge>
-                            ))}
+                        <div className="p-3 bg-purple-50 dark:bg-purple-900/30 rounded-lg">
+                          <div className="flex items-center text-purple-700 dark:text-purple-300 mb-1">
+                            <Clock className="h-4 w-4 mr-1" />
+                            <span className="text-xs font-medium">Time to Start</span>
                           </div>
+                          <p className="text-sm font-semibold text-purple-900 dark:text-purple-100">{career.timeToStart}</p>
                         </div>
-                      </TabsContent>
+                        <div className="p-3 bg-orange-50 dark:bg-orange-900/30 rounded-lg">
+                          <div className="flex items-center text-orange-700 dark:text-orange-300 mb-1">
+                            <Target className="h-4 w-4 mr-1" />
+                            <span className="text-xs font-medium">Difficulty</span>
+                          </div>
+                          <Badge className={getDifficultyColor(career.difficulty)}>
+                            {career.difficulty}
+                          </Badge>
+                        </div>
+                      </div>
 
-                      <TabsContent value="roadmap" className="space-y-4 mt-4">
-                        {career.roadmap.map((level, i) => (
-                          <div key={i} className="border-l-2 border-indigo-200 pl-4">
-                            <div className="flex items-center mb-2">
-                              <div className="w-3 h-3 bg-rose-500 dark:bg-rose-400 rounded-full -ml-6 mr-3"></div>
-                              <h5 className="font-medium text-sm">{level.level}</h5>
-                            </div>
-                            <div className="text-xs text-slate-600 dark:text-slate-400 mb-2">
-                              Duration: {level.duration}
-                            </div>
+                      {/* Detailed Information Tabs */}
+                      <Tabs defaultValue="overview" className="w-full">
+                        <TabsList className="grid w-full grid-cols-5 rounded-xl">
+                          <TabsTrigger value="overview">Overview</TabsTrigger>
+                          <TabsTrigger value="skills">Skills</TabsTrigger>
+                          <TabsTrigger value="roadmap">Roadmap</TabsTrigger>
+                          <TabsTrigger value="courses">Courses</TabsTrigger>
+                          <TabsTrigger value="jobs">Jobs</TabsTrigger>
+                        </TabsList>
+
+                        <TabsContent value="overview" className="space-y-4 mt-4">
+                          {/* Required Skills */}
+                          <div>
+                            <h4 className="font-medium text-sm text-slate-700 dark:text-slate-300 mb-2">
+                              Required Skills
+                            </h4>
                             <div className="flex flex-wrap gap-1">
-                              {level.skills.map((skill) => (
+                              {career.requiredSkills.map((skill) => (
                                 <Badge key={skill} variant="outline" className="text-xs">
                                   {skill}
                                 </Badge>
                               ))}
                             </div>
                           </div>
-                        ))}
-                      </TabsContent>
 
-                      <TabsContent value="courses" className="space-y-3 mt-4">
-                        {career.courses.map((course, i) => (
-                          <div key={i} className="p-3 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
-                            <div className="flex items-center justify-between mb-1">
-                              <h5 className="font-medium text-sm">{course.title}</h5>
-                              <Badge variant={course.type === 'free' ? 'secondary' : 'outline'} className="text-xs">
-                                {course.type}
-                              </Badge>
-                            </div>
-                            <p className="text-xs text-slate-600 dark:text-slate-400">{course.provider} • {course.duration}</p>
-                            <Button variant="link" className="p-0 h-auto text-xs text-rose-600 dark:text-rose-400" asChild>
-                              <a href={course.url} target="_blank" rel="noopener noreferrer">
-                                View Course <ExternalLink className="h-3 w-3 ml-1" />
-                              </a>
-                            </Button>
-                          </div>
-                        ))}
-                      </TabsContent>
-
-                      <TabsContent value="jobs" className="space-y-3 mt-4">
-                        {career.locations.map((location, i) => (
-                          <div key={i} className="flex items-center justify-between p-3 border rounded-lg">
-                            <div className="flex items-center space-x-2">
-                              <MapPin className="h-4 w-4 text-gray-500" />
-                              <span className="text-sm font-medium">{location.city}</span>
-                            </div>
-                            <div className="text-right">
-                              <Badge 
-                                variant={location.demand === 'High' ? 'default' : location.demand === 'Medium' ? 'secondary' : 'outline'}
-                                className="text-xs mb-1"
-                              >
-                                {location.demand} Demand
-                              </Badge>
-                              <p className="text-xs text-slate-600 dark:text-slate-400">{location.avgSalary}</p>
+                          {/* Learning Path */}
+                          <div>
+                            <h4 className="font-medium text-sm text-slate-700 dark:text-slate-300 mb-2">
+                              Learning Path
+                            </h4>
+                            <div className="flex flex-wrap gap-1">
+                              {career.learningPath.map((skill) => (
+                                <Badge key={skill} variant="secondary" className="text-xs">
+                                  {skill}
+                                </Badge>
+                              ))}
                             </div>
                           </div>
-                        ))}
-                      </TabsContent>
-                    </Tabs>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
 
-            {/* Action Buttons */}
-            <div className="flex justify-center space-x-4 pt-8">
-              <Button
-                variant="outline"
-                className="bg-white"
-                asChild
-              >
-                <Link to="/chat">
-                  <MessageSquare className="h-4 w-4 mr-2" />
-                  Chat with AI Assistant
-                </Link>
-              </Button>
-              <Button
-                className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 shadow-lg"
-                asChild
-              >
-                <Link to="/resume-analyzer">
-                  <FileText className="h-4 w-4 mr-2" />
-                  Analyze My Resume
-                </Link>
-              </Button>
-              <Button
-                variant="outline"
-                className="bg-white"
-                asChild
-              >
-                <Link to="/compare">
-                  <BarChart3 className="h-4 w-4 mr-2" />
-                  Compare Careers
-                </Link>
-              </Button>
+                          {/* Top Companies */}
+                          <div>
+                            <h4 className="font-medium text-sm text-slate-700 dark:text-slate-300 mb-2">
+                              Top Hiring Companies
+                            </h4>
+                            <div className="flex flex-wrap gap-1">
+                              {career.topCompanies.slice(0, 4).map((company) => (
+                                <Badge key={company} variant="secondary" className="text-xs">
+                                  {company}
+                                </Badge>
+                              ))}
+                            </div>
+                          </div>
+                        </TabsContent>
+
+                        <TabsContent value="skills" className="space-y-4 mt-4">
+                          {/* Required Skills */}
+                          <div>
+                            <h4 className="font-medium text-sm text-slate-700 dark:text-slate-300 mb-2">
+                              Required Skills
+                            </h4>
+                            <div className="flex flex-wrap gap-1">
+                              {career.requiredSkills.map((skill) => (
+                                <Badge key={skill} variant="outline" className="text-xs">
+                                  {skill}
+                                </Badge>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Top Companies */}
+                          <div>
+                            <h4 className="font-medium text-sm text-slate-700 dark:text-slate-300 mb-2">
+                              Top Hiring Companies
+                            </h4>
+                            <div className="flex flex-wrap gap-1">
+                              {career.topCompanies.slice(0, 4).map((company) => (
+                                <Badge key={company} variant="secondary" className="text-xs">
+                                  {company}
+                                </Badge>
+                              ))}
+                            </div>
+                          </div>
+                        </TabsContent>
+
+                        <TabsContent value="roadmap" className="space-y-4 mt-4">
+                          {career.roadmap.map((level, i) => (
+                            <div key={i} className="border-l-2 border-indigo-200 pl-4">
+                              <div className="flex items-center mb-2">
+                                <div className="w-3 h-3 bg-rose-500 dark:bg-rose-400 rounded-full -ml-6 mr-3"></div>
+                                <h5 className="font-medium text-sm">{level.level}</h5>
+                              </div>
+                              <div className="text-xs text-slate-600 dark:text-slate-400 mb-2">
+                                Duration: {level.duration}
+                              </div>
+                              <div className="flex flex-wrap gap-1">
+                                {level.skills.map((skill) => (
+                                  <Badge key={skill} variant="outline" className="text-xs">
+                                    {skill}
+                                  </Badge>
+                                ))}
+                              </div>
+                            </div>
+                          ))}
+                        </TabsContent>
+
+                        <TabsContent value="courses" className="space-y-3 mt-4">
+                          {career.courses.map((course, i) => (
+                            <div key={i} className="p-3 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                              <div className="flex items-center justify-between mb-1">
+                                <h5 className="font-medium text-sm">{course.title}</h5>
+                                <Badge variant={course.type === 'free' ? 'secondary' : 'outline'} className="text-xs">
+                                  {course.type}
+                                </Badge>
+                              </div>
+                              <p className="text-xs text-slate-600 dark:text-slate-400">{course.provider} • {course.duration}</p>
+                              <Button variant="link" className="p-0 h-auto text-xs text-rose-600 dark:text-rose-400" asChild>
+                                <a href={course.url} target="_blank" rel="noopener noreferrer">
+                                  View Course <ExternalLink className="h-3 w-3 ml-1" />
+                                </a>
+                              </Button>
+                            </div>
+                          ))}
+                          <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
+                            <h5 className="font-medium text-sm text-blue-900 dark:text-blue-100 mb-2">Certifications</h5>
+                            {career.certifications.map((cert, i) => (
+                              <div key={i} className="flex items-center justify-between py-1">
+                                <div>
+                                  <p className="text-xs font-medium text-blue-800 dark:text-blue-200">{cert.name}</p>
+                                  <p className="text-xs text-blue-600 dark:text-blue-300">{cert.provider} • {cert.difficulty}</p>
+                                </div>
+                                <Button variant="link" className="p-0 h-auto text-xs text-blue-600 dark:text-blue-400" asChild>
+                                  <a href={cert.url} target="_blank" rel="noopener noreferrer">
+                                    <ExternalLink className="h-3 w-3" />
+                                  </a>
+                                </Button>
+                              </div>
+                            ))}
+                          </div>
+                        </TabsContent>
+
+                        <TabsContent value="jobs" className="space-y-3 mt-4">
+                          {career.locations.map((location, i) => (
+                            <div key={i} className="flex items-center justify-between p-3 border rounded-lg">
+                              <div className="flex items-center space-x-2">
+                                <MapPin className="h-4 w-4 text-gray-500" />
+                                <span className="text-sm font-medium">{location.city}</span>
+                              </div>
+                              <div className="text-right">
+                                <Badge 
+                                  variant={location.demand === 'High' ? 'default' : location.demand === 'Medium' ? 'secondary' : 'outline'}
+                                  className="text-xs mb-1"
+                                >
+                                  {location.demand} Demand
+                                </Badge>
+                                <p className="text-xs text-slate-600 dark:text-slate-400">{location.avgSalary}</p>
+                              </div>
+                            </div>
+                          ))}
+                        </TabsContent>
+                      </Tabs>
+                    </CardContent>
+                  </Card>
+                );
+              })}
             </div>
           </div>
-        )}
+        </section>
+      )}
 
-        {/* Enhanced Features Section */}
-        {recommendations.length === 0 && !isLoading && (
-          <div className="mt-24">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
-                Why Choose CareerCompass?
-              </h2>
-              <p className="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto">
-                Our comprehensive AI-powered platform provides everything you need for career success
-              </p>
-            </div>
-            
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-              <Card className="text-center border-0 shadow-lg hover:shadow-xl transition-shadow">
-                <CardContent className="pt-8">
-                  <div className="p-4 bg-gradient-to-br from-rose-500/10 to-pink-600/10 rounded-2xl w-fit mx-auto mb-4">
-                    <Brain className="h-8 w-8 text-rose-600 dark:text-rose-400" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-3">AI-Powered Analysis</h3>
-                  <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                    Advanced machine learning algorithms analyze your complete profile for accurate recommendations
-                  </p>
-                </CardContent>
-              </Card>
-              
-              <Card className="text-center border-0 shadow-lg hover:shadow-xl transition-shadow">
-                <CardContent className="pt-8">
-                  <div className="p-4 bg-gradient-to-br from-green-500/10 to-emerald-600/10 rounded-2xl w-fit mx-auto mb-4">
-                    <TrendingUp className="h-8 w-8 text-green-600 dark:text-green-400" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-3">Real-time Market Data</h3>
-                  <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                    Live salary data, job market trends, and industry insights updated daily
-                  </p>
-                </CardContent>
-              </Card>
-              
-              <Card className="text-center border-0 shadow-lg hover:shadow-xl transition-shadow">
-                <CardContent className="pt-8">
-                  <div className="p-4 bg-gradient-to-br from-blue-500/10 to-cyan-600/10 rounded-2xl w-fit mx-auto mb-4">
-                    <BookOpen className="h-8 w-8 text-blue-600 dark:text-blue-400" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-3">Personalized Roadmaps</h3>
-                  <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                    Step-by-step learning paths with courses, certifications, and project recommendations
-                  </p>
-                </CardContent>
-              </Card>
-              
-              <Card className="text-center border-0 shadow-lg hover:shadow-xl transition-shadow">
-                <CardContent className="pt-8">
-                  <div className="p-4 bg-gradient-to-br from-pink-500/10 to-purple-600/10 rounded-2xl w-fit mx-auto mb-4">
-                    <Users className="h-8 w-8 text-pink-600 dark:text-pink-400" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-3">Expert Guidance</h3>
-                  <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                    24/7 AI career assistant and access to industry mentors and career counselors
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
+      {/* CTA Section */}
+      <section className="py-20 px-6 bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-cyan-500/10">
+        <div className="container mx-auto max-w-4xl text-center">
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">
+            Ready to Start Your Career Journey?
+          </h2>
+          <p className="text-slate-600 dark:text-slate-400 mb-8 max-w-2xl mx-auto">
+            Join thousands of professionals who have found their perfect career path with CareerCompass AI.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button asChild size="lg" className="bg-gradient-to-r from-indigo-500 via-purple-600 to-cyan-500 hover:from-indigo-600 hover:via-purple-700 hover:to-cyan-600 shadow-xl rounded-xl">
+              <Link to="/chat">
+                <MessageSquare className="mr-2 h-5 w-5" />
+                Chat with AI Assistant
+              </Link>
+            </Button>
+            <Button asChild variant="outline" size="lg" className="rounded-xl">
+              <Link to="/resume-analyzer">
+                <BookOpen className="mr-2 h-5 w-5" />
+                Analyze Your Resume
+              </Link>
+            </Button>
           </div>
-        )}
-      </main>
+        </div>
+      </section>
 
       {/* Footer */}
-      <footer className="bg-slate-100 dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 mt-16">
-        <div className="container mx-auto px-4 py-8">
+      <footer className="bg-slate-100/70 dark:bg-slate-800/70 border-t border-slate-200/50 dark:border-slate-700/50 backdrop-blur-xl">
+        <div className="container mx-auto px-6 py-8">
           <div className="text-center">
             <p className="text-slate-600 dark:text-slate-400 text-sm">
-              Developed and Designed by <span className="font-semibold text-rose-600 dark:text-rose-400">Sriram</span>
+              Developed and Designed by <span className="font-semibold text-indigo-600 dark:text-indigo-400">Sriram</span>
             </p>
             <p className="text-slate-500 dark:text-slate-500 text-xs mt-1">
-              © {new Date().getFullYear()} CareerCompass. All rights reserved.
+              © {new Date().getFullYear()} CareerCompass AI. Empowering careers with artificial intelligence.
             </p>
           </div>
         </div>
