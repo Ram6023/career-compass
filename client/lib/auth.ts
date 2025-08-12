@@ -1,5 +1,5 @@
-// OAuth Authentication Service
-// In a real application, this would integrate with actual OAuth providers
+import { supabase } from './supabase'
+import type { User as SupabaseUser } from '@supabase/supabase-js'
 
 export interface User {
   id: string;
@@ -44,37 +44,151 @@ export interface AuthResponse {
 class AuthService {
   private currentUser: User | null = null;
 
-  // Simulate Google OAuth flow
+  constructor() {
+    // Listen for auth state changes
+    supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN' && session?.user) {
+        this.loadUserProfile(session.user.id);
+      } else if (event === 'SIGNED_OUT') {
+        this.currentUser = null;
+      }
+    });
+
+    // Initialize user on startup
+    this.initializeUser();
+  }
+
+  private async initializeUser() {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session?.user) {
+      await this.loadUserProfile(session.user.id);
+    }
+  }
+
+  private async loadUserProfile(userId: string): Promise<User | null> {
+    try {
+      const { data: profile, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .single();
+
+      if (error) {
+        console.error('Error loading profile:', error);
+        return null;
+      }
+
+      if (profile) {
+        this.currentUser = this.transformSupabaseProfile(profile);
+        return this.currentUser;
+      }
+
+      return null;
+    } catch (error) {
+      console.error('Error in loadUserProfile:', error);
+      return null;
+    }
+  }
+
+  private transformSupabaseProfile(profile: any): User {
+    return {
+      id: profile.id,
+      email: profile.email,
+      name: profile.name,
+      avatar: profile.avatar_url,
+      provider: profile.provider,
+      firstName: profile.first_name,
+      lastName: profile.last_name,
+      phone: profile.phone,
+      dateOfBirth: profile.date_of_birth,
+      location: profile.location,
+      bio: profile.bio,
+      jobTitle: profile.job_title,
+      company: profile.company,
+      experience: profile.experience,
+      education: profile.education,
+      skills: profile.skills,
+      interests: profile.interests,
+      socialLinks: profile.social_links ? {
+        linkedin: profile.social_links.linkedin,
+        github: profile.social_links.github,
+        twitter: profile.social_links.twitter,
+        portfolio: profile.social_links.portfolio,
+      } : undefined,
+      preferences: profile.preferences ? {
+        emailNotifications: profile.preferences.email_notifications,
+        smsNotifications: profile.preferences.sms_notifications,
+        careerTips: profile.preferences.career_tips,
+        goalReminders: profile.preferences.goal_reminders,
+        profileVisibility: profile.preferences.profile_visibility,
+      } : undefined,
+    };
+  }
+
+  private async createUserProfile(user: SupabaseUser, additionalData?: Partial<User>): Promise<User | null> {
+    try {
+      const profileData = {
+        id: user.id,
+        email: user.email || '',
+        name: additionalData?.name || user.user_metadata?.full_name || user.email?.split('@')[0] || 'User',
+        avatar_url: user.user_metadata?.avatar_url || additionalData?.avatar,
+        provider: (user.app_metadata?.provider as 'google' | 'github' | 'email') || 'email',
+        first_name: additionalData?.firstName || user.user_metadata?.first_name,
+        last_name: additionalData?.lastName || user.user_metadata?.last_name,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        preferences: {
+          email_notifications: true,
+          sms_notifications: false,
+          career_tips: true,
+          goal_reminders: true,
+          profile_visibility: 'public'
+        }
+      };
+
+      const { data: profile, error } = await supabase
+        .from('profiles')
+        .insert(profileData)
+        .select()
+        .single();
+
+      if (error) {
+        console.error('Error creating profile:', error);
+        return null;
+      }
+
+      this.currentUser = this.transformSupabaseProfile(profile);
+      return this.currentUser;
+    } catch (error) {
+      console.error('Error in createUserProfile:', error);
+      return null;
+    }
+  }
+
+  // Google OAuth authentication
   async signInWithGoogle(): Promise<AuthResponse> {
     try {
-      // In a real app, this would redirect to Google OAuth
-      // For demo purposes, we'll simulate the process
-      
-      console.log('Initiating Google OAuth...');
-      
-      // Simulate network delay
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Mock successful Google auth response
-      const mockGoogleUser: User = {
-        id: 'google_' + Math.random().toString(36).substr(2, 9),
-        email: 'user@gmail.com',
-        name: 'John Doe',
-        avatar: 'https://via.placeholder.com/40',
-        provider: 'google'
-      };
-      
-      this.currentUser = mockGoogleUser;
-      
-      // Store auth token in localStorage
-      const mockToken = 'google_token_' + Math.random().toString(36).substr(2, 20);
-      localStorage.setItem('auth_token', mockToken);
-      localStorage.setItem('user', JSON.stringify(mockGoogleUser));
-      
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent',
+          },
+        }
+      });
+
+      if (error) {
+        return {
+          success: false,
+          error: error.message
+        };
+      }
+
       return {
         success: true,
-        user: mockGoogleUser,
-        token: mockToken
+        user: this.currentUser || undefined
       };
     } catch (error) {
       return {
@@ -84,34 +198,26 @@ class AuthService {
     }
   }
 
-  // Simulate GitHub OAuth flow
+  // GitHub OAuth authentication
   async signInWithGitHub(): Promise<AuthResponse> {
     try {
-      console.log('Initiating GitHub OAuth...');
-      
-      // Simulate network delay
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Mock successful GitHub auth response
-      const mockGitHubUser: User = {
-        id: 'github_' + Math.random().toString(36).substr(2, 9),
-        email: 'user@github.com',
-        name: 'Jane Developer',
-        avatar: 'https://via.placeholder.com/40',
-        provider: 'github'
-      };
-      
-      this.currentUser = mockGitHubUser;
-      
-      // Store auth token in localStorage
-      const mockToken = 'github_token_' + Math.random().toString(36).substr(2, 20);
-      localStorage.setItem('auth_token', mockToken);
-      localStorage.setItem('user', JSON.stringify(mockGitHubUser));
-      
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'github',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`
+        }
+      });
+
+      if (error) {
+        return {
+          success: false,
+          error: error.message
+        };
+      }
+
       return {
         success: true,
-        user: mockGitHubUser,
-        token: mockToken
+        user: this.currentUser || undefined
       };
     } catch (error) {
       return {
@@ -124,37 +230,30 @@ class AuthService {
   // Email/password authentication
   async signInWithEmail(email: string, password: string): Promise<AuthResponse> {
     try {
-      console.log('Signing in with email:', email);
-      
-      // Simulate network delay
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // Basic validation (in real app, this would be server-side)
-      if (!email || !password) {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      if (error) {
         return {
           success: false,
-          error: 'Email and password are required'
+          error: error.message
         };
       }
-      
-      // Mock successful email auth
-      const mockEmailUser: User = {
-        id: 'email_' + Math.random().toString(36).substr(2, 9),
-        email: email,
-        name: email.split('@')[0],
-        provider: 'email'
-      };
-      
-      this.currentUser = mockEmailUser;
-      
-      const mockToken = 'email_token_' + Math.random().toString(36).substr(2, 20);
-      localStorage.setItem('auth_token', mockToken);
-      localStorage.setItem('user', JSON.stringify(mockEmailUser));
-      
+
+      if (data.user) {
+        const user = await this.loadUserProfile(data.user.id);
+        return {
+          success: true,
+          user: user || undefined,
+          token: data.session?.access_token
+        };
+      }
+
       return {
-        success: true,
-        user: mockEmailUser,
-        token: mockToken
+        success: false,
+        error: 'Authentication failed'
       };
     } catch (error) {
       return {
@@ -167,37 +266,37 @@ class AuthService {
   // Registration with email
   async registerWithEmail(name: string, email: string, password: string): Promise<AuthResponse> {
     try {
-      console.log('Registering with email:', email);
-      
-      // Simulate network delay
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Basic validation
-      if (!name || !email || !password) {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: name,
+          }
+        }
+      });
+
+      if (error) {
         return {
           success: false,
-          error: 'All fields are required'
+          error: error.message
         };
       }
-      
-      // Mock successful registration
-      const mockNewUser: User = {
-        id: 'new_' + Math.random().toString(36).substr(2, 9),
-        email: email,
-        name: name,
-        provider: 'email'
-      };
-      
-      this.currentUser = mockNewUser;
-      
-      const mockToken = 'new_token_' + Math.random().toString(36).substr(2, 20);
-      localStorage.setItem('auth_token', mockToken);
-      localStorage.setItem('user', JSON.stringify(mockNewUser));
-      
+
+      if (data.user) {
+        // Create user profile
+        const user = await this.createUserProfile(data.user, { name });
+        
+        return {
+          success: true,
+          user: user || undefined,
+          token: data.session?.access_token
+        };
+      }
+
       return {
-        success: true,
-        user: mockNewUser,
-        token: mockToken
+        success: false,
+        error: 'Registration failed'
       };
     } catch (error) {
       return {
@@ -208,46 +307,38 @@ class AuthService {
   }
 
   // Sign out
-  signOut(): void {
-    this.currentUser = null;
-    localStorage.removeItem('auth_token');
-    localStorage.removeItem('user');
+  async signOut(): Promise<void> {
+    try {
+      await supabase.auth.signOut();
+      this.currentUser = null;
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
   }
 
   // Get current user
   getCurrentUser(): User | null {
-    if (this.currentUser) {
-      return this.currentUser;
-    }
-    
-    // Try to get user from localStorage
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      try {
-        this.currentUser = JSON.parse(storedUser);
-        return this.currentUser;
-      } catch {
-        // Invalid stored user data
-        localStorage.removeItem('user');
-        localStorage.removeItem('auth_token');
-      }
-    }
-    
-    return null;
+    return this.currentUser;
   }
 
   // Check if user is authenticated
-  isAuthenticated(): boolean {
-    const token = localStorage.getItem('auth_token');
-    const user = this.getCurrentUser();
-    return !!(token && user);
+  async isAuthenticated(): Promise<boolean> {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      return !!session?.user;
+    } catch {
+      return false;
+    }
+  }
+
+  // Synchronous version for immediate checks
+  isAuthenticatedSync(): boolean {
+    return !!this.currentUser;
   }
 
   // Update user profile
   async updateProfile(profileData: Partial<User>): Promise<AuthResponse> {
     try {
-      await new Promise(resolve => setTimeout(resolve, 500)); // Simulate API delay
-
       const currentUser = this.getCurrentUser();
       if (!currentUser) {
         return {
@@ -256,13 +347,64 @@ class AuthService {
         };
       }
 
-      const updatedUser = { ...currentUser, ...profileData };
-      this.currentUser = updatedUser;
-      localStorage.setItem('user', JSON.stringify(updatedUser));
+      // Transform camelCase to snake_case for database
+      const updateData: any = {
+        updated_at: new Date().toISOString()
+      };
 
+      if (profileData.name) updateData.name = profileData.name;
+      if (profileData.firstName) updateData.first_name = profileData.firstName;
+      if (profileData.lastName) updateData.last_name = profileData.lastName;
+      if (profileData.phone) updateData.phone = profileData.phone;
+      if (profileData.dateOfBirth) updateData.date_of_birth = profileData.dateOfBirth;
+      if (profileData.location) updateData.location = profileData.location;
+      if (profileData.bio) updateData.bio = profileData.bio;
+      if (profileData.jobTitle) updateData.job_title = profileData.jobTitle;
+      if (profileData.company) updateData.company = profileData.company;
+      if (profileData.experience) updateData.experience = profileData.experience;
+      if (profileData.education) updateData.education = profileData.education;
+      if (profileData.skills) updateData.skills = profileData.skills;
+      if (profileData.interests) updateData.interests = profileData.interests;
+      if (profileData.avatar) updateData.avatar_url = profileData.avatar;
+      
+      if (profileData.socialLinks) {
+        updateData.social_links = {
+          linkedin: profileData.socialLinks.linkedin,
+          github: profileData.socialLinks.github,
+          twitter: profileData.socialLinks.twitter,
+          portfolio: profileData.socialLinks.portfolio,
+        };
+      }
+
+      if (profileData.preferences) {
+        updateData.preferences = {
+          email_notifications: profileData.preferences.emailNotifications,
+          sms_notifications: profileData.preferences.smsNotifications,
+          career_tips: profileData.preferences.careerTips,
+          goal_reminders: profileData.preferences.goalReminders,
+          profile_visibility: profileData.preferences.profileVisibility,
+        };
+      }
+
+      const { data: updatedProfile, error } = await supabase
+        .from('profiles')
+        .update(updateData)
+        .eq('id', currentUser.id)
+        .select()
+        .single();
+
+      if (error) {
+        return {
+          success: false,
+          error: error.message
+        };
+      }
+
+      this.currentUser = this.transformSupabaseProfile(updatedProfile);
+      
       return {
         success: true,
-        user: updatedUser
+        user: this.currentUser
       };
     } catch (error) {
       return {
@@ -272,41 +414,106 @@ class AuthService {
     }
   }
 
-  // Upload profile picture
+  // Upload profile picture to Supabase Storage
   async uploadProfilePicture(file: File): Promise<{success: boolean; url?: string; error?: string}> {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const reader = new FileReader();
-        reader.onload = () => {
-          const url = reader.result as string;
-          resolve({ success: true, url });
-        };
-        reader.readAsDataURL(file);
-      }, 1000); // Simulate upload delay
-    });
+    try {
+      const currentUser = this.getCurrentUser();
+      if (!currentUser) {
+        return { success: false, error: 'User not logged in' };
+      }
+
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${currentUser.id}/avatar.${fileExt}`;
+
+      // Upload file to Supabase Storage
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('avatars')
+        .upload(fileName, file, {
+          cacheControl: '3600',
+          upsert: true
+        });
+
+      if (uploadError) {
+        return { success: false, error: uploadError.message };
+      }
+
+      // Get public URL
+      const { data: urlData } = supabase.storage
+        .from('avatars')
+        .getPublicUrl(fileName);
+
+      const avatarUrl = urlData.publicUrl;
+
+      // Update user profile with new avatar URL
+      await this.updateProfile({ avatar: avatarUrl });
+
+      return { success: true, url: avatarUrl };
+    } catch (error) {
+      return { success: false, error: 'Upload failed' };
+    }
+  }
+
+  // Reset password
+  async resetPassword(email: string): Promise<{success: boolean; error?: string}> {
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/auth/reset-password`
+      });
+
+      if (error) {
+        return { success: false, error: error.message };
+      }
+
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: 'Password reset failed' };
+    }
+  }
+
+  // Update password
+  async updatePassword(newPassword: string): Promise<{success: boolean; error?: string}> {
+    try {
+      const { error } = await supabase.auth.updateUser({
+        password: newPassword
+      });
+
+      if (error) {
+        return { success: false, error: error.message };
+      }
+
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: 'Password update failed' };
+    }
+  }
+
+  // Get session
+  async getSession() {
+    const { data: { session } } = await supabase.auth.getSession();
+    return session;
   }
 }
 
 // Export singleton instance
 export const authService = new AuthService();
 
-// OAuth Provider URLs (for real implementation)
+// OAuth Provider URLs (still available for manual implementation if needed)
 export const OAUTH_URLS = {
   google: {
     authUrl: 'https://accounts.google.com/oauth/authorize',
     clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID || 'your-google-client-id',
-    redirectUri: `${window.location.origin}/auth/google/callback`,
+    redirectUri: `${window.location.origin}/auth/callback`,
     scope: 'openid email profile'
   },
   github: {
     authUrl: 'https://github.com/login/oauth/authorize',
     clientId: import.meta.env.VITE_GITHUB_CLIENT_ID || 'your-github-client-id',
-    redirectUri: `${window.location.origin}/auth/github/callback`,
+    redirectUri: `${window.location.origin}/auth/callback`,
     scope: 'user:email'
   }
 };
 
-// Helper function to build OAuth URL (for real implementation)
+// Helper function to build OAuth URL (for manual implementation if needed)
 export function buildOAuthUrl(provider: 'google' | 'github'): string {
   const config = OAUTH_URLS[provider];
   const params = new URLSearchParams({
