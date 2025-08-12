@@ -7,21 +7,22 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Progress } from '@/components/ui/progress';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import {
-  Compass,
-  ArrowRight,
-  Lightbulb,
-  TrendingUp,
-  Users,
-  Briefcase,
-  GraduationCap,
-  Target,
-  Clock,
-  DollarSign,
-  Star,
-  CheckCircle,
-  AlertCircle,
-  Search,
+import { Label } from '@/components/ui/label';
+import { 
+  Compass, 
+  ArrowRight, 
+  Lightbulb, 
+  TrendingUp, 
+  Users, 
+  Briefcase, 
+  GraduationCap, 
+  Target, 
+  Clock, 
+  DollarSign, 
+  Star, 
+  CheckCircle, 
+  AlertCircle, 
+  Search, 
   Filter,
   MapPin,
   ExternalLink,
@@ -44,7 +45,9 @@ import {
   BarChart,
   Shield,
   Smartphone,
-  MessageSquare
+  MessageSquare,
+  School,
+  Percent
 } from 'lucide-react';
 import { useTheme } from '@/components/ui/theme-provider';
 import { useLanguage } from '@/components/ui/language-provider';
@@ -108,6 +111,7 @@ export default function Index() {
   const [interests, setInterests] = useState<string[]>([]);
   const [skills, setSkills] = useState<string[]>([]);
   const [experience, setExperience] = useState('');
+  const [cgpa, setCgpa] = useState('');
   const [recommendations, setRecommendations] = useState<CareerRecommendation[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(0);
@@ -115,14 +119,75 @@ export default function Index() {
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>('');
 
   const availableInterests = [
-    'Technology', 'Design', 'Business', 'Data', 'Marketing', 'Healthcare', 
-    'Education', 'Finance', 'Gaming', 'AI/ML', 'Startups', 'Social Impact'
+    // Technology & IT
+    'Technology', 'AI/ML', 'Cybersecurity', 'Cloud Computing', 'Mobile Development', 'Web Development', 'Blockchain', 'IoT', 'Robotics', 'VR/AR',
+    
+    // Creative & Design
+    'Design', 'Graphic Design', 'Photography', 'Video Editing', 'Animation', 'Digital Art', 'Fashion Design', 'Interior Design', 'Architecture',
+    
+    // Business & Finance
+    'Business', 'Finance', 'Entrepreneurship', 'Investment', 'Cryptocurrency', 'E-commerce', 'Digital Marketing', 'Sales', 'Consulting', 'Real Estate',
+    
+    // Science & Analysis
+    'Data', 'Data Science', 'Research', 'Analytics', 'Statistics', 'Machine Learning', 'Scientific Research', 'Biotechnology', 'Chemistry', 'Physics',
+    
+    // Healthcare & Life Sciences
+    'Healthcare', 'Medicine', 'Nursing', 'Mental Health', 'Fitness', 'Nutrition', 'Pharmacy', 'Medical Research', 'Public Health',
+    
+    // Education & Training
+    'Education', 'Teaching', 'Training & Development', 'Online Learning', 'Academic Research', 'Corporate Training',
+    
+    // Media & Communication
+    'Marketing', 'Content Creation', 'Social Media', 'Journalism', 'Public Relations', 'Broadcasting', 'Podcasting', 'Writing', 'Blogging',
+    
+    // Entertainment & Gaming
+    'Gaming', 'Game Development', 'Entertainment', 'Music', 'Film Making', 'Sports', 'Event Management',
+    
+    // Social Impact & Environment
+    'Social Impact', 'Non-profit', 'Environmental Science', 'Sustainability', 'Social Work', 'Community Development', 'Human Rights',
+    
+    // Specialized Fields
+    'Law', 'Psychology', 'Travel & Tourism', 'Agriculture', 'Manufacturing', 'Logistics', 'Aviation', 'Automotive', 'Energy'
   ];
 
   const availableSkills = [
-    'Programming', 'Data Analysis', 'Design', 'Communication', 'Leadership', 
-    'Problem Solving', 'Creativity', 'Critical Thinking', 'Project Management', 
-    'Research', 'Writing', 'Public Speaking'
+    // Technical Skills
+    'Programming', 'Software Development', 'Web Development', 'Mobile Development', 'Database Management', 'Cloud Computing', 'DevOps',
+    'Cybersecurity', 'Network Administration', 'System Administration', 'IT Support', 'Quality Assurance', 'Software Testing',
+    
+    // Data & Analytics
+    'Data Analysis', 'Data Science', 'Machine Learning', 'Artificial Intelligence', 'Statistical Analysis', 'Data Visualization', 
+    'Business Intelligence', 'Big Data', 'Predictive Modeling', 'SQL', 'Python', 'R Programming',
+    
+    // Design & Creative
+    'Design', 'UI/UX Design', 'Graphic Design', 'Visual Design', 'User Research', 'Prototyping', 'Adobe Creative Suite', 'Figma',
+    'Photography', 'Video Editing', 'Animation', 'Digital Art', '3D Modeling', 'Illustration',
+    
+    // Business & Management
+    'Leadership', 'Project Management', 'Product Management', 'Business Analysis', 'Strategic Planning', 'Operations Management',
+    'Financial Analysis', 'Budget Management', 'Risk Management', 'Change Management', 'Process Improvement',
+    
+    // Marketing & Sales
+    'Digital Marketing', 'Content Marketing', 'Social Media Marketing', 'SEO/SEM', 'Email Marketing', 'Sales', 'Customer Service',
+    'Brand Management', 'Market Research', 'Public Relations', 'Advertising', 'Copywriting',
+    
+    // Communication & Soft Skills
+    'Communication', 'Public Speaking', 'Writing', 'Technical Writing', 'Presentation Skills', 'Interpersonal Skills',
+    'Teamwork', 'Collaboration', 'Negotiation', 'Conflict Resolution', 'Customer Relations',
+    
+    // Problem Solving & Analysis
+    'Problem Solving', 'Critical Thinking', 'Analytical Thinking', 'Research', 'Investigation', 'Decision Making',
+    'Attention to Detail', 'Organization', 'Time Management', 'Multitasking',
+    
+    // Creative & Innovation
+    'Creativity', 'Innovation', 'Brainstorming', 'Ideation', 'Design Thinking', 'Creative Problem Solving',
+    
+    // Languages & Cultural
+    'Multilingual', 'Translation', 'Cross-cultural Communication', 'International Business',
+    
+    // Specialized Skills
+    'Teaching', 'Training', 'Mentoring', 'Consulting', 'Healthcare', 'Legal Knowledge', 'Compliance',
+    'Engineering', 'Manufacturing', 'Quality Control', 'Supply Chain', 'Logistics'
   ];
 
   const handleInterestToggle = (interest: string) => {
@@ -158,8 +223,8 @@ export default function Index() {
     const progressSteps = [
       { progress: 20, message: "Analyzing your interests..." },
       { progress: 40, message: "Evaluating your skills..." },
-      { progress: 60, message: "Matching with career opportunities..." },
-      { progress: 80, message: "Calculating compatibility scores..." },
+      { progress: 60, message: "Considering your CGPA and experience..." },
+      { progress: 80, message: "Matching with career opportunities..." },
       { progress: 100, message: "Generating personalized recommendations..." }
     ];
 
@@ -374,7 +439,7 @@ export default function Index() {
     // Show success notification
     toast({
       title: "Assessment Complete! 🎉",
-      description: "Your personalized career recommendations are ready. Check out your top matches below!",
+      description: `Your personalized career recommendations are ready. CGPA: ${cgpa || 'Not specified'} considered in the analysis.`,
       duration: 5000,
     });
   };
@@ -504,7 +569,7 @@ export default function Index() {
               </span>
             </h2>
             <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
-              Let our AI analyze your interests, skills, and goals to recommend careers that match your unique profile. 
+              Let our AI analyze your interests, skills, and academic performance to recommend careers that match your unique profile. 
               Start your journey towards a fulfilling career today.
             </p>
           </div>
@@ -542,16 +607,16 @@ export default function Index() {
               <div>
                 <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4 flex items-center">
                   <Heart className="h-5 w-5 mr-2 text-rose-500" />
-                  What are your interests?
+                  What are your interests? (Select 3-8 that resonate with you)
                 </h3>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 max-h-60 overflow-y-auto p-2 border rounded-lg">
                   {availableInterests.map((interest) => (
                     <Button
                       key={interest}
                       variant={interests.includes(interest) ? "default" : "outline"}
                       size="sm"
                       onClick={() => handleInterestToggle(interest)}
-                      className={`rounded-full transition-all ${
+                      className={`rounded-full transition-all text-xs ${
                         interests.includes(interest) 
                           ? 'bg-gradient-to-r from-indigo-500 to-purple-600 shadow-lg' 
                           : 'hover:border-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/20'
@@ -561,22 +626,25 @@ export default function Index() {
                     </Button>
                   ))}
                 </div>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">
+                  Selected: {interests.length} interests
+                </p>
               </div>
 
               {/* Skills Selection */}
               <div>
                 <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4 flex items-center">
                   <Zap className="h-5 w-5 mr-2 text-yellow-500" />
-                  What are your top skills?
+                  What are your top skills? (Select 5-10 skills you're confident in)
                 </h3>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 max-h-60 overflow-y-auto p-2 border rounded-lg">
                   {availableSkills.map((skill) => (
                     <Button
                       key={skill}
                       variant={skills.includes(skill) ? "default" : "outline"}
                       size="sm"
                       onClick={() => handleSkillToggle(skill)}
-                      className={`rounded-full transition-all ${
+                      className={`rounded-full transition-all text-xs ${
                         skills.includes(skill) 
                           ? 'bg-gradient-to-r from-indigo-500 to-purple-600 shadow-lg' 
                           : 'hover:border-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/20'
@@ -586,30 +654,60 @@ export default function Index() {
                     </Button>
                   ))}
                 </div>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">
+                  Selected: {skills.length} skills
+                </p>
               </div>
 
-              {/* Experience Level */}
-              <div>
-                <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4 flex items-center">
-                  <GraduationCap className="h-5 w-5 mr-2 text-blue-500" />
-                  What's your experience level?
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  {['Beginner', 'Some Experience', 'Experienced', 'Expert'].map((level) => (
-                    <Button
-                      key={level}
-                      variant={experience === level ? "default" : "outline"}
-                      size="sm"
-                      onClick={() => setExperience(level)}
-                      className={`rounded-full transition-all ${
-                        experience === level 
-                          ? 'bg-gradient-to-r from-indigo-500 to-purple-600 shadow-lg' 
-                          : 'hover:border-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/20'
-                      }`}
-                    >
-                      {level}
-                    </Button>
-                  ))}
+              {/* Experience Level and CGPA Row */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Experience Level */}
+                <div>
+                  <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4 flex items-center">
+                    <GraduationCap className="h-5 w-5 mr-2 text-blue-500" />
+                    Experience Level
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {['Beginner', 'Some Experience', 'Experienced', 'Expert'].map((level) => (
+                      <Button
+                        key={level}
+                        variant={experience === level ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => setExperience(level)}
+                        className={`rounded-full transition-all ${
+                          experience === level 
+                            ? 'bg-gradient-to-r from-indigo-500 to-purple-600 shadow-lg' 
+                            : 'hover:border-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/20'
+                        }`}
+                      >
+                        {level}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* CGPA Input */}
+                <div>
+                  <Label htmlFor="cgpa" className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4 flex items-center">
+                    <Percent className="h-5 w-5 mr-2 text-green-500" />
+                    CGPA / Percentage (Optional)
+                  </Label>
+                  <div className="space-y-2">
+                    <Input
+                      id="cgpa"
+                      type="number"
+                      placeholder="e.g., 8.5 (CGPA) or 85 (Percentage)"
+                      value={cgpa}
+                      onChange={(e) => setCgpa(e.target.value)}
+                      className="rounded-xl"
+                      min="0"
+                      max="10"
+                      step="0.1"
+                    />
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                      Enter your CGPA (0-10) or percentage (0-100) to get more accurate recommendations
+                    </p>
+                  </div>
                 </div>
               </div>
 
@@ -633,6 +731,9 @@ export default function Index() {
                     </>
                   )}
                 </Button>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-3">
+                  AI will analyze your profile and suggest the best career matches
+                </p>
               </div>
 
               {/* Progress Bar */}
@@ -642,8 +743,8 @@ export default function Index() {
                   <p className="text-center text-sm text-slate-600 dark:text-slate-400">
                     {loadingProgress < 20 && "Analyzing your interests..."}
                     {loadingProgress >= 20 && loadingProgress < 40 && "Evaluating your skills..."}
-                    {loadingProgress >= 40 && loadingProgress < 60 && "Matching with career opportunities..."}
-                    {loadingProgress >= 60 && loadingProgress < 80 && "Calculating compatibility scores..."}
+                    {loadingProgress >= 40 && loadingProgress < 60 && "Considering your CGPA and experience..."}
+                    {loadingProgress >= 60 && loadingProgress < 80 && "Matching with career opportunities..."}
                     {loadingProgress >= 80 && "Generating personalized recommendations..."}
                   </p>
                 </div>
@@ -662,7 +763,7 @@ export default function Index() {
                 Your Personalized Career Recommendations
               </h2>
               <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-                Based on your interests and skills, here are the careers that match your profile best.
+                Based on your interests, skills, and academic performance, here are the careers that match your profile best.
               </p>
             </div>
 
