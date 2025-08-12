@@ -49,17 +49,6 @@ import {
   PlusCircle,
   Paperclip,
   Smile,
-  Home,
-  BarChart3,
-  FileText,
-  Calendar,
-  Settings,
-  Menu,
-  X,
-  Maximize2,
-  Minimize2,
-  Navigation,
-  Gamepad2
 } from "lucide-react";
 import { useTheme } from "@/components/ui/theme-provider";
 import { useLanguage } from "@/components/ui/language-provider";
@@ -87,84 +76,63 @@ interface CareerRecommendation {
   timeToLearn: string;
 }
 
-const QUICK_STARTERS = [
-  {
-    icon: Target,
-    text: "🎯 Find my dream career",
-    category: "Discovery",
-    color: "from-violet-500 to-purple-600"
-  },
-  {
-    icon: TrendingUp,
-    text: "📊 2024 salary trends",
-    category: "Market",
-    color: "from-emerald-500 to-teal-600"
-  },
-  {
-    icon: Rocket,
-    text: "🚀 Create learning path",
-    category: "Growth",
-    color: "from-orange-500 to-red-600"
-  },
-  {
-    icon: Brain,
-    text: "🤖 AI career opportunities",
-    category: "Tech",
-    color: "from-cyan-500 to-blue-600"
-  },
-  {
-    icon: Globe,
-    text: "🌍 Remote work guide",
-    category: "Lifestyle",
-    color: "from-pink-500 to-rose-600"
-  },
-  {
-    icon: Briefcase,
-    text: "💼 Interview mastery",
-    category: "Preparation",
-    color: "from-indigo-500 to-purple-600"
-  }
+const QUICK_QUESTIONS = [
+  "🎯 What career is perfect for me?",
+  "📊 Tech salary trends 2024",
+  "🔄 Career transition guide",
+  "🤖 AI & ML career roadmap",
+  "🏠 Remote work opportunities",
+  "💰 Salary negotiation secrets",
+  "🚀 Startup vs Big Tech",
+  "📈 Future-proof skills",
 ];
 
-const EXPERTISE_AREAS = [
+const CAREER_CATEGORIES = [
   {
     icon: Cpu,
-    title: "AI & Technology",
-    description: "Machine Learning, Software Engineering, Cloud Computing",
-    gradient: "from-blue-600 via-purple-600 to-cyan-500",
-    topics: ["AI Engineer", "Full-Stack Developer", "Cloud Architect", "DevOps Engineer"],
-    bgPattern: "tech"
+    title: "AI & Tech",
+    subtitle: "Future of technology",
+    gradient: "from-cyan-500 via-blue-500 to-purple-600",
+    topics: ["AI Engineer", "ML Scientist", "Data Engineer", "Cloud Architect"],
   },
   {
     icon: Rocket,
     title: "Product & Design",
-    description: "Product Management, UI/UX Design, Growth Strategy",
-    gradient: "from-pink-600 via-rose-500 to-orange-500",
-    topics: ["Product Manager", "UX Designer", "Growth Lead", "Design Systems"],
-    bgPattern: "creative"
+    subtitle: "Build amazing products",
+    gradient: "from-pink-500 via-rose-500 to-orange-500",
+    topics: [
+      "Product Manager",
+      "UX Designer",
+      "UI Developer",
+      "Design Systems",
+    ],
+  },
+  {
+    icon: Globe,
+    title: "Business & Strategy",
+    subtitle: "Drive growth & innovation",
+    gradient: "from-emerald-500 via-teal-500 to-cyan-500",
+    topics: [
+      "Business Analyst",
+      "Strategy Consultant",
+      "Growth Hacker",
+      "Operations",
+    ],
   },
   {
     icon: Shield,
-    title: "Finance & Security",
-    description: "FinTech, Cybersecurity, Blockchain, Risk Management",
-    gradient: "from-emerald-600 via-teal-500 to-green-500",
-    topics: ["Security Analyst", "FinTech PM", "Blockchain Dev", "Risk Manager"],
-    bgPattern: "finance"
+    title: "Security & Finance",
+    subtitle: "Protect & optimize",
+    gradient: "from-orange-500 via-red-500 to-pink-500",
+    topics: ["Cybersecurity", "FinTech", "Blockchain", "Risk Analysis"],
   },
-  {
-    icon: Users,
-    title: "Business & Strategy",
-    description: "Consulting, Operations, Marketing, Leadership",
-    gradient: "from-amber-600 via-orange-500 to-red-500",
-    topics: ["Business Analyst", "Strategy Consultant", "Marketing Lead", "Operations"],
-    bgPattern: "business"
-  }
 ];
 
 const SAMPLE_CAREERS: { [key: string]: CareerRecommendation } = {
   "software engineer": {
     title: "Software Engineer",
-    description: "Design, develop, and maintain software applications and systems",
+    description:
+      "Design, develop, and maintain software applications and systems",
     salary: "₹8-25 LPA",
     growth: "22% (Much faster than average)",
     skills: ["JavaScript", "Python", "React", "Node.js", "Git"],
@@ -173,7 +141,8 @@ const SAMPLE_CAREERS: { [key: string]: CareerRecommendation } = {
   },
   "data scientist": {
     title: "Data Scientist",
-    description: "Extract insights from complex data to drive business decisions",
+    description:
+      "Extract insights from complex data to drive business decisions",
     salary: "₹12-35 LPA",
     growth: "35% (Much faster than average)",
     skills: ["Python", "SQL", "Machine Learning", "Statistics", "Tableau"],
@@ -182,7 +151,8 @@ const SAMPLE_CAREERS: { [key: string]: CareerRecommendation } = {
   },
   "product manager": {
     title: "Product Manager",
-    description: "Lead product strategy and development from conception to launch",
+    description:
+      "Lead product strategy and development from conception to launch",
     salary: "₹15-40 LPA",
     growth: "19% (Much faster than average)",
     skills: ["Strategy", "Analytics", "Communication", "Leadership", "Agile"],
@@ -191,87 +161,82 @@ const SAMPLE_CAREERS: { [key: string]: CareerRecommendation } = {
   },
   "ui ux designer": {
     title: "UI/UX Designer",
-    description: "Create intuitive and engaging user experiences for digital products",
+    description:
+      "Create intuitive and engaging user experiences for digital products",
     salary: "₹6-20 LPA",
     growth: "13% (Faster than average)",
-    skills: ["Figma", "Adobe Creative Suite", "User Research", "Prototyping", "CSS"],
+    skills: [
+      "Figma",
+      "Adobe Creative Suite",
+      "User Research",
+      "Prototyping",
+      "CSS",
+    ],
     difficulty: "Beginner",
     timeToLearn: "3-6 months",
   },
 };
 
-// Enhanced AI Response System
+// Integrated AI Response System
 const generateAIResponse = (
   userMessage: string,
-): { content: string; suggestions?: string[]; type?: string; metadata?: any } => {
+): {
+  content: string;
+  suggestions?: string[];
+  type?: string;
+  metadata?: any;
+} => {
   const message = userMessage.toLowerCase();
 
-  if (message.includes("career") || message.includes("job") || message.includes("work")) {
-    if (message.includes("ai") || message.includes("artificial intelligence") || message.includes("machine learning")) {
+  // Advanced AI pattern matching for career guidance
+  if (
+    message.includes("career") ||
+    message.includes("job") ||
+    message.includes("work")
+  ) {
+    if (
+      message.includes("ai") ||
+      message.includes("artificial intelligence") ||
+      message.includes("machine learning")
+    ) {
       return {
-        content: `🤖 **AI & Machine Learning Career Revolution**
+        content: `🤖 **AI & Machine Learning Career Path**
 
-The AI field is experiencing unprecedented growth! Here's your pathway to success:
+The AI field is exploding with opportunities! Here's your complete roadmap:
 
-**🚀 High-Impact AI Roles (2024):**
-• **AI Engineer** (₹15-45 LPA) - Build intelligent systems
-• **ML Engineer** (₹18-50 LPA) - Scale ML models in production
-• **Data Scientist** (₹12-35 LPA) - Extract actionable insights
-• **AI Research Scientist** (₹25-60 LPA) - Push the boundaries
-• **Prompt Engineer** (₹10-30 LPA) - Master AI communication
+**🚀 High-Demand AI Roles:**
+• **AI Engineer** (₹15-45 LPA) - Build AI systems & models
+• **ML Engineer** (₹18-50 LPA) - Deploy ML models at scale  
+• **Data Scientist** (₹12-35 LPA) - Extract insights from data
+• **AI Research Scientist** (₹25-60 LPA) - Cutting-edge research
+• **Prompt Engineer** (₹10-30 LPA) - Optimize AI interactions
 
-**🎯 Skills Roadmap (8-12 months):**
-**Foundation (Months 1-3):**
-• Python programming mastery
-• Statistics & probability theory
-• Linear algebra fundamentals
-• Data structures & algorithms
+**📚 Learning Path (8-12 months):**
+**Phase 1:** Python programming + Statistics fundamentals
+**Phase 2:** Machine Learning algorithms + TensorFlow/PyTorch
+**Phase 3:** Deep Learning + Neural Networks
+**Phase 4:** Specialized areas (NLP, Computer Vision, etc.)
 
-**Core ML (Months 4-6):**
-• Supervised/unsupervised learning
-• TensorFlow & PyTorch frameworks
-• Neural networks & deep learning
-• Model evaluation & optimization
-
-**Specialization (Months 7-9):**
-• Computer Vision or NLP focus
+**🔥 Hot Skills for 2024:**
+• Prompt Engineering (ChatGPT, Claude, etc.)
 • Large Language Models (LLMs)
-• MLOps & model deployment
-• Cloud platforms (AWS, GCP, Azure)
+• Computer Vision & Image Recognition
+• Natural Language Processing
+• MLOps & Model Deployment
 
-**Advanced (Months 10-12):**
-• Research paper implementation
-• Open source contributions
-• Portfolio project development
-• Interview preparation
+**💼 Top Companies Hiring:**
+• Google, Microsoft, OpenAI
+• Meta, Amazon, Apple
+• Startups: Anthropic, Hugging Face, Scale AI
+• Indian: Jio, TCS, Infosys, Flipkart
 
-**🔥 2024 Hot Technologies:**
-• **Generative AI** - GPT, DALL-E, Midjourney
-• **Large Language Models** - Fine-tuning, RAG systems
-• **Computer Vision** - Object detection, image generation
-• **Edge AI** - Mobile and IoT deployment
-• **AI Ethics** - Responsible AI development
-
-**💼 Top Hiring Companies:**
-**Global Giants:** Google, Microsoft, OpenAI, Meta, Amazon
-**Indian Leaders:** Jio, TCS, Infosys, Wipro, Flipkart
-**Hot Startups:** Anthropic, Hugging Face, Scale AI, Runway
-
-**💡 Pro Tips for Success:**
-• Build a strong GitHub portfolio with AI projects
-• Contribute to open-source ML libraries
-• Write technical blogs about your learnings
-• Participate in Kaggle competitions
-• Network with AI researchers and practitioners
-
-Ready to start your AI journey? I can create a personalized learning plan!`,
+Ready to dive into AI? I can create your personalized learning plan!`,
         suggestions: [
           "📚 Create my AI learning roadmap",
-          "💻 Best programming languages for AI",
+          "💻 Best AI programming languages",
           "🎯 AI portfolio project ideas",
-          "💰 AI job market analysis",
-          "🏢 Top AI companies hiring",
-          "🤝 AI networking strategies"
+          "💰 AI job market & salaries",
+          "🏢 Top AI companies to work for",
         ],
         type: "career_card",
         metadata: {
@@ -279,246 +244,366 @@ Ready to start your AI journey? I can create a personalized learning plan!`,
           salary: "₹15-50 LPA",
           growth: "45% (Extremely high growth)",
           difficulty: "Advanced",
-          skills: ["Python", "TensorFlow", "PyTorch", "Statistics", "ML Algorithms"],
+          skills: [
+            "Python",
+            "TensorFlow",
+            "PyTorch",
+            "Statistics",
+            "ML Algorithms",
+          ],
         },
       };
     }
 
-    if (message.includes("software") || message.includes("developer") || message.includes("programming")) {
+    if (
+      message.includes("software") ||
+      message.includes("developer") ||
+      message.includes("programming")
+    ) {
       return {
-        content: `💻 **Software Development Career Mastery**
+        content: `💻 **Software Development Career Guide**
 
-Software engineering offers infinite possibilities and amazing growth potential!
+Software engineering offers amazing opportunities with flexibility and growth!
 
-**🎯 Development Career Paths:**
+**🎯 Popular Development Paths:**
 • **Frontend Developer** (₹6-20 LPA) - User interfaces & experiences
-• **Backend Developer** (₹8-25 LPA) - Server-side architecture
-• **Full-Stack Developer** (₹10-30 LPA) - End-to-end development
+• **Backend Developer** (₹8-25 LPA) - Server-side logic & APIs
+• **Full-Stack Developer** (₹10-30 LPA) - Complete web applications
 • **Mobile Developer** (₹8-22 LPA) - iOS/Android applications
 • **DevOps Engineer** (₹12-35 LPA) - Infrastructure & deployment
 
-**🛠️ Technology Ecosystem:**
+**🛠️ Essential Technology Stack:**
+**Frontend:** React, Vue.js, Angular, TypeScript
+**Backend:** Node.js, Python Django, Java Spring, .NET
+**Mobile:** React Native, Flutter, Swift, Kotlin
+**Database:** PostgreSQL, MongoDB, Redis
+**Cloud:** AWS, Azure, Google Cloud Platform
 
-**Frontend Mastery:**
-• **Frameworks:** React, Vue.js, Angular, Svelte
-• **Languages:** JavaScript, TypeScript, CSS3, HTML5
-• **Tools:** Webpack, Vite, Tailwind CSS, Styled Components
-
-**Backend Excellence:**
-• **Languages:** Node.js, Python, Java, Go, Rust
-• **Frameworks:** Express, Django, Spring Boot, FastAPI
-• **Databases:** PostgreSQL, MongoDB, Redis, Elasticsearch
-
-**Mobile Development:**
-• **Cross-Platform:** React Native, Flutter, Ionic
-• **Native:** Swift (iOS), Kotlin (Android)
-• **Tools:** Expo, Firebase, App Store Connect
-
-**DevOps & Cloud:**
-• **Containers:** Docker, Kubernetes, Podman
-• **Cloud:** AWS, Azure, Google Cloud Platform
-• **CI/CD:** GitHub Actions, Jenkins, GitLab CI
-
-**📈 Career Progression Journey:**
-**Year 1-2:** Junior Developer → Learn fundamentals
-**Year 3-4:** Mid-Level → Master frameworks & tools
-**Year 5-6:** Senior Developer → Architecture & mentoring
-**Year 7+:** Tech Lead/Manager → Strategy & leadership
+**📈 Career Progression:**
+Junior Developer → Senior Developer → Tech Lead → Engineering Manager → CTO
 
 **🌟 Why Choose Software Development:**
-• **High Demand:** 1.4M new jobs by 2030
-• **Remote Opportunities:** 85% companies offer flexibility
-• **Continuous Innovation:** Always learning new technologies
-• **Creative Problem Solving:** Build solutions that impact millions
-• **Strong Compensation:** Competitive salaries worldwide
+• High demand across all industries
+• Remote work opportunities
+• Continuous learning & innovation
+• Strong earning potential
+• Creative problem-solving
 
-**🚀 Getting Started Guide:**
-**Step 1:** Choose specialization (Frontend/Backend/Mobile)
-**Step 2:** Master one programming language deeply
-**Step 3:** Build 5+ portfolio projects
-**Step 4:** Contribute to open source projects
-**Step 5:** Network with developers & apply for roles
+**🚀 Getting Started:**
+1. Choose your specialization (Frontend/Backend/Mobile)
+2. Master one programming language deeply
+3. Build 3-5 portfolio projects
+4. Contribute to open source
+5. Apply for internships/junior roles
 
-**📁 Portfolio Project Ideas:**
-• **E-commerce Platform** - Full-stack application
-• **Social Media App** - Real-time features
-• **API Service** - RESTful backend with documentation
-• **Mobile App** - Cross-platform solution
-• **DevOps Pipeline** - Automated deployment system
-
-Ready to build your development career?`,
+Want me to create a detailed roadmap for your chosen specialization?`,
         suggestions: [
-          "🎨 Frontend development roadmap",
-          "⚙️ Backend architecture guide",
-          "📱 Mobile app development path",
+          "🎨 Frontend development path",
+          "⚙️ Backend development guide",
+          "📱 Mobile app development",
           "☁️ Cloud & DevOps career",
-          "📁 Portfolio building strategy",
-          "🔍 Job search strategies"
+          "📁 Portfolio project ideas",
+        ],
+      };
+    }
+
+    if (
+      message.includes("design") ||
+      message.includes("ui") ||
+      message.includes("ux")
+    ) {
+      return {
+        content: `🎨 **UI/UX Design Career Roadmap**
+
+Design is where creativity meets technology - shape digital experiences!
+
+**🎯 Design Career Paths:**
+• **UX Designer** (₹6-18 LPA) - User research & experience design
+• **UI Designer** (₹5-15 LPA) - Visual design & interfaces
+• **Product Designer** (₹10-25 LPA) - End-to-end product design
+• **UX Researcher** (₹8-20 LPA) - User behavior & insights
+• **Design Systems Lead** (₹15-30 LPA) - Scalable design frameworks
+
+**🛠️ Designer's Toolkit:**
+**Design:** Figma, Sketch, Adobe Creative Suite
+**Prototyping:** InVision, Principle, Framer
+**Research:** Hotjar, Maze, UserTesting
+**Collaboration:** Miro, FigJam, Notion
+
+**📚 Learning Journey (4-6 months):**
+**Month 1-2:** Design fundamentals + Figma mastery
+**Month 3-4:** User research + prototyping
+**Month 5-6:** Portfolio building + job applications
+
+**🎨 Portfolio Strategy:**
+• 3-4 case studies showing your process
+• Mix of redesigns and original concepts
+• Include user research and testing
+• Show before/after comparisons
+
+**🌟 Design Trends 2024:**
+• AI-powered design tools
+• Voice & conversational interfaces
+• Sustainable & inclusive design
+• AR/VR experiences
+• Micro-interactions & animations
+
+Ready to start your design journey?`,
+        suggestions: [
+          "🎨 Build my design portfolio",
+          "🔍 UX research methods",
+          "🛠️ Best design tools to learn",
+          "📐 Design system creation",
+          "💼 Design job interview prep",
         ],
       };
     }
   }
 
-  if (message.includes("salary") || message.includes("pay") || message.includes("earn")) {
+  if (
+    message.includes("salary") ||
+    message.includes("pay") ||
+    message.includes("earn")
+  ) {
     return {
-      content: `💰 **2024 Tech Salary Intelligence Report**
+      content: `💰 **2024 Tech Salary Guide - Complete Breakdown**
 
-**🇮🇳 India Tech Compensation Breakdown:**
+**🇮🇳 India Tech Salary Ranges:**
 
 **🌱 Entry Level (0-2 years):**
-• **Software Engineer:** ₹6-12 LPA
-• **Data Analyst:** ₹4-8 LPA
-• **UI/UX Designer:** ₹4-9 LPA
-• **Product Associate:** ₹5-10 LPA
-• **QA Engineer:** ₹4-8 LPA
-• **Digital Marketer:** ₹3-7 LPA
+• Software Engineer: ₹6-12 LPA
+• Data Analyst: ₹4-8 LPA
+• UI/UX Designer: ₹4-9 LPA
+• Digital Marketer: ₹3-7 LPA
+• QA Engineer: ₹4-8 LPA
 
 **💪 Mid Level (3-5 years):**
-• **Senior Software Engineer:** ₹12-25 LPA
-• **Data Scientist:** ₹15-30 LPA
-• **Product Manager:** ₹18-35 LPA
-• **DevOps Engineer:** ���15-28 LPA
-• **Tech Lead:** ₹20-35 LPA
-• **Senior Designer:** ₹12-22 LPA
+• Senior Software Engineer: ₹12-25 LPA
+• Data Scientist: ₹15-30 LPA
+• Product Manager: ₹18-35 LPA
+• DevOps Engineer: ₹15-28 LPA
+• Tech Lead: ₹20-35 LPA
 
 **🏆 Senior Level (6+ years):**
-• **Principal Engineer:** ₹35-60 LPA
-• **Engineering Manager:** ₹30-50 LPA
-• **Senior Product Manager:** ₹35-65 LPA
-• **Director of Engineering:** ₹50-80+ LPA
-• **VP Product:** ₹60-100+ LPA
-• **CTO:** ₹80+ LPA
+• Principal Engineer: ₹35-60 LPA
+• Engineering Manager: ₹30-50 LPA
+• Senior Product Manager: ₹35-65 LPA
+• Director/VP Engineering: ₹50-80+ LPA
 
-**🔥 Highest Paying Specializations 2024:**
-• **AI/ML Engineer:** ₹20-50 LPA
-• **Cloud Solutions Architect:** ₹25-55 LPA
-• **Cybersecurity Expert:** ₹18-40 LPA
-• **Blockchain Developer:** ₹15-35 LPA
-• **Growth Product Manager:** ₹25-50 LPA
-• **Staff Engineer:** ₹40-70 LPA
+**🔥 Highest Paying Specializations:**
+• AI/ML Engineer: ₹20-50 LPA
+• Cloud Architect: ₹25-55 LPA
+• Cybersecurity Expert: ₹18-40 LPA
+• Blockchain Developer: ₹15-35 LPA
+• Growth Product Manager: ₹25-50 LPA
 
-**🏙️ Location Impact on Compensation:**
-• **Bangalore/Mumbai:** +25-35% premium over national average
-• **Delhi NCR/Hyderabad:** +15-25% premium
-• **Pune/Chennai:** +10-20% premium
-• **Tier 2 Cities:** Base salary ranges
-• **Remote Work:** Increasingly location-independent
+**🏙️ Location Impact:**
+• Bangalore/Mumbai: +25-35% premium
+• Delhi NCR/Hyderabad: +15-25% premium
+• Pune/Chennai: +10-20% premium
+• Remote work: Location-independent pay
 
-**🏢 Company Type Salary Multipliers:**
-• **FAANG (Google, Meta, Amazon):** 2-3x market rate + equity
-• **Unicorn Startups:** 1.5-2x market + significant equity upside
-• **Series A-C Startups:** 1.2-1.8x + equity potential
-• **Traditional Enterprise:** 0.8-1.2x market rate
-• **Government/PSU:** Lower cash but job security
+**🚀 Salary Boosters:**
+• Master in-demand skills (AI, Cloud, Security)
+• Get industry certifications
+• Build strong portfolio & personal brand
+• Switch companies strategically
+• Negotiate effectively
 
-**🚀 Salary Acceleration Strategies:**
-
-**Short-term (6-12 months):**
-• Master high-demand skills (AI, Cloud, Security)
-• Earn industry certifications (AWS, Google Cloud, etc.)
-• Build impressive side projects
-• Contribute to popular open source projects
-• Optimize LinkedIn profile for recruiters
-
-**Medium-term (1-2 years):**
-• Strategic company switches (20-40% salary jumps)
-• Move to higher-paying cities/companies
-• Develop leadership & mentoring skills
-• Build strong professional network
-• Create technical content (blogs, videos)
-
-**Long-term (3-5 years):**
-• Transition to management or staff+ track
-• Develop deep business acumen
-• Build personal brand & thought leadership
-• Consider entrepreneurship opportunities
-• Mentor others and give back to community
-
-**💪 Negotiation Power Boosters:**
-• Multiple competing job offers
-• Proven track record with quantified impact
-• Rare skill combinations in high demand
-• Strong references from industry leaders
-• Active participation in tech community
-
-**🎯 Negotiation Framework:**
-**Research Phase:** Use Glassdoor, Levels.fyi, AmbitionBox
-**Preparation:** Document achievements with metrics
-**Strategy:** Negotiate total package (salary + equity + benefits)
-**Execution:** Show enthusiasm while maintaining leverage
-
-Want specific negotiation tactics for your situation?`,
+Want specific salary negotiation strategies?`,
       suggestions: [
-        "🎯 Salary negotiation masterclass",
-        "📈 How to get 40% raise",
-        "🏢 Best paying companies 2024",
-        "🌐 Remote salary strategies",
-        "📊 Salary by experience level",
-        "💎 Equity vs cash analysis"
+        "🎯 Salary negotiation tips",
+        "📈 How to get a 30% raise",
+        "🏢 Best paying companies",
+        "🌐 Remote salary trends",
+        "📊 Salary by city comparison",
       ],
     };
   }
 
-  // Default comprehensive response
+  if (message.includes("interview") || message.includes("job search")) {
+    return {
+      content: `🎯 **Master Tech Interviews - Complete Guide**
+
+**📋 Interview Process Stages:**
+
+**1. Application Screening (1-2 days)**
+• Resume/Portfolio review
+• Initial recruiter call
+• Basic qualification check
+
+**2. Technical Assessment (3-5 days)**
+• Coding challenges (LeetCode style)
+• Take-home projects
+• System design (for senior roles)
+
+**3. Final Interviews (1 day)**
+• Technical deep-dive with team
+• Behavioral questions (STAR method)
+• Culture fit assessment
+• Salary negotiation
+
+**💻 Technical Prep Strategy:**
+**Coding Interviews:**
+• Practice 2-3 LeetCode problems daily
+• Master: Arrays, Trees, Graphs, Dynamic Programming
+• Language: Python (readability) or Java (performance)
+
+**System Design:**
+• Study: Load balancers, Databases, Caching
+• Practice: Design Twitter, Uber, Netflix
+• Focus: Scalability, Reliability, Trade-offs
+
+**🗣️ Behavioral Interview Mastery:**
+• Prepare 5-7 STAR stories
+• Leadership, Problem-solving, Failure/Learning
+• Research company culture & values
+• Prepare thoughtful questions
+
+**💰 Negotiation Tips:**
+• Never accept first offer
+• Research market rates (Glassdoor, Levels.fyi)
+• Negotiate total package (salary + equity + benefits)
+• Show enthusiasm while having leverage
+
+**🚀 Success Timeline:**
+**Week 1-2:** Resume optimization + company research
+**Week 3-6:** Technical skill practice
+**Week 7-8:** Mock interviews + applications
+**Week 9-12:** Active interviewing + negotiation
+
+Ready to crush your next interview?`,
+      suggestions: [
+        "💻 Coding interview practice",
+        "🗣️ Behavioral questions prep",
+        "💰 Salary negotiation guide",
+        "🏢 Company research tips",
+        "📝 Resume optimization",
+      ],
+    };
+  }
+
+  if (
+    message.includes("learn") ||
+    message.includes("skill") ||
+    message.includes("course")
+  ) {
+    return {
+      content: `🚀 **2024's Most In-Demand Skills & Learning Strategy**
+
+**🔥 Top Technical Skills:**
+
+**AI & Machine Learning** 🤖
+• Python for AI/ML
+• TensorFlow, PyTorch
+• Prompt Engineering
+• Computer Vision, NLP
+• MLOps & Model Deployment
+
+**Cloud Computing** ☁️
+• AWS, Azure, Google Cloud
+• Kubernetes, Docker
+• Infrastructure as Code
+• Serverless Computing
+• DevOps & CI/CD
+
+**Programming Languages** 💻
+• Python (AI, Web, Automation)
+• JavaScript/TypeScript (Web Development)
+• Go (Backend, Microservices)
+• Rust (System Programming)
+• Swift/Kotlin (Mobile Development)
+
+**💼 Essential Soft Skills:**
+• AI Collaboration & Prompt Engineering
+• Remote Team Leadership
+• Data-Driven Decision Making
+• Cross-Cultural Communication
+• Continuous Learning Mindset
+
+**📚 Effective Learning Strategy:**
+
+**The 70-20-10 Rule:**
+• 70% Hands-on Projects
+• 20% Structured Courses
+• 10% Networking & Mentorship
+
+**Learning Timeline (3 months):**
+**Month 1:** Foundation through courses
+**Month 2:** Build practice projects
+**Month 3:** Real-world application
+
+**🎯 Best Learning Platforms:**
+• **Free:** freeCodeCamp, YouTube, GitHub
+• **Paid:** Udemy, Coursera, Pluralsight
+• **Interactive:** Codewars, HackerRank
+• **Projects:** GitHub, CodePen, Kaggle
+
+**🏆 Learning Accelerators:**
+• Join developer communities
+• Contribute to open source
+• Build projects, not just tutorials
+• Teach others (blog, YouTube)
+• Get mentorship
+
+Which skill would you like to master first?`,
+      suggestions: [
+        "🤖 AI/ML learning path",
+        "☁️ Cloud certification guide",
+        "💻 Programming roadmap",
+        "📊 Data science track",
+        "🎨 Design skills development",
+      ],
+    };
+  }
+
+  // Default intelligent response
   return {
-    content: `🚀 **Welcome to FutureForge AI - Your Career Intelligence Platform**
+    content: `🤖 **Your AI Career Strategist is Ready!**
 
-I'm your advanced AI Career Strategist, powered by cutting-edge technology to accelerate your professional journey!
+I'm powered by advanced AI to provide personalized career guidance!
 
-**🎯 How I Transform Careers:**
+**🎯 How I Can Help You:**
 
-**🔍 Intelligent Career Discovery**
-• AI-powered personality & skills assessment
-• Market opportunity analysis & trend forecasting
-• Personalized career path recommendations
-• Skills gap identification & prioritization
+**🔍 Career Discovery**
+• Personality-based career matching
+• Skills assessment & gap analysis
+• Industry insights & trends
+• Growth opportunity identification
 
-**📚 Accelerated Learning Systems**
-• Custom learning roadmaps with milestone tracking
-• Industry-specific skill development paths
-• Certification & course recommendations
-• Portfolio project guidance & review
+**📚 Learning & Development**
+• Custom learning roadmaps
+• Skill prioritization strategies
+• Course & certification recommendations
+• Portfolio development guidance
 
-**💼 Strategic Job Search Mastery**
-• Resume optimization with ATS scoring
-• Interview preparation with mock sessions
-• Salary negotiation strategies & market data
-• Network building & personal branding
+**💼 Job Search Support**
+• Interview preparation & practice
+• Resume optimization tips
+• Salary negotiation strategies
+• Network building approaches
 
-**📈 Real-Time Market Intelligence**
-• Live salary benchmarks & compensation trends
-• Emerging role opportunities & growth areas
-• Industry disruption analysis & future-proofing
-• Company culture insights & hiring patterns
+**📈 Market Intelligence**
+• Real-time salary benchmarks
+• Emerging role opportunities
+• Industry disruption analysis
+• Future-proofing strategies
 
-**🔄 Seamless Career Transitions**
-• Strategic pivot planning with risk assessment
-• Transferable skills analysis & positioning
-• Timeline optimization & milestone setting
-• Financial planning during transition periods
+**🔄 Career Transitions**
+• Career pivot planning
+• Skill transfer analysis
+• Timeline & milestone setting
+• Risk mitigation strategies
 
-**🌟 Advanced Features:**
-• **Conversational AI** - Natural language career coaching
-• **Predictive Analytics** - Future job market forecasting
-• **Personalization Engine** - Tailored advice based on your profile
-• **Success Tracking** - Progress monitoring & goal achievement
-• **Community Connect** - Network with like-minded professionals
+💡 **Just ask me anything!** I can provide specific, actionable advice tailored to your unique goals and situation.
 
-**💡 Just ask me anything!** I provide:
-• Specific, actionable career advice
-• Data-driven insights & recommendations
-• Personalized strategies for your unique goals
-• Real-time industry intelligence
-• Comprehensive growth planning
-
-Ready to forge your future? What career challenge shall we tackle first?`,
+What would you like to explore first?`,
     suggestions: [
-      "🎯 Discover my ideal career path",
-      "📊 Show me 2024 market trends",
-      "🚀 Create my learning roadmap",
-      "💼 Master interview strategies",
+      "🎯 Find my ideal career",
+      "📊 Show salary trends 2024",
+      "🚀 Create learning roadmap",
+      "💼 Interview preparation",
       "🔄 Plan career transition",
-      "💰 Optimize my compensation"
     ],
   };
 };
@@ -532,37 +617,37 @@ export default function ChatAssistant() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
-      content: `Welcome to **FutureForge AI** ${user?.firstName || "there"}! 🚀
+      content: `Hello ${user?.firstName || "there"}! 👋 
 
-I'm your **Advanced Career Intelligence System** - a next-generation AI strategist designed to accelerate your professional journey.
+I'm your **AI Career Strategist** powered by advanced artificial intelligence. 
 
-✨ **What makes me different:**
-• **Predictive Analytics** - Forecast career opportunities before they trend
-• **Personalized Intelligence** - Tailored strategies based on your unique profile
-• **Real-Time Market Data** - Live insights from the latest industry trends
-• **Strategic Planning** - Comprehensive roadmaps for career success
+✨ **I'm here to help you:**
+• Discover your perfect career path
+• Get real-time market insights  
+• Create personalized learning plans
+• Master interview strategies
+• Navigate career transitions
 
-🎯 **Ready to transform your career?** 
-Ask me anything about career paths, skills, salaries, market trends, or strategic planning!
+🚀 **Ask me anything about careers, skills, salaries, or the job market!**
 
-Let's forge your future together! 🌟`,
+What career goals would you like to explore today?`,
       sender: "bot",
       timestamp: new Date(),
       suggestions: [
-        "🎯 Discover my ideal career",
-        "📊 Show market trends 2024",
-        "🚀 Build learning strategy",
-        "💼 Interview mastery guide"
+        "🎯 Find my ideal career",
+        "💰 Show me salary trends",
+        "🚀 Build learning roadmap",
+        "🔮 Future job predictions",
       ],
     },
   ]);
 
   const [inputMessage, setInputMessage] = useState("");
   const [isTyping, setIsTyping] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
@@ -591,13 +676,16 @@ Let's forge your future together! 🌟`,
     setInputMessage("");
     setIsTyping(true);
 
+    // Focus back to input
     setTimeout(() => {
       inputRef.current?.focus();
     }, 100);
 
-    const processingTime = Math.random() * 2000 + 1500;
+    // Simulate AI processing time
+    const processingTime = Math.random() * 2000 + 1000; // 1-3 seconds
     await new Promise((resolve) => setTimeout(resolve, processingTime));
 
+    // Generate AI response
     const aiResponse = generateAIResponse(inputMessage);
     const botResponse: Message = {
       id: (Date.now() + 1).toString(),
@@ -613,8 +701,8 @@ Let's forge your future together! 🌟`,
     setIsTyping(false);
   };
 
-  const handleQuickStarter = (text: string) => {
-    setInputMessage(text);
+  const handleQuickQuestion = (question: string) => {
+    setInputMessage(question);
     setTimeout(() => handleSendMessage(), 100);
   };
 
@@ -653,74 +741,59 @@ Let's forge your future together! 🌟`,
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-800 dark:from-slate-950 dark:via-purple-950 dark:to-slate-900">
-      {/* Revolutionary Header */}
-      <header className="sticky top-0 z-50 backdrop-blur-2xl bg-slate-900/80 border-b border-purple-500/20">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950">
+      {/* Header */}
+      <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/80 dark:bg-slate-900/80 border-b border-slate-200/50 dark:border-slate-700/50">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            {/* Brand Identity */}
-            <Link to="/" className="flex items-center space-x-4 group">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 rounded-2xl blur-lg opacity-75 group-hover:opacity-100 transition-opacity"></div>
-                <div className="relative p-3 bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 rounded-2xl shadow-2xl">
-                  <Gamepad2 className="h-8 w-8 text-white" />
-                </div>
+            <Link to="/" className="flex items-center space-x-4">
+              <div className="p-3 bg-gradient-to-br from-indigo-500 via-purple-600 to-cyan-500 rounded-2xl shadow-lg">
+                <Compass className="h-8 w-8 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-orange-400 bg-clip-text text-transparent">
-                  FutureForge AI
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent">
+                  CareerCompass AI
                 </h1>
-                <p className="text-xs text-slate-400">Career Intelligence Platform</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">
+                  Powered by Advanced AI
+                </p>
               </div>
             </Link>
 
-            {/* Navigation */}
             <nav className="hidden lg:flex items-center space-x-8">
               <Link
-                to="/"
-                className="flex items-center space-x-2 text-slate-300 hover:text-purple-400 transition-all duration-300 font-medium group"
-              >
-                <Home className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                <span>Home</span>
-              </Link>
-              <Link
                 to="/careers"
-                className="flex items-center space-x-2 text-slate-300 hover:text-purple-400 transition-all duration-300 font-medium group"
+                className="text-slate-600 hover:text-indigo-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-indigo-400"
               >
-                <BarChart3 className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                <span>Careers</span>
+                Explore Careers
               </Link>
               <Link
                 to="/resume-analyzer"
-                className="flex items-center space-x-2 text-slate-300 hover:text-purple-400 transition-all duration-300 font-medium group"
+                className="text-slate-600 hover:text-indigo-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-indigo-400"
               >
-                <FileText className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                <span>Resume AI</span>
+                Resume AI
               </Link>
               <Link
                 to="/tips"
-                className="flex items-center space-x-2 text-slate-300 hover:text-purple-400 transition-all duration-300 font-medium group"
+                className="text-slate-600 hover:text-indigo-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-indigo-400"
               >
-                <Lightbulb className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                <span>Tips</span>
+                Daily Tips
               </Link>
               <Link
                 to="/goals"
-                className="flex items-center space-x-2 text-slate-300 hover:text-purple-400 transition-all duration-300 font-medium group"
+                className="text-slate-600 hover:text-indigo-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-indigo-400"
               >
-                <Calendar className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                <span>Goals</span>
+                Goal Tracker
               </Link>
             </nav>
 
-            {/* User Controls */}
             <div className="flex items-center space-x-4">
               <LanguageSelector />
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-                className="w-10 h-10 rounded-xl border border-purple-500/20 hover:border-purple-400/40 hover:bg-purple-500/10"
+                className="w-10 h-10 rounded-xl"
               >
                 <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
                 <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
@@ -728,11 +801,7 @@ Let's forge your future together! 🌟`,
 
               {isLoggedIn && user ? (
                 <div className="flex items-center space-x-3">
-                  <Button
-                    variant="ghost"
-                    asChild
-                    className="rounded-xl border border-purple-500/20 hover:border-purple-400/40"
-                  >
+                  <Button variant="ghost" asChild className="rounded-xl">
                     <Link to="/profile" className="flex items-center space-x-2">
                       {user.avatar ? (
                         <img
@@ -748,7 +817,7 @@ Let's forge your future together! 🌟`,
                   </Button>
                   <Button
                     variant="outline"
-                    className="rounded-xl border-purple-500/20 hover:border-purple-400/40"
+                    className="rounded-xl"
                     onClick={() => {
                       authService.signOut();
                       setUser(null);
@@ -760,18 +829,14 @@ Let's forge your future together! 🌟`,
                 </div>
               ) : (
                 <div className="flex items-center space-x-3">
-                  <Button
-                    variant="ghost"
-                    asChild
-                    className="rounded-xl border border-purple-500/20 hover:border-purple-400/40"
-                  >
+                  <Button variant="ghost" asChild className="rounded-xl">
                     <Link to="/login">Login</Link>
                   </Button>
                   <Button
                     asChild
-                    className="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 hover:from-purple-700 hover:via-pink-700 hover:to-orange-600 shadow-2xl rounded-xl border-0"
+                    className="bg-gradient-to-r from-indigo-500 via-purple-600 to-cyan-500 hover:from-indigo-600 hover:via-purple-700 hover:to-cyan-600 shadow-lg rounded-xl"
                   >
-                    <Link to="/register">Join FutureForge</Link>
+                    <Link to="/register">Get Started Free</Link>
                   </Button>
                 </div>
               )}
@@ -780,127 +845,116 @@ Let's forge your future together! 🌟`,
         </div>
       </header>
 
-      {/* Main Interface */}
+      {/* Main Content */}
       <div className="flex h-[calc(100vh-80px)]">
-        {/* Dynamic Sidebar */}
-        {!sidebarCollapsed && (
-          <div className="w-96 border-r border-purple-500/20 bg-slate-900/50 backdrop-blur-xl">
+        {/* Sidebar */}
+        {showSidebar && (
+          <div className="w-80 border-r border-slate-200/50 dark:border-slate-700/50 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl">
             <div className="p-6 space-y-6 h-full overflow-y-auto">
-              {/* AI Status Panel */}
-              <Card className="border-purple-500/20 bg-gradient-to-br from-purple-900/30 to-pink-900/30 backdrop-blur-xl">
+              {/* AI Status */}
+              <Card className="overflow-hidden shadow-xl border-0 bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-cyan-500/10">
                 <CardHeader className="pb-4">
                   <div className="flex items-center space-x-3">
-                    <div className="relative">
-                      <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl blur-md opacity-75"></div>
-                      <div className="relative p-3 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl">
-                        <Brain className="h-6 w-6 text-white" />
-                      </div>
+                    <div className="p-3 bg-gradient-to-br from-indigo-500 via-purple-600 to-cyan-500 rounded-xl shadow-lg">
+                      <Brain className="h-6 w-6 text-white" />
                     </div>
                     <div>
-                      <CardTitle className="text-lg text-white">
+                      <CardTitle className="text-lg">
                         AI Career Strategist
                       </CardTitle>
-                      <div className="flex items-center space-x-2 text-sm text-purple-300">
-                        <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-                        <span>Advanced Intelligence Active</span>
+                      <div className="flex items-center space-x-2 text-sm text-slate-600 dark:text-slate-400">
+                        <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                        <span>AI-Powered Guidance</span>
                       </div>
                     </div>
                   </div>
                 </CardHeader>
                 <CardContent className="pt-0">
                   <div className="space-y-3">
-                    <div className="flex items-center space-x-2 text-sm text-slate-300">
-                      <Zap className="w-4 h-4 text-yellow-400" />
-                      <span>Real-time career insights</span>
+                    <div className="flex items-center space-x-2 text-sm text-slate-600 dark:text-slate-400">
+                      <Zap className="w-4 h-4 text-amber-500" />
+                      <span>Instant career insights</span>
                     </div>
-                    <div className="flex items-center space-x-2 text-sm text-slate-300">
-                      <Target className="w-4 h-4 text-emerald-400" />
-                      <span>Predictive analytics</span>
+                    <div className="flex items-center space-x-2 text-sm text-slate-600 dark:text-slate-400">
+                      <Target className="w-4 h-4 text-emerald-500" />
+                      <span>Personalized roadmaps</span>
                     </div>
-                    <div className="flex items-center space-x-2 text-sm text-slate-300">
-                      <Rocket className="w-4 h-4 text-purple-400" />
-                      <span>Future-ready strategies</span>
+                    <div className="flex items-center space-x-2 text-sm text-slate-600 dark:text-slate-400">
+                      <Rocket className="w-4 h-4 text-indigo-500" />
+                      <span>Future-ready guidance</span>
                     </div>
                   </div>
                 </CardContent>
               </Card>
 
-              {/* Quick Starters */}
-              <Card className="border-purple-500/20 bg-slate-800/30 backdrop-blur-xl">
+              {/* Quick Questions */}
+              <Card className="shadow-xl border-0">
                 <CardHeader>
-                  <CardTitle className="flex items-center space-x-2 text-lg text-white">
-                    <Sparkles className="h-5 w-5 text-yellow-400" />
-                    <span>Quick Starters</span>
+                  <CardTitle className="flex items-center space-x-2 text-lg">
+                    <Lightbulb className="h-5 w-5 text-amber-500" />
+                    <span>Quick Questions</span>
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-3">
-                  {QUICK_STARTERS.map((starter, index) => (
+                <CardContent className="space-y-2">
+                  {QUICK_QUESTIONS.map((question, index) => (
                     <Button
                       key={index}
                       variant="ghost"
-                      className="w-full text-left justify-start h-auto p-4 text-sm hover:bg-purple-500/10 transition-all rounded-xl border border-transparent hover:border-purple-500/30 group"
-                      onClick={() => handleQuickStarter(starter.text)}
+                      className="w-full text-left justify-start h-auto p-3 text-sm hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-all rounded-xl"
+                      onClick={() => handleQuickQuestion(question)}
                     >
-                      <div className="flex items-center space-x-3 w-full">
-                        <div className={`p-2 bg-gradient-to-r ${starter.color} rounded-lg shadow-lg group-hover:scale-110 transition-transform`}>
-                          <starter.icon className="h-4 w-4 text-white" />
-                        </div>
-                        <div className="flex-1">
-                          <div className="text-white font-medium">
-                            {starter.text}
-                          </div>
-                          <div className="text-xs text-slate-400">
-                            {starter.category}
-                          </div>
-                        </div>
-                        <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-purple-400 transition-colors" />
-                      </div>
+                      <ChevronRight className="w-3 h-3 mr-2 text-indigo-500" />
+                      {question}
                     </Button>
                   ))}
                 </CardContent>
               </Card>
 
-              {/* Expertise Areas */}
-              <Card className="border-purple-500/20 bg-slate-800/30 backdrop-blur-xl">
+              {/* Career Categories */}
+              <Card className="shadow-xl border-0">
                 <CardHeader>
-                  <CardTitle className="flex items-center space-x-2 text-lg text-white">
-                    <Layers className="h-5 w-5 text-purple-400" />
-                    <span>Expertise Areas</span>
+                  <CardTitle className="flex items-center space-x-2 text-lg">
+                    <Layers className="h-5 w-5 text-indigo-500" />
+                    <span>Career Categories</span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {EXPERTISE_AREAS.map((area, index) => (
+                  {CAREER_CATEGORIES.map((category, index) => (
                     <div
                       key={index}
-                      className="p-4 border border-purple-500/20 rounded-xl hover:border-purple-400/40 transition-all cursor-pointer group bg-gradient-to-r hover:from-slate-800/50 hover:to-purple-900/30"
+                      className="p-4 border border-slate-200/50 dark:border-slate-700/50 rounded-xl hover:shadow-lg transition-all cursor-pointer group bg-gradient-to-r hover:from-slate-50 hover:to-gray-50 dark:hover:from-slate-800 dark:hover:to-gray-800"
                       onClick={() =>
-                        handleQuickStarter(`Tell me about careers in ${area.title}`)
+                        handleQuickQuestion(
+                          `Tell me about careers in ${category.title}`,
+                        )
                       }
                     >
                       <div className="flex items-start space-x-3">
-                        <div className={`p-2 bg-gradient-to-r ${area.gradient} rounded-lg shadow-lg group-hover:scale-110 transition-transform`}>
-                          <area.icon className="h-4 w-4 text-white" />
+                        <div
+                          className={`p-2 bg-gradient-to-r ${category.gradient} rounded-lg shadow-sm group-hover:shadow-md transition-shadow`}
+                        >
+                          <category.icon className="h-4 w-4 text-white" />
                         </div>
                         <div className="flex-1">
-                          <h4 className="font-semibold text-sm text-white">
-                            {area.title}
+                          <h4 className="font-semibold text-sm text-slate-900 dark:text-slate-100">
+                            {category.title}
                           </h4>
-                          <p className="text-xs text-slate-400 mb-2">
-                            {area.description}
+                          <p className="text-xs text-slate-600 dark:text-slate-400 mb-2">
+                            {category.subtitle}
                           </p>
                           <div className="flex flex-wrap gap-1">
-                            {area.topics.slice(0, 2).map((topic, idx) => (
+                            {category.topics.slice(0, 2).map((topic, idx) => (
                               <Badge
                                 key={idx}
                                 variant="outline"
-                                className="text-xs px-2 py-0 border-purple-500/30 text-purple-300"
+                                className="text-xs px-2 py-0"
                               >
                                 {topic}
                               </Badge>
                             ))}
                           </div>
                         </div>
-                        <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-purple-400 transition-colors" />
+                        <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-indigo-500 transition-colors" />
                       </div>
                     </div>
                   ))}
@@ -913,24 +967,24 @@ Let's forge your future together! 🌟`,
         {/* Chat Interface */}
         <div className="flex-1 flex flex-col">
           {/* Chat Header */}
-          <div className="p-4 border-b border-purple-500/20 bg-slate-900/50 backdrop-blur-xl">
+          <div className="p-4 border-b border-slate-200/50 dark:border-slate-700/50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
-                <Avatar className="h-12 w-12 ring-2 ring-purple-500/50">
-                  <AvatarFallback className="bg-gradient-to-br from-purple-600 via-pink-600 to-orange-500 text-white font-bold text-lg">
+                <Avatar className="h-12 w-12 ring-2 ring-indigo-500/20">
+                  <AvatarFallback className="bg-gradient-to-br from-indigo-500 via-purple-600 to-cyan-500 text-white font-bold text-lg">
                     AI
                   </AvatarFallback>
                 </Avatar>
                 <div>
-                  <h2 className="text-xl font-semibold text-white flex items-center space-x-2">
-                    <span>FutureForge AI Assistant</span>
-                    <Badge className="bg-emerald-500/20 text-emerald-300 border-emerald-500/30">
-                      ✨ Advanced Intelligence
+                  <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-100 flex items-center space-x-2">
+                    <span>AI Career Strategist</span>
+                    <Badge className="bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300">
+                      ✨ AI-Powered
                     </Badge>
                   </h2>
-                  <div className="flex items-center space-x-2 text-sm text-slate-400">
-                    <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-                    <span>Online • Ready to transform your career</span>
+                  <div className="flex items-center space-x-2 text-sm text-slate-600 dark:text-slate-400">
+                    <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                    <span>Online • Ready to help with your career</span>
                   </div>
                 </div>
               </div>
@@ -938,30 +992,22 @@ Let's forge your future together! 🌟`,
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-9 w-9 p-0 rounded-xl border border-purple-500/20 hover:border-purple-400/40"
-                  onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+                  className="h-9 w-9 p-0 rounded-xl"
+                  onClick={() => setShowSidebar(!showSidebar)}
                 >
-                  {sidebarCollapsed ? <Menu className="h-4 w-4" /> : <X className="h-4 w-4" />}
+                  <Layers className="h-4 w-4" />
                 </Button>
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-9 w-9 p-0 rounded-xl border border-purple-500/20 hover:border-purple-400/40"
-                  onClick={() => setIsFullscreen(!isFullscreen)}
-                >
-                  {isFullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-9 w-9 p-0 rounded-xl border border-purple-500/20 hover:border-purple-400/40"
+                  className="h-9 w-9 p-0 rounded-xl"
                 >
                   <Search className="h-4 w-4" />
                 </Button>
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-9 w-9 p-0 rounded-xl border border-purple-500/20 hover:border-purple-400/40"
+                  className="h-9 w-9 p-0 rounded-xl"
                 >
                   <MoreVertical className="h-4 w-4" />
                 </Button>
@@ -969,82 +1015,83 @@ Let's forge your future together! 🌟`,
             </div>
           </div>
 
-          {/* Messages Container */}
+          {/* Messages */}
           <div className="flex-1 relative overflow-hidden">
-            <ScrollArea className="h-full">
+            <ScrollArea className="h-full" ref={messagesContainerRef}>
               <div className="p-6 space-y-6">
                 {messages.map((message) => (
                   <div
                     key={message.id}
-                    className={`flex ${
-                      message.sender === "user" ? "justify-end" : "justify-start"
-                    }`}
+                    className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"}`}
                   >
                     <div
-                      className={`max-w-[85%] ${
-                        message.sender === "user" ? "order-2" : "order-1"
-                      }`}
+                      className={`max-w-[85%] ${message.sender === "user" ? "order-2" : "order-1"}`}
                     >
                       <div className="flex items-start space-x-3">
                         {message.sender === "bot" && (
-                          <Avatar className="h-9 w-9 flex-shrink-0 ring-2 ring-purple-500/50">
-                            <AvatarFallback className="bg-gradient-to-br from-purple-600 via-pink-600 to-orange-500 text-white text-xs font-bold">
+                          <Avatar className="h-9 w-9 flex-shrink-0 ring-2 ring-indigo-500/20">
+                            <AvatarFallback className="bg-gradient-to-br from-indigo-500 via-purple-600 to-cyan-500 text-white text-xs font-bold">
                               AI
                             </AvatarFallback>
                           </Avatar>
                         )}
 
                         <div
-                          className={`rounded-2xl p-5 shadow-2xl backdrop-blur-xl ${
+                          className={`rounded-2xl p-5 shadow-lg backdrop-blur-sm ${
                             message.sender === "user"
-                              ? "bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 text-white"
-                              : "bg-slate-800/80 text-white border border-purple-500/20"
+                              ? "bg-gradient-to-r from-indigo-500 via-purple-600 to-cyan-500 text-white"
+                              : "bg-white/90 dark:bg-slate-800/90 text-slate-900 dark:text-slate-100 border border-slate-200/50 dark:border-slate-700/50"
                           }`}
                         >
                           <div className="whitespace-pre-line text-sm leading-relaxed">
                             {message.content}
                           </div>
 
-                          {/* Enhanced Career Card */}
-                          {message.type === "career_card" && message.metadata && (
-                            <div className="mt-4 p-4 bg-slate-700/50 rounded-xl border border-purple-500/20">
-                              <div className="flex items-center justify-between mb-3">
-                                <h4 className="font-semibold text-white">
-                                  {message.metadata.title}
-                                </h4>
-                                <Badge className={getDifficultyColor(message.metadata.difficulty)}>
-                                  {message.metadata.difficulty}
-                                </Badge>
-                              </div>
-                              <div className="grid grid-cols-2 gap-3 text-sm">
-                                <div className="p-3 bg-emerald-500/20 rounded-lg border border-emerald-500/30">
-                                  <span className="text-emerald-300 font-medium">
-                                    💰 Salary:
-                                  </span>
-                                  <br />
-                                  <span className="text-emerald-100 font-semibold">
-                                    {message.metadata.salary}
-                                  </span>
+                          {/* Career Card */}
+                          {message.type === "career_card" &&
+                            message.metadata && (
+                              <div className="mt-4 p-4 bg-slate-50/80 dark:bg-slate-700/80 rounded-xl border border-slate-200/50 dark:border-slate-600/50">
+                                <div className="flex items-center justify-between mb-3">
+                                  <h4 className="font-semibold text-slate-900 dark:text-slate-100">
+                                    {message.metadata.title}
+                                  </h4>
+                                  <Badge
+                                    className={getDifficultyColor(
+                                      message.metadata.difficulty,
+                                    )}
+                                  >
+                                    {message.metadata.difficulty}
+                                  </Badge>
                                 </div>
-                                <div className="p-3 bg-blue-500/20 rounded-lg border border-blue-500/30">
-                                  <span className="text-blue-300 font-medium">
-                                    📈 Growth:
-                                  </span>
-                                  <br />
-                                  <span className="text-blue-100 font-semibold">
-                                    {message.metadata.growth}
-                                  </span>
+                                <div className="grid grid-cols-2 gap-3 text-sm">
+                                  <div className="p-3 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg">
+                                    <span className="text-emerald-700 dark:text-emerald-300 font-medium">
+                                      💰 Salary:
+                                    </span>
+                                    <br />
+                                    <span className="text-emerald-900 dark:text-emerald-100 font-semibold">
+                                      {message.metadata.salary}
+                                    </span>
+                                  </div>
+                                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                                    <span className="text-blue-700 dark:text-blue-300 font-medium">
+                                      📈 Growth:
+                                    </span>
+                                    <br />
+                                    <span className="text-blue-900 dark:text-blue-100 font-semibold">
+                                      {message.metadata.growth}
+                                    </span>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          )}
+                            )}
 
                           <div className="flex items-center justify-between mt-4">
                             <div
                               className={`text-xs ${
                                 message.sender === "user"
-                                  ? "text-purple-100"
-                                  : "text-slate-400"
+                                  ? "text-indigo-100"
+                                  : "text-slate-500 dark:text-slate-400"
                               }`}
                             >
                               {message.timestamp.toLocaleTimeString([], {
@@ -1057,7 +1104,7 @@ Let's forge your future together! 🌟`,
                                 <Button
                                   variant="ghost"
                                   size="sm"
-                                  className="h-7 w-7 p-0 opacity-60 hover:opacity-100 rounded-lg hover:bg-purple-500/20"
+                                  className="h-7 w-7 p-0 opacity-60 hover:opacity-100 rounded-lg"
                                   onClick={() => copyMessage(message.content)}
                                 >
                                   <Copy className="h-3 w-3" />
@@ -1065,7 +1112,7 @@ Let's forge your future together! 🌟`,
                                 <Button
                                   variant="ghost"
                                   size="sm"
-                                  className="h-7 w-7 p-0 opacity-60 hover:opacity-100 rounded-lg hover:bg-purple-500/20"
+                                  className="h-7 w-7 p-0 opacity-60 hover:opacity-100 rounded-lg"
                                 >
                                   <ThumbsUp className="h-3 w-3" />
                                 </Button>
@@ -1075,15 +1122,15 @@ Let's forge your future together! 🌟`,
                         </div>
 
                         {message.sender === "user" && (
-                          <Avatar className="h-9 w-9 flex-shrink-0 ring-2 ring-slate-600">
-                            <AvatarFallback className="bg-slate-700 text-slate-300">
+                          <Avatar className="h-9 w-9 flex-shrink-0 ring-2 ring-slate-200 dark:ring-slate-700">
+                            <AvatarFallback className="bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300">
                               {user?.firstName?.[0] || "U"}
                             </AvatarFallback>
                           </Avatar>
                         )}
                       </div>
 
-                      {/* Enhanced Suggestions */}
+                      {/* Suggestions */}
                       {message.sender === "bot" && message.suggestions && (
                         <div className="mt-4 ml-12 flex flex-wrap gap-2">
                           {message.suggestions.map((suggestion, index) => (
@@ -1091,7 +1138,7 @@ Let's forge your future together! 🌟`,
                               key={index}
                               variant="outline"
                               size="sm"
-                              className="text-xs h-9 bg-slate-800/50 hover:bg-purple-500/20 border-purple-500/30 hover:border-purple-400/50 rounded-xl text-purple-300 hover:text-purple-200"
+                              className="text-xs h-9 bg-white/90 dark:bg-slate-800/90 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 border-indigo-200 dark:border-indigo-800 hover:border-indigo-300 dark:hover:border-indigo-700 rounded-xl"
                               onClick={() => handleSuggestion(suggestion)}
                             >
                               {suggestion}
@@ -1103,30 +1150,30 @@ Let's forge your future together! 🌟`,
                   </div>
                 ))}
 
-                {/* Enhanced Typing Indicator */}
+                {/* Typing Indicator */}
                 {isTyping && (
                   <div className="flex justify-start">
                     <div className="flex items-start space-x-3">
-                      <Avatar className="h-9 w-9 ring-2 ring-purple-500/50">
-                        <AvatarFallback className="bg-gradient-to-br from-purple-600 via-pink-600 to-orange-500 text-white text-xs font-bold">
+                      <Avatar className="h-9 w-9 ring-2 ring-indigo-500/20">
+                        <AvatarFallback className="bg-gradient-to-br from-indigo-500 via-purple-600 to-cyan-500 text-white text-xs font-bold">
                           AI
                         </AvatarFallback>
                       </Avatar>
-                      <div className="bg-slate-800/80 rounded-2xl p-4 shadow-2xl border border-purple-500/20 backdrop-blur-xl">
+                      <div className="bg-white/90 dark:bg-slate-800/90 rounded-2xl p-4 shadow-lg border border-slate-200/50 dark:border-slate-700/50">
                         <div className="flex items-center space-x-3">
                           <div className="flex space-x-1">
-                            <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce"></div>
+                            <div className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce"></div>
                             <div
-                              className="w-2 h-2 bg-pink-400 rounded-full animate-bounce"
+                              className="w-2 h-2 bg-purple-400 rounded-full animate-bounce"
                               style={{ animationDelay: "0.1s" }}
                             ></div>
                             <div
-                              className="w-2 h-2 bg-orange-400 rounded-full animate-bounce"
+                              className="w-2 h-2 bg-cyan-400 rounded-full animate-bounce"
                               style={{ animationDelay: "0.2s" }}
                             ></div>
                           </div>
-                          <span className="text-xs text-slate-400">
-                            AI is analyzing and crafting intelligent response...
+                          <span className="text-xs text-slate-500 dark:text-slate-400">
+                            AI is analyzing and crafting response...
                           </span>
                         </div>
                       </div>
@@ -1138,8 +1185,8 @@ Let's forge your future together! 🌟`,
             </ScrollArea>
           </div>
 
-          {/* Advanced Input Area */}
-          <div className="border-t border-purple-500/20 bg-slate-900/50 backdrop-blur-xl">
+          {/* Input Area - FIXED */}
+          <div className="border-t border-slate-200/50 dark:border-slate-700/50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl">
             <div className="p-4">
               <div className="flex space-x-3 items-end">
                 <div className="flex-1">
@@ -1148,8 +1195,8 @@ Let's forge your future together! 🌟`,
                     value={inputMessage}
                     onChange={(e) => setInputMessage(e.target.value)}
                     onKeyPress={handleKeyPress}
-                    placeholder="Ask me anything about careers, skills, market trends, or strategic planning..."
-                    className="min-h-[60px] max-h-[120px] resize-none bg-slate-800/50 border-purple-500/30 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent text-white placeholder-slate-400 backdrop-blur-xl"
+                    placeholder="Ask me anything about careers, skills, salaries, or job market trends..."
+                    className="min-h-[60px] max-h-[120px] resize-none bg-white/90 dark:bg-slate-700/90 border-slate-300/50 dark:border-slate-600/50 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                     disabled={isTyping}
                   />
                 </div>
@@ -1157,34 +1204,26 @@ Let's forge your future together! 🌟`,
                   <Button
                     variant="outline"
                     size="sm"
-                    className="h-12 w-12 p-0 border-purple-500/30 hover:border-purple-400/50 rounded-xl bg-slate-800/50 hover:bg-purple-500/20"
+                    className="h-12 w-12 p-0 border-slate-300/50 dark:border-slate-600/50 rounded-xl"
                     disabled={isTyping}
                   >
-                    <Paperclip className="h-4 w-4 text-purple-300" />
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="h-12 w-12 p-0 border-purple-500/30 hover:border-purple-400/50 rounded-xl bg-slate-800/50 hover:bg-purple-500/20"
-                    disabled={isTyping}
-                  >
-                    <Mic className="h-4 w-4 text-purple-300" />
+                    <Paperclip className="h-4 w-4" />
                   </Button>
                   <Button
                     onClick={handleSendMessage}
                     disabled={!inputMessage.trim() || isTyping}
-                    className="h-12 px-6 bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 hover:from-purple-700 hover:via-pink-700 hover:to-orange-600 shadow-2xl rounded-xl border-0"
+                    className="h-12 px-6 bg-gradient-to-r from-indigo-500 via-purple-600 to-cyan-500 hover:from-indigo-600 hover:via-purple-700 hover:to-cyan-600 shadow-lg rounded-xl"
                   >
                     <Send className="h-4 w-4 mr-2" />
                     Send
                   </Button>
                 </div>
               </div>
-              <div className="flex items-center justify-between mt-3 text-xs text-slate-400">
+              <div className="flex items-center justify-between mt-3 text-xs text-slate-500 dark:text-slate-400">
                 <span>Press Enter to send • Shift + Enter for new line</span>
                 <div className="flex items-center space-x-1">
-                  <Sparkles className="h-3 w-3 text-purple-400" />
-                  <span>Powered by FutureForge AI</span>
+                  <Sparkles className="h-3 w-3" />
+                  <span>Powered by Advanced AI</span>
                 </div>
               </div>
             </div>
