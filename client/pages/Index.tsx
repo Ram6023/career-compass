@@ -762,22 +762,25 @@ export default function Index() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950 relative overflow-hidden">
-      {/* Background Design Elements */}
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50/50 to-blue-50 dark:from-gray-950 dark:via-emerald-950/20 dark:to-blue-950 relative overflow-hidden">
+      {/* Modern Background Design Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Floating Geometric Shapes */}
-        <div className="absolute top-20 left-10 w-64 h-64 bg-gradient-to-br from-indigo-400/20 to-purple-600/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute top-60 right-20 w-48 h-48 bg-gradient-to-br from-cyan-400/20 to-blue-600/20 rounded-full blur-2xl animate-pulse delay-1000"></div>
-        <div className="absolute bottom-40 left-1/4 w-32 h-32 bg-gradient-to-br from-purple-400/20 to-pink-600/20 rounded-full blur-xl animate-pulse delay-2000"></div>
-        <div className="absolute bottom-20 right-1/3 w-40 h-40 bg-gradient-to-br from-rose-400/20 to-orange-600/20 rounded-full blur-2xl animate-pulse delay-500"></div>
+        {/* Geometric Patterns */}
+        <div className="absolute top-20 left-10 w-96 h-96 bg-gradient-to-br from-emerald-400/15 to-teal-500/15 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-60 right-20 w-64 h-64 bg-gradient-to-br from-teal-400/20 to-blue-500/20 rounded-full blur-2xl animate-pulse delay-1000"></div>
+        <div className="absolute bottom-40 left-1/4 w-48 h-48 bg-gradient-to-br from-blue-400/15 to-emerald-500/15 rounded-full blur-xl animate-pulse delay-2000"></div>
+        <div className="absolute bottom-20 right-1/3 w-56 h-56 bg-gradient-to-br from-teal-400/10 to-blue-600/10 rounded-full blur-2xl animate-pulse delay-500"></div>
 
-        {/* Grid Pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_24%,rgba(68,68,68,.05)_25%,rgba(68,68,68,.05)_26%,transparent_27%,transparent_74%,rgba(68,68,68,.05)_75%,rgba(68,68,68,.05)_76%,transparent_77%,transparent),linear-gradient(-45deg,transparent_24%,rgba(68,68,68,.05)_25%,rgba(68,68,68,.05)_26%,transparent_27%,transparent_74%,rgba(68,68,68,.05)_75%,rgba(68,68,68,.05)_76%,transparent_77%,transparent)] bg-[length:60px_60px] dark:bg-[linear-gradient(45deg,transparent_24%,rgba(255,255,255,.02)_25%,rgba(255,255,255,.02)_26%,transparent_27%,transparent_74%,rgba(255,255,255,.02)_75%,rgba(255,255,255,.02)_76%,transparent_77%,transparent),linear-gradient(-45deg,transparent_24%,rgba(255,255,255,.02)_25%,rgba(255,255,255,.02)_26%,transparent_27%,transparent_74%,rgba(255,255,255,.02)_75%,rgba(255,255,255,.02)_76%,transparent_77%,transparent)]"></div>
+        {/* Modern Mesh Gradient */}
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_30%_20%,rgba(16,185,129,0.1),transparent_50%),radial-gradient(circle_at_70%_80%,rgba(59,130,246,0.1),transparent_50%),radial-gradient(circle_at_90%_30%,rgba(20,184,166,0.1),transparent_50%)]"></div>
+        </div>
 
-        {/* Subtle Dots */}
-        <div className="absolute top-1/3 left-1/2 w-2 h-2 bg-indigo-400/40 rounded-full animate-ping"></div>
-        <div className="absolute top-1/4 right-1/4 w-1 h-1 bg-purple-400/40 rounded-full animate-ping delay-700"></div>
-        <div className="absolute bottom-1/3 left-1/3 w-1.5 h-1.5 bg-cyan-400/40 rounded-full animate-ping delay-1500"></div>
+        {/* Floating Particles */}
+        <div className="absolute top-1/3 left-1/2 w-2 h-2 bg-emerald-400/60 rounded-full animate-ping"></div>
+        <div className="absolute top-1/4 right-1/4 w-1 h-1 bg-teal-400/60 rounded-full animate-ping delay-700"></div>
+        <div className="absolute bottom-1/3 left-1/3 w-1.5 h-1.5 bg-blue-400/60 rounded-full animate-ping delay-1500"></div>
+        <div className="absolute top-2/3 right-1/2 w-1 h-1 bg-emerald-500/50 rounded-full animate-ping delay-2000"></div>
       </div>
       <Header />
 
@@ -785,16 +788,14 @@ export default function Index() {
       <section className="py-20 px-6">
         <div className="container mx-auto max-w-6xl text-center">
           <div className="mb-8">
-            <h2 className="text-4xl md:text-6xl font-bold text-slate-900 dark:text-slate-100 mb-6">
+            <h2 className="text-5xl md:text-7xl font-extrabold text-gray-900 dark:text-white mb-8 leading-tight">
               Discover Your
-              <span className="block bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-r from-emerald-600 via-teal-600 to-blue-600 bg-clip-text text-transparent drop-shadow-sm">
                 Perfect Career Path
               </span>
             </h2>
-            <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
-              Let our AI analyze your interests, skills, and academic
-              performance to recommend careers that match your unique profile.
-              Start your journey towards a fulfilling career today.
+            <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed">
+              Powered by advanced AI, we analyze your interests, skills, and academic background to recommend careers that perfectly match your unique profile. Start your journey towards a fulfilling and successful career today.
             </p>
           </div>
 
@@ -803,7 +804,7 @@ export default function Index() {
               <Button
                 asChild
                 size="lg"
-                className="bg-gradient-to-r from-indigo-500 via-purple-600 to-cyan-500 hover:from-indigo-600 hover:via-purple-700 hover:to-cyan-600 shadow-xl rounded-xl text-lg px-8 py-6"
+                className="bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-600 hover:from-emerald-600 hover:via-teal-600 hover:to-blue-700 shadow-2xl rounded-2xl text-lg px-10 py-7 transition-all duration-300 hover:shadow-emerald-500/25 hover:scale-105"
               >
                 <Link to="/register">
                   <Sparkles className="mr-2 h-5 w-5" />
@@ -819,19 +820,18 @@ export default function Index() {
       </section>
 
       {/* Career Assessment Form */}
-      <section className="py-16 px-6 bg-white/50 dark:bg-slate-900/50">
-        <div className="container mx-auto max-w-4xl">
-          <Card className="shadow-2xl border-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl">
-            <CardHeader className="text-center pb-8">
-              <CardTitle className="text-3xl font-bold text-slate-900 dark:text-slate-100">
+      <section className="py-20 px-6 relative">
+        <div className="container mx-auto max-w-5xl">
+          <Card className="shadow-2xl border border-emerald-200/30 dark:border-emerald-700/30 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-3xl overflow-hidden">
+            <div className="bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-blue-600/10 px-8 py-10 text-center">
+              <CardTitle className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
                 AI-Powered Career Assessment
               </CardTitle>
-              <p className="text-slate-600 dark:text-slate-400 mt-2">
-                Answer a few questions to get personalized career
-                recommendations
+              <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                Answer a few questions to get personalized career recommendations powered by advanced artificial intelligence
               </p>
-            </CardHeader>
-            <CardContent className="space-y-8">
+            </div>
+            <CardContent className="p-10 space-y-10">
               {/* Interests Selection */}
               <div>
                 <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4 flex items-center">
