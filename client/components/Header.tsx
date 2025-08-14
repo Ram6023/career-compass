@@ -43,6 +43,12 @@ export function Header({ pageTitle, pageSubtitle }: HeaderProps) {
 
           <nav className="hidden lg:flex items-center space-x-8">
             <Link
+              to="/"
+              className="text-slate-600 hover:text-indigo-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-indigo-400"
+            >
+              Home
+            </Link>
+            <Link
               to="/careers"
               className="text-slate-600 hover:text-indigo-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-indigo-400"
             >
