@@ -1,17 +1,23 @@
-import React, { useState, useCallback } from 'react';
-import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import { Badge } from '@/components/ui/badge';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { 
-  Compass, 
-  Upload, 
-  FileText, 
-  CheckCircle, 
-  XCircle, 
+import React, { useState, useCallback } from "react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Compass,
+  Upload,
+  FileText,
+  CheckCircle,
+  XCircle,
   AlertCircle,
   Download,
   Star,
@@ -21,9 +27,9 @@ import {
   Eye,
   BarChart3,
   RefreshCw,
-  Sparkles
-} from 'lucide-react';
-import { Header } from '@/components/Header';
+  Sparkles,
+} from "lucide-react";
+import { Header } from "@/components/Header";
 
 interface ResumeAnalysis {
   overallScore: number;
@@ -76,7 +82,10 @@ export default function ResumeAnalyzer() {
     setDragActive(false);
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       const droppedFile = e.dataTransfer.files[0];
-      if (droppedFile.type === 'application/pdf' || droppedFile.name.endsWith('.pdf')) {
+      if (
+        droppedFile.type === "application/pdf" ||
+        droppedFile.name.endsWith(".pdf")
+      ) {
         setFile(droppedFile);
       }
     }
@@ -90,92 +99,128 @@ export default function ResumeAnalyzer() {
 
   const analyzeResume = async () => {
     if (!file) return;
-    
+
     setIsAnalyzing(true);
-    
+
     // Simulate AI analysis
-    await new Promise(resolve => setTimeout(resolve, 3000));
-    
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+
     // Mock analysis results
     const mockAnalysis: ResumeAnalysis = {
       overallScore: 78,
       sections: {
-        contactInfo: { 
-          score: 95, 
-          feedback: ['✓ Complete contact information provided', '✓ Professional email address', '✓ LinkedIn profile included'],
-          present: true 
+        contactInfo: {
+          score: 95,
+          feedback: [
+            "✓ Complete contact information provided",
+            "✓ Professional email address",
+            "✓ LinkedIn profile included",
+          ],
+          present: true,
         },
-        summary: { 
-          score: 70, 
-          feedback: ['✓ Professional summary present', '⚠ Could be more specific about achievements', '⚠ Add 1-2 key metrics'],
-          present: true 
+        summary: {
+          score: 70,
+          feedback: [
+            "✓ Professional summary present",
+            "⚠ Could be more specific about achievements",
+            "⚠ Add 1-2 key metrics",
+          ],
+          present: true,
         },
-        experience: { 
-          score: 85, 
-          feedback: ['✓ Good use of action verbs', '✓ Quantified achievements', '⚠ Add more recent experience details'],
-          present: true 
+        experience: {
+          score: 85,
+          feedback: [
+            "✓ Good use of action verbs",
+            "✓ Quantified achievements",
+            "⚠ Add more recent experience details",
+          ],
+          present: true,
         },
-        education: { 
-          score: 90, 
-          feedback: ['✓ Education section complete', '✓ Relevant coursework mentioned', '✓ GPA included'],
-          present: true 
+        education: {
+          score: 90,
+          feedback: [
+            "✓ Education section complete",
+            "✓ Relevant coursework mentioned",
+            "✓ GPA included",
+          ],
+          present: true,
         },
-        skills: { 
-          score: 65, 
-          feedback: ['✓ Technical skills listed', '⚠ Add more industry-specific skills', '⚠ Include skill proficiency levels'],
-          present: true 
+        skills: {
+          score: 65,
+          feedback: [
+            "✓ Technical skills listed",
+            "⚠ Add more industry-specific skills",
+            "⚠ Include skill proficiency levels",
+          ],
+          present: true,
         },
-        projects: { 
-          score: 60, 
-          feedback: ['✓ Projects section present', '⚠ Add more project details', '⚠ Include technologies used'],
-          present: true 
-        }
+        projects: {
+          score: 60,
+          feedback: [
+            "✓ Projects section present",
+            "⚠ Add more project details",
+            "⚠ Include technologies used",
+          ],
+          present: true,
+        },
       },
       keywordMatching: {
-        matched: ['JavaScript', 'React', 'Node.js', 'Python', 'SQL', 'Git', 'Agile'],
-        missing: ['AWS', 'Docker', 'Kubernetes', 'TypeScript', 'MongoDB'],
-        suggestions: ['Add cloud platform experience (AWS/Azure)', 'Include containerization skills', 'Mention API development']
+        matched: [
+          "JavaScript",
+          "React",
+          "Node.js",
+          "Python",
+          "SQL",
+          "Git",
+          "Agile",
+        ],
+        missing: ["AWS", "Docker", "Kubernetes", "TypeScript", "MongoDB"],
+        suggestions: [
+          "Add cloud platform experience (AWS/Azure)",
+          "Include containerization skills",
+          "Mention API development",
+        ],
       },
       improvements: {
         critical: [
-          'Add missing industry-relevant keywords',
-          'Quantify more achievements with specific metrics',
-          'Ensure ATS-friendly formatting'
+          "Add missing industry-relevant keywords",
+          "Quantify more achievements with specific metrics",
+          "Ensure ATS-friendly formatting",
         ],
         important: [
-          'Expand project descriptions with technical details',
-          'Add more recent work experience',
-          'Include relevant certifications'
+          "Expand project descriptions with technical details",
+          "Add more recent work experience",
+          "Include relevant certifications",
         ],
         minor: [
-          'Optimize spacing and layout',
-          'Use consistent bullet point formatting',
-          'Add portfolio or GitHub links'
-        ]
+          "Optimize spacing and layout",
+          "Use consistent bullet point formatting",
+          "Add portfolio or GitHub links",
+        ],
       },
       atsCompatibility: 82,
       readabilityScore: 88,
       industryFit: {
         score: 75,
-        industry: 'Software Development',
-        matchedKeywords: ['JavaScript', 'React', 'Python', 'SQL', 'Git']
-      }
+        industry: "Software Development",
+        matchedKeywords: ["JavaScript", "React", "Python", "SQL", "Git"],
+      },
     };
-    
+
     setAnalysis(mockAnalysis);
     setIsAnalyzing(false);
   };
 
   const getScoreColor = (score: number) => {
-    if (score >= 80) return 'text-green-600';
-    if (score >= 60) return 'text-yellow-600';
-    return 'text-red-600';
+    if (score >= 80) return "text-green-600";
+    if (score >= 60) return "text-yellow-600";
+    return "text-red-600";
   };
 
   const getScoreBgColor = (score: number) => {
-    if (score >= 80) return 'bg-green-100';
-    if (score >= 60) return 'bg-yellow-100';
-    return 'bg-red-100';
+    if (score >= 80) return "bg-green-100";
+    if (score >= 60) return "bg-yellow-100";
+    return "bg-red-100";
   };
 
   return (
@@ -202,7 +247,8 @@ export default function ResumeAnalyzer() {
             </span>
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-8">
-            Get instant feedback on your resume with AI-powered analysis. Improve your chances of landing interviews with actionable insights.
+            Get instant feedback on your resume with AI-powered analysis.
+            Improve your chances of landing interviews with actionable insights.
           </p>
         </div>
 
@@ -220,9 +266,11 @@ export default function ResumeAnalyzer() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div 
+                <div
                   className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
-                    dragActive ? 'border-indigo-500 bg-indigo-50' : 'border-gray-300 hover:border-indigo-400'
+                    dragActive
+                      ? "border-indigo-500 bg-indigo-50"
+                      : "border-gray-300 hover:border-indigo-400"
                   }`}
                   onDragEnter={handleDrag}
                   onDragLeave={handleDrag}
@@ -260,13 +308,15 @@ export default function ResumeAnalyzer() {
                       <div className="flex items-center space-x-3">
                         <FileText className="h-5 w-5 text-green-600" />
                         <div>
-                          <p className="font-medium text-green-900">{file.name}</p>
+                          <p className="font-medium text-green-900">
+                            {file.name}
+                          </p>
                           <p className="text-sm text-green-700">
                             {(file.size / 1024 / 1024).toFixed(2)} MB
                           </p>
                         </div>
                       </div>
-                      <Button 
+                      <Button
                         onClick={analyzeResume}
                         disabled={isAnalyzing}
                         className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 shadow-lg"
@@ -291,7 +341,9 @@ export default function ResumeAnalyzer() {
                   <div className="mt-6 p-6 bg-indigo-50 rounded-lg">
                     <div className="flex items-center space-x-3 mb-4">
                       <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-rose-600"></div>
-                      <p className="font-medium text-slate-900 dark:text-slate-100">Analyzing your resume...</p>
+                      <p className="font-medium text-slate-900 dark:text-slate-100">
+                        Analyzing your resume...
+                      </p>
                     </div>
                     <div className="space-y-2 text-sm text-slate-700 dark:text-slate-300">
                       <p>• Extracting text and formatting information</p>
@@ -311,33 +363,42 @@ export default function ResumeAnalyzer() {
                   <div className="p-3 bg-rose-100 dark:bg-rose-900/20 rounded-full w-fit mx-auto mb-4">
                     <BarChart3 className="h-8 w-8 text-rose-600 dark:text-rose-400" />
                   </div>
-                  <h3 className="text-lg font-semibold mb-2">Comprehensive Scoring</h3>
+                  <h3 className="text-lg font-semibold mb-2">
+                    Comprehensive Scoring
+                  </h3>
                   <p className="text-gray-600 text-sm">
-                    Get detailed scores for each section of your resume with specific feedback
+                    Get detailed scores for each section of your resume with
+                    specific feedback
                   </p>
                 </CardContent>
               </Card>
-              
+
               <Card className="text-center">
                 <CardContent className="pt-6">
                   <div className="p-3 bg-pink-100 dark:bg-pink-900/20 rounded-full w-fit mx-auto mb-4">
                     <Target className="h-8 w-8 text-pink-600 dark:text-pink-400" />
                   </div>
-                  <h3 className="text-lg font-semibold mb-2">ATS Optimization</h3>
+                  <h3 className="text-lg font-semibold mb-2">
+                    ATS Optimization
+                  </h3>
                   <p className="text-gray-600 text-sm">
-                    Ensure your resume passes Applicant Tracking Systems used by employers
+                    Ensure your resume passes Applicant Tracking Systems used by
+                    employers
                   </p>
                 </CardContent>
               </Card>
-              
+
               <Card className="text-center">
                 <CardContent className="pt-6">
                   <div className="p-3 bg-cyan-100 rounded-full w-fit mx-auto mb-4">
                     <Award className="h-8 w-8 text-cyan-600" />
                   </div>
-                  <h3 className="text-lg font-semibold mb-2">Industry Matching</h3>
+                  <h3 className="text-lg font-semibold mb-2">
+                    Industry Matching
+                  </h3>
                   <p className="text-gray-600 text-sm">
-                    Check how well your resume matches specific industry requirements
+                    Check how well your resume matches specific industry
+                    requirements
                   </p>
                 </CardContent>
               </Card>
@@ -351,8 +412,12 @@ export default function ResumeAnalyzer() {
               <CardContent className="p-8">
                 <div className="flex items-center justify-between mb-6">
                   <div>
-                    <h2 className="text-3xl font-bold text-gray-900">Resume Analysis Complete</h2>
-                    <p className="text-gray-600">Here's your comprehensive resume analysis</p>
+                    <h2 className="text-3xl font-bold text-gray-900">
+                      Resume Analysis Complete
+                    </h2>
+                    <p className="text-gray-600">
+                      Here's your comprehensive resume analysis
+                    </p>
                   </div>
                   <div className="flex space-x-4">
                     <Button variant="outline" onClick={() => setAnalysis(null)}>
@@ -368,25 +433,33 @@ export default function ResumeAnalyzer() {
 
                 <div className="grid md:grid-cols-4 gap-6">
                   <div className="text-center">
-                    <div className={`text-6xl font-bold ${getScoreColor(analysis.overallScore)} mb-2`}>
+                    <div
+                      className={`text-6xl font-bold ${getScoreColor(analysis.overallScore)} mb-2`}
+                    >
                       {analysis.overallScore}
                     </div>
                     <p className="text-gray-600 font-medium">Overall Score</p>
                   </div>
                   <div className="text-center">
-                    <div className={`text-3xl font-bold ${getScoreColor(analysis.atsCompatibility)} mb-2`}>
+                    <div
+                      className={`text-3xl font-bold ${getScoreColor(analysis.atsCompatibility)} mb-2`}
+                    >
                       {analysis.atsCompatibility}%
                     </div>
                     <p className="text-gray-600 font-medium">ATS Compatible</p>
                   </div>
                   <div className="text-center">
-                    <div className={`text-3xl font-bold ${getScoreColor(analysis.readabilityScore)} mb-2`}>
+                    <div
+                      className={`text-3xl font-bold ${getScoreColor(analysis.readabilityScore)} mb-2`}
+                    >
                       {analysis.readabilityScore}%
                     </div>
                     <p className="text-gray-600 font-medium">Readability</p>
                   </div>
                   <div className="text-center">
-                    <div className={`text-3xl font-bold ${getScoreColor(analysis.industryFit.score)} mb-2`}>
+                    <div
+                      className={`text-3xl font-bold ${getScoreColor(analysis.industryFit.score)} mb-2`}
+                    >
                       {analysis.industryFit.score}%
                     </div>
                     <p className="text-gray-600 font-medium">Industry Fit</p>
@@ -415,9 +488,13 @@ export default function ResumeAnalyzer() {
                             ) : (
                               <XCircle className="h-5 w-5 text-red-500" />
                             )}
-                            <span>{section.replace(/([A-Z])/g, ' $1').trim()}</span>
+                            <span>
+                              {section.replace(/([A-Z])/g, " $1").trim()}
+                            </span>
                           </CardTitle>
-                          <Badge className={`${getScoreBgColor(data.score)} ${getScoreColor(data.score)} border-0`}>
+                          <Badge
+                            className={`${getScoreBgColor(data.score)} ${getScoreColor(data.score)} border-0`}
+                          >
                             {data.score}%
                           </Badge>
                         </div>
@@ -427,12 +504,14 @@ export default function ResumeAnalyzer() {
                         <div className="space-y-2">
                           {data.feedback.map((feedback, i) => (
                             <div key={i} className="flex items-start space-x-2">
-                              {feedback.startsWith('✓') ? (
+                              {feedback.startsWith("✓") ? (
                                 <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
                               ) : (
                                 <AlertCircle className="h-4 w-4 text-yellow-500 mt-0.5 flex-shrink-0" />
                               )}
-                              <p className="text-sm text-gray-600">{feedback.substring(2)}</p>
+                              <p className="text-sm text-gray-600">
+                                {feedback.substring(2)}
+                              </p>
                             </div>
                           ))}
                         </div>
@@ -454,7 +533,10 @@ export default function ResumeAnalyzer() {
                     <CardContent>
                       <div className="flex flex-wrap gap-2">
                         {analysis.keywordMatching.matched.map((keyword) => (
-                          <Badge key={keyword} className="bg-green-100 text-green-700">
+                          <Badge
+                            key={keyword}
+                            className="bg-green-100 text-green-700"
+                          >
                             {keyword}
                           </Badge>
                         ))}
@@ -472,7 +554,11 @@ export default function ResumeAnalyzer() {
                     <CardContent>
                       <div className="flex flex-wrap gap-2">
                         {analysis.keywordMatching.missing.map((keyword) => (
-                          <Badge key={keyword} variant="outline" className="border-red-200 text-red-700">
+                          <Badge
+                            key={keyword}
+                            variant="outline"
+                            className="border-red-200 text-red-700"
+                          >
                             {keyword}
                           </Badge>
                         ))}
@@ -490,12 +576,16 @@ export default function ResumeAnalyzer() {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-2">
-                      {analysis.keywordMatching.suggestions.map((suggestion, i) => (
-                        <div key={i} className="flex items-start space-x-2">
-                          <Star className="h-4 w-4 text-blue-500 mt-0.5 flex-shrink-0" />
-                          <p className="text-sm text-gray-600">{suggestion}</p>
-                        </div>
-                      ))}
+                      {analysis.keywordMatching.suggestions.map(
+                        (suggestion, i) => (
+                          <div key={i} className="flex items-start space-x-2">
+                            <Star className="h-4 w-4 text-blue-500 mt-0.5 flex-shrink-0" />
+                            <p className="text-sm text-gray-600">
+                              {suggestion}
+                            </p>
+                          </div>
+                        ),
+                      )}
                     </div>
                   </CardContent>
                 </Card>
@@ -509,16 +599,21 @@ export default function ResumeAnalyzer() {
                         <AlertCircle className="h-5 w-5" />
                         <span>Critical Improvements</span>
                       </CardTitle>
-                      <CardDescription>High priority changes that will significantly impact your resume</CardDescription>
+                      <CardDescription>
+                        High priority changes that will significantly impact
+                        your resume
+                      </CardDescription>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-3">
-                        {analysis.improvements.critical.map((improvement, i) => (
-                          <Alert key={i} className="border-red-200">
-                            <AlertCircle className="h-4 w-4 text-red-600" />
-                            <AlertDescription>{improvement}</AlertDescription>
-                          </Alert>
-                        ))}
+                        {analysis.improvements.critical.map(
+                          (improvement, i) => (
+                            <Alert key={i} className="border-red-200">
+                              <AlertCircle className="h-4 w-4 text-red-600" />
+                              <AlertDescription>{improvement}</AlertDescription>
+                            </Alert>
+                          ),
+                        )}
                       </div>
                     </CardContent>
                   </Card>
@@ -529,16 +624,22 @@ export default function ResumeAnalyzer() {
                         <TrendingUp className="h-5 w-5" />
                         <span>Important Improvements</span>
                       </CardTitle>
-                      <CardDescription>Medium priority changes that will enhance your resume</CardDescription>
+                      <CardDescription>
+                        Medium priority changes that will enhance your resume
+                      </CardDescription>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-2">
-                        {analysis.improvements.important.map((improvement, i) => (
-                          <div key={i} className="flex items-start space-x-2">
-                            <TrendingUp className="h-4 w-4 text-yellow-600 mt-0.5 flex-shrink-0" />
-                            <p className="text-sm text-gray-600">{improvement}</p>
-                          </div>
-                        ))}
+                        {analysis.improvements.important.map(
+                          (improvement, i) => (
+                            <div key={i} className="flex items-start space-x-2">
+                              <TrendingUp className="h-4 w-4 text-yellow-600 mt-0.5 flex-shrink-0" />
+                              <p className="text-sm text-gray-600">
+                                {improvement}
+                              </p>
+                            </div>
+                          ),
+                        )}
                       </div>
                     </CardContent>
                   </Card>
@@ -549,14 +650,18 @@ export default function ResumeAnalyzer() {
                         <Eye className="h-5 w-5" />
                         <span>Minor Improvements</span>
                       </CardTitle>
-                      <CardDescription>Low priority polish changes for a better presentation</CardDescription>
+                      <CardDescription>
+                        Low priority polish changes for a better presentation
+                      </CardDescription>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-2">
                         {analysis.improvements.minor.map((improvement, i) => (
                           <div key={i} className="flex items-start space-x-2">
                             <Eye className="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" />
-                            <p className="text-sm text-gray-600">{improvement}</p>
+                            <p className="text-sm text-gray-600">
+                              {improvement}
+                            </p>
                           </div>
                         ))}
                       </div>
@@ -570,10 +675,13 @@ export default function ResumeAnalyzer() {
                   <CardHeader>
                     <CardTitle className="flex items-center space-x-2">
                       <Target className="h-5 w-5 text-rose-600 dark:text-rose-400" />
-                      <span>Industry Analysis: {analysis.industryFit.industry}</span>
+                      <span>
+                        Industry Analysis: {analysis.industryFit.industry}
+                      </span>
                     </CardTitle>
                     <CardDescription>
-                      How well your resume matches the {analysis.industryFit.industry} industry
+                      How well your resume matches the{" "}
+                      {analysis.industryFit.industry} industry
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -583,18 +691,28 @@ export default function ResumeAnalyzer() {
                           {analysis.industryFit.score}%
                         </div>
                         <div className="flex-1">
-                          <Progress value={analysis.industryFit.score} className="h-3" />
+                          <Progress
+                            value={analysis.industryFit.score}
+                            className="h-3"
+                          />
                         </div>
                       </div>
 
                       <div>
-                        <h4 className="font-medium text-gray-900 mb-3">Industry-Relevant Keywords Found</h4>
+                        <h4 className="font-medium text-gray-900 mb-3">
+                          Industry-Relevant Keywords Found
+                        </h4>
                         <div className="flex flex-wrap gap-2">
-                          {analysis.industryFit.matchedKeywords.map((keyword) => (
-                            <Badge key={keyword} className="bg-rose-100 dark:bg-rose-900/20 text-rose-700 dark:text-rose-300">
-                              {keyword}
-                            </Badge>
-                          ))}
+                          {analysis.industryFit.matchedKeywords.map(
+                            (keyword) => (
+                              <Badge
+                                key={keyword}
+                                className="bg-rose-100 dark:bg-rose-900/20 text-rose-700 dark:text-rose-300"
+                              >
+                                {keyword}
+                              </Badge>
+                            ),
+                          )}
                         </div>
                       </div>
                     </div>

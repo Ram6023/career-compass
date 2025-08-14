@@ -1,12 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { 
-  Compass, 
-  Sun, 
-  Moon, 
-  User 
-} from "lucide-react";
+import { Compass, Sun, Moon, User } from "lucide-react";
 import { useTheme } from "@/components/ui/theme-provider";
 import { LanguageSelector } from "@/components/ui/language-selector";
 import { authService } from "@/lib/auth";

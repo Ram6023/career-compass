@@ -1,9 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Lightbulb,
   TrendingUp,
@@ -20,98 +26,108 @@ import {
   Compass,
   Sun,
   Moon,
-  User
-} from 'lucide-react';
-import { useTheme } from '@/components/ui/theme-provider';
-import { useLanguage } from '@/components/ui/language-provider';
-import { LanguageSelector } from '@/components/ui/language-selector';
-import { toast } from '@/components/ui/use-toast';
-import { authService } from '@/lib/auth';
-import { Header } from '@/components/Header';
+  User,
+} from "lucide-react";
+import { useTheme } from "@/components/ui/theme-provider";
+import { useLanguage } from "@/components/ui/language-provider";
+import { LanguageSelector } from "@/components/ui/language-selector";
+import { toast } from "@/components/ui/use-toast";
+import { authService } from "@/lib/auth";
+import { Header } from "@/components/Header";
 
 const DAILY_TIPS = [
   {
     id: 1,
     title: "Master the Art of Networking",
-    content: "Building meaningful professional relationships is crucial for career growth. Start by connecting with classmates, professors, and industry professionals on LinkedIn. Quality over quantity matters.",
+    content:
+      "Building meaningful professional relationships is crucial for career growth. Start by connecting with classmates, professors, and industry professionals on LinkedIn. Quality over quantity matters.",
     category: "Career Development",
     readTime: "3 min read",
     date: "Today",
     image: "💼",
-    tags: ["networking", "career", "linkedin"]
+    tags: ["networking", "career", "linkedin"],
   },
   {
     id: 2,
     title: "Stay Updated with Industry Trends",
-    content: "Follow industry leaders on social media, subscribe to relevant newsletters, and join professional communities. Being aware of trends helps you stay competitive.",
+    content:
+      "Follow industry leaders on social media, subscribe to relevant newsletters, and join professional communities. Being aware of trends helps you stay competitive.",
     category: "Industry Insights",
     readTime: "4 min read",
     date: "Yesterday",
     image: "📈",
-    tags: ["trends", "industry", "growth"]
+    tags: ["trends", "industry", "growth"],
   },
   {
     id: 3,
     title: "Develop Your Personal Brand",
-    content: "Your personal brand is how you present yourself professionally. Create a consistent online presence that showcases your skills, values, and career aspirations.",
+    content:
+      "Your personal brand is how you present yourself professionally. Create a consistent online presence that showcases your skills, values, and career aspirations.",
     category: "Personal Development",
     readTime: "5 min read",
     date: "2 days ago",
     image: "🎯",
-    tags: ["branding", "career", "identity"]
+    tags: ["branding", "career", "identity"],
   },
   {
     id: 4,
     title: "The Power of Continuous Learning",
-    content: "In today's fast-paced world, skills become obsolete quickly. Embrace lifelong learning through online courses, certifications, and hands-on projects.",
+    content:
+      "In today's fast-paced world, skills become obsolete quickly. Embrace lifelong learning through online courses, certifications, and hands-on projects.",
     category: "Skill Development",
     readTime: "6 min read",
     date: "3 days ago",
     image: "📚",
-    tags: ["learning", "skills", "education"]
-  }
+    tags: ["learning", "skills", "education"],
+  },
 ];
 
 const MOTIVATIONAL_QUOTES = [
   {
-    quote: "The future belongs to those who believe in the beauty of their dreams.",
-    author: "Eleanor Roosevelt"
+    quote:
+      "The future belongs to those who believe in the beauty of their dreams.",
+    author: "Eleanor Roosevelt",
   },
   {
-    quote: "Success is not final, failure is not fatal: it is the courage to continue that counts.",
-    author: "Winston Churchill"
+    quote:
+      "Success is not final, failure is not fatal: it is the courage to continue that counts.",
+    author: "Winston Churchill",
   },
   {
-    quote: "Your career is what you're paid for, your calling is what you're made for.",
-    author: "Steve Harvey"
-  }
+    quote:
+      "Your career is what you're paid for, your calling is what you're made for.",
+    author: "Steve Harvey",
+  },
 ];
 
 const INDUSTRY_NEWS = [
   {
     id: 1,
     title: "AI and Machine Learning Job Market Grows by 35%",
-    summary: "The demand for AI professionals continues to surge across industries, with new opportunities emerging daily.",
+    summary:
+      "The demand for AI professionals continues to surge across industries, with new opportunities emerging daily.",
     source: "Tech Career Weekly",
     time: "2 hours ago",
-    category: "Technology"
+    category: "Technology",
   },
   {
     id: 2,
     title: "Remote Work Skills in High Demand",
-    summary: "Companies are prioritizing candidates with proven remote collaboration and digital communication skills.",
+    summary:
+      "Companies are prioritizing candidates with proven remote collaboration and digital communication skills.",
     source: "Future of Work Report",
     time: "5 hours ago",
-    category: "Workplace Trends"
+    category: "Workplace Trends",
   },
   {
     id: 3,
     title: "Green Jobs Market Expected to Double by 2030",
-    summary: "Sustainability careers are becoming mainstream as companies prioritize environmental responsibility.",
+    summary:
+      "Sustainability careers are becoming mainstream as companies prioritize environmental responsibility.",
     source: "Sustainability Today",
     time: "1 day ago",
-    category: "Sustainability"
-  }
+    category: "Sustainability",
+  },
 ];
 
 export default function DailyTips() {
@@ -130,14 +146,18 @@ export default function DailyTips() {
   }, []);
 
   const toggleBookmark = (tipId: number) => {
-    setBookmarkedTips(prev => 
-      prev.includes(tipId) 
-        ? prev.filter(id => id !== tipId)
-        : [...prev, tipId]
+    setBookmarkedTips((prev) =>
+      prev.includes(tipId)
+        ? prev.filter((id) => id !== tipId)
+        : [...prev, tipId],
     );
     toast({
-      title: bookmarkedTips.includes(tipId) ? "Bookmark Removed" : "Bookmark Added",
-      description: bookmarkedTips.includes(tipId) ? "Tip removed from bookmarks" : "Tip saved to bookmarks",
+      title: bookmarkedTips.includes(tipId)
+        ? "Bookmark Removed"
+        : "Bookmark Added",
+      description: bookmarkedTips.includes(tipId)
+        ? "Tip removed from bookmarks"
+        : "Tip saved to bookmarks",
       duration: 2000,
     });
   };
@@ -180,7 +200,8 @@ export default function DailyTips() {
             </span>
           </h1>
           <p className="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto mb-8 leading-relaxed">
-            Get AI-curated career tips, industry insights, and daily motivation to accelerate your professional growth.
+            Get AI-curated career tips, industry insights, and daily motivation
+            to accelerate your professional growth.
           </p>
         </div>
 
@@ -208,7 +229,10 @@ export default function DailyTips() {
               <TrendingUp className="w-4 h-4" />
               <span>Industry News</span>
             </TabsTrigger>
-            <TabsTrigger value="resources" className="flex items-center space-x-2">
+            <TabsTrigger
+              value="resources"
+              className="flex items-center space-x-2"
+            >
               <BookOpen className="w-4 h-4" />
               <span>Resources</span>
             </TabsTrigger>
@@ -217,7 +241,10 @@ export default function DailyTips() {
           <TabsContent value="tips" className="space-y-6">
             <div className="grid md:grid-cols-2 gap-6">
               {DAILY_TIPS.map((tip) => (
-                <Card key={tip.id} className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <Card
+                  key={tip.id}
+                  className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
+                >
                   <CardHeader className="pb-4">
                     <div className="flex items-start justify-between">
                       <div className="flex items-center space-x-3">
@@ -226,7 +253,9 @@ export default function DailyTips() {
                           <Badge variant="secondary" className="text-xs mb-2">
                             {tip.category}
                           </Badge>
-                          <CardTitle className="text-lg leading-tight">{tip.title}</CardTitle>
+                          <CardTitle className="text-lg leading-tight">
+                            {tip.title}
+                          </CardTitle>
                         </div>
                       </div>
                       <div className="flex space-x-2">
@@ -236,7 +265,9 @@ export default function DailyTips() {
                           onClick={() => toggleBookmark(tip.id)}
                           className="p-2"
                         >
-                          <Bookmark className={`h-4 w-4 ${bookmarkedTips.includes(tip.id) ? 'fill-current text-rose-600' : ''}`} />
+                          <Bookmark
+                            className={`h-4 w-4 ${bookmarkedTips.includes(tip.id) ? "fill-current text-rose-600" : ""}`}
+                          />
                         </Button>
                         <Button
                           variant="ghost"
@@ -266,7 +297,11 @@ export default function DailyTips() {
                       </div>
                       <div className="flex space-x-2">
                         {tip.tags.map((tag) => (
-                          <Badge key={tag} variant="outline" className="text-xs">
+                          <Badge
+                            key={tag}
+                            variant="outline"
+                            className="text-xs"
+                          >
                             #{tag}
                           </Badge>
                         ))}
@@ -281,14 +316,19 @@ export default function DailyTips() {
           <TabsContent value="news" className="space-y-6">
             <div className="space-y-4">
               {INDUSTRY_NEWS.map((article) => (
-                <Card key={article.id} className="p-6 hover:shadow-lg transition-shadow duration-300">
+                <Card
+                  key={article.id}
+                  className="p-6 hover:shadow-lg transition-shadow duration-300"
+                >
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center space-x-3 mb-2">
                         <Badge variant="outline" className="text-xs">
                           {article.category}
                         </Badge>
-                        <span className="text-xs text-slate-500">{article.time}</span>
+                        <span className="text-xs text-slate-500">
+                          {article.time}
+                        </span>
                       </div>
                       <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">
                         {article.title}
@@ -315,24 +355,28 @@ export default function DailyTips() {
                 <BookOpen className="w-12 h-12 text-rose-600 mx-auto mb-4" />
                 <h3 className="text-lg font-semibold mb-2">Career Guides</h3>
                 <p className="text-slate-600 dark:text-slate-400 text-sm mb-4">
-                  Comprehensive guides for different career paths and industries.
+                  Comprehensive guides for different career paths and
+                  industries.
                 </p>
                 <Button variant="outline" size="sm">
                   Explore Guides
                 </Button>
               </Card>
-              
+
               <Card className="p-6 text-center">
                 <Star className="w-12 h-12 text-rose-600 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold mb-2">Skill Assessments</h3>
+                <h3 className="text-lg font-semibold mb-2">
+                  Skill Assessments
+                </h3>
                 <p className="text-slate-600 dark:text-slate-400 text-sm mb-4">
-                  Evaluate your current skills and identify areas for improvement.
+                  Evaluate your current skills and identify areas for
+                  improvement.
                 </p>
                 <Button variant="outline" size="sm">
                   Take Assessment
                 </Button>
               </Card>
-              
+
               <Card className="p-6 text-center">
                 <TrendingUp className="w-12 h-12 text-rose-600 mx-auto mb-4" />
                 <h3 className="text-lg font-semibold mb-2">Market Insights</h3>
@@ -353,7 +397,10 @@ export default function DailyTips() {
         <div className="container mx-auto px-4 py-8">
           <div className="text-center">
             <p className="text-slate-600 dark:text-slate-400 text-sm">
-              Developed and Designed by <span className="font-semibold text-rose-600 dark:text-rose-400">Sriram</span>
+              Developed and Designed by{" "}
+              <span className="font-semibold text-rose-600 dark:text-rose-400">
+                Sriram
+              </span>
             </p>
             <p className="text-slate-500 dark:text-slate-500 text-xs mt-1">
               © {new Date().getFullYear()} CareerCompass. All rights reserved.

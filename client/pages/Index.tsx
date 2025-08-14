@@ -8,7 +8,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Compass,
   ArrowRight,
@@ -133,7 +139,7 @@ export default function Index() {
     "Bootcamp Graduate",
     "Self-Taught",
     "Currently Studying",
-    "Other"
+    "Other",
   ];
 
   const handleQualificationChange = (value: string) => {
@@ -820,7 +826,10 @@ export default function Index() {
               </span>
             </h2>
             <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed">
-              Powered by advanced AI, we analyze your interests, skills, and academic background to recommend careers that perfectly match your unique profile. Start your journey towards a fulfilling and successful career today.
+              Powered by advanced AI, we analyze your interests, skills, and
+              academic background to recommend careers that perfectly match your
+              unique profile. Start your journey towards a fulfilling and
+              successful career today.
             </p>
           </div>
 
@@ -853,7 +862,8 @@ export default function Index() {
                 AI-Powered Career Assessment
               </CardTitle>
               <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-                Answer a few questions to get personalized career recommendations powered by advanced artificial intelligence
+                Answer a few questions to get personalized career
+                recommendations powered by advanced artificial intelligence
               </p>
             </div>
             <CardContent className="p-10 space-y-10">
@@ -862,7 +872,9 @@ export default function Index() {
                 <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
                   <Heart className="h-6 w-6 mr-3 text-emerald-500" />
                   What are your interests?
-                  <span className="text-sm font-normal text-gray-600 dark:text-gray-400 ml-2">(Select 3-8 that resonate with you)</span>
+                  <span className="text-sm font-normal text-gray-600 dark:text-gray-400 ml-2">
+                    (Select 3-8 that resonate with you)
+                  </span>
                 </h3>
                 <div className="flex flex-wrap gap-3 max-h-64 overflow-y-auto p-4 bg-white/80 dark:bg-gray-800/50 rounded-xl border border-emerald-200/30 dark:border-emerald-700/30">
                   {availableInterests.map((interest) => (
@@ -885,12 +897,18 @@ export default function Index() {
                 </div>
                 <div className="flex items-center justify-between mt-4">
                   <p className="text-sm text-gray-600 dark:text-gray-400">
-                    Selected: <span className="font-semibold text-emerald-600 dark:text-emerald-400">{interests.length}</span> interests
+                    Selected:{" "}
+                    <span className="font-semibold text-emerald-600 dark:text-emerald-400">
+                      {interests.length}
+                    </span>{" "}
+                    interests
                   </p>
                   {interests.length >= 3 && (
                     <div className="flex items-center text-emerald-600 dark:text-emerald-400">
                       <CheckCircle className="h-4 w-4 mr-1" />
-                      <span className="text-sm font-medium">Great selection!</span>
+                      <span className="text-sm font-medium">
+                        Great selection!
+                      </span>
                     </div>
                   )}
                 </div>
@@ -901,7 +919,9 @@ export default function Index() {
                 <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
                   <Zap className="h-6 w-6 mr-3 text-teal-500" />
                   What are your top skills?
-                  <span className="text-sm font-normal text-gray-600 dark:text-gray-400 ml-2">(Select 5-10 skills you're confident in)</span>
+                  <span className="text-sm font-normal text-gray-600 dark:text-gray-400 ml-2">
+                    (Select 5-10 skills you're confident in)
+                  </span>
                 </h3>
                 <div className="flex flex-wrap gap-3 max-h-64 overflow-y-auto p-4 bg-white/80 dark:bg-gray-800/50 rounded-xl border border-teal-200/30 dark:border-teal-700/30">
                   {availableSkills.map((skill) => (
@@ -922,12 +942,18 @@ export default function Index() {
                 </div>
                 <div className="flex items-center justify-between mt-4">
                   <p className="text-sm text-gray-600 dark:text-gray-400">
-                    Selected: <span className="font-semibold text-teal-600 dark:text-teal-400">{skills.length}</span> skills
+                    Selected:{" "}
+                    <span className="font-semibold text-teal-600 dark:text-teal-400">
+                      {skills.length}
+                    </span>{" "}
+                    skills
                   </p>
                   {skills.length >= 5 && (
                     <div className="flex items-center text-teal-600 dark:text-teal-400">
                       <CheckCircle className="h-4 w-4 mr-1" />
-                      <span className="text-sm font-medium">Excellent range!</span>
+                      <span className="text-sm font-medium">
+                        Excellent range!
+                      </span>
                     </div>
                   )}
                 </div>
@@ -1002,7 +1028,10 @@ export default function Index() {
                     Qualification
                   </Label>
                   <div className="space-y-3">
-                    <Select value={qualification} onValueChange={handleQualificationChange}>
+                    <Select
+                      value={qualification}
+                      onValueChange={handleQualificationChange}
+                    >
                       <SelectTrigger className="rounded-xl border-teal-300 focus:ring-teal-500 focus:border-teal-500">
                         <SelectValue placeholder="Select your qualification" />
                       </SelectTrigger>
