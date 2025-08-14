@@ -30,6 +30,7 @@ import {
   Moon,
   Sun
 } from 'lucide-react';
+import { Header } from '@/components/Header';
 import { useTheme } from '@/components/ui/theme-provider';
 
 interface DashboardStats {
@@ -215,41 +216,7 @@ export default function Admin() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-zinc-100 dark:from-slate-900 dark:via-gray-900 dark:to-zinc-900">
-      {/* Header */}
-      <header className="border-b border-slate-200/60 bg-white/80 backdrop-blur-md dark:bg-slate-900/80 dark:border-slate-700/60 sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Link to="/" className="flex items-center space-x-3">
-              <div className="p-2 bg-gradient-to-br from-rose-500 to-pink-600 rounded-xl shadow-lg">
-                <Compass className="h-8 w-8 text-white" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-rose-600 to-pink-600 bg-clip-text text-transparent">
-                  CareerCompass
-                </h1>
-                <p className="text-xs text-slate-500">Admin Dashboard</p>
-              </div>
-            </Link>
-            <div className="flex items-center space-x-4">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                className="w-9 px-0"
-              >
-                <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-                <span className="sr-only">Toggle theme</span>
-              </Button>
-              <Badge className="bg-gradient-to-r from-rose-500 to-pink-600 text-white shadow-lg">Admin</Badge>
-              <Button variant="ghost">
-                <Settings className="h-4 w-4 mr-2" />
-                Settings
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header pageSubtitle="Admin Dashboard" />
 
       <main className="container mx-auto px-4 py-8">
         {/* Page Header */}
