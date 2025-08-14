@@ -24,18 +24,18 @@ export function Header({ pageTitle, pageSubtitle }: HeaderProps) {
   );
 
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/80 dark:bg-slate-900/80 border-b border-slate-200/50 dark:border-slate-700/50">
+    <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/95 dark:bg-gray-900/95 border-b border-emerald-200/30 dark:border-emerald-700/30 shadow-lg">
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          <Link to="/" className="flex items-center space-x-4">
-            <div className="p-3 bg-gradient-to-br from-indigo-500 via-purple-600 to-cyan-500 rounded-2xl shadow-lg">
+          <Link to="/" className="flex items-center space-x-4 group">
+            <div className="p-3 bg-gradient-to-br from-emerald-500 via-teal-500 to-blue-600 rounded-2xl shadow-xl transition-transform group-hover:scale-105">
               <Compass className="h-8 w-8 text-white" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent">
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 via-teal-600 to-blue-600 bg-clip-text text-transparent">
                 CareerCompass AI
               </h1>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
+              <p className="text-xs text-gray-500 dark:text-gray-400">
                 {pageSubtitle || "Your Future Starts Here"}
               </p>
             </div>
@@ -44,39 +44,45 @@ export function Header({ pageTitle, pageSubtitle }: HeaderProps) {
           <nav className="hidden lg:flex items-center space-x-8">
             <Link
               to="/"
-              className="text-slate-600 hover:text-indigo-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-indigo-400"
+              className="text-gray-700 hover:text-emerald-600 transition-all duration-300 font-medium dark:text-gray-300 dark:hover:text-emerald-400 relative group"
             >
               Home
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald-500 transition-all duration-300 group-hover:w-full"></span>
             </Link>
             <Link
               to="/careers"
-              className="text-slate-600 hover:text-indigo-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-indigo-400"
+              className="text-gray-700 hover:text-emerald-600 transition-all duration-300 font-medium dark:text-gray-300 dark:hover:text-emerald-400 relative group"
             >
               Explore Careers
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald-500 transition-all duration-300 group-hover:w-full"></span>
             </Link>
             <Link
               to="/resume-analyzer"
-              className="text-slate-600 hover:text-indigo-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-indigo-400"
+              className="text-gray-700 hover:text-emerald-600 transition-all duration-300 font-medium dark:text-gray-300 dark:hover:text-emerald-400 relative group"
             >
               Resume AI
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald-500 transition-all duration-300 group-hover:w-full"></span>
             </Link>
             <Link
               to="/chat"
-              className="text-slate-600 hover:text-indigo-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-indigo-400"
+              className="text-gray-700 hover:text-emerald-600 transition-all duration-300 font-medium dark:text-gray-300 dark:hover:text-emerald-400 relative group"
             >
               AI Assistant
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald-500 transition-all duration-300 group-hover:w-full"></span>
             </Link>
             <Link
               to="/tips"
-              className="text-slate-600 hover:text-indigo-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-indigo-400"
+              className="text-gray-700 hover:text-emerald-600 transition-all duration-300 font-medium dark:text-gray-300 dark:hover:text-emerald-400 relative group"
             >
               Daily Tips
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald-500 transition-all duration-300 group-hover:w-full"></span>
             </Link>
             <Link
               to="/goals"
-              className="text-slate-600 hover:text-indigo-600 transition-colors font-medium dark:text-slate-300 dark:hover:text-indigo-400"
+              className="text-gray-700 hover:text-emerald-600 transition-all duration-300 font-medium dark:text-gray-300 dark:hover:text-emerald-400 relative group"
             >
               Goal Tracker
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald-500 transition-all duration-300 group-hover:w-full"></span>
             </Link>
           </nav>
 
@@ -127,7 +133,7 @@ export function Header({ pageTitle, pageSubtitle }: HeaderProps) {
                 </Button>
                 <Button
                   asChild
-                  className="bg-gradient-to-r from-indigo-500 via-purple-600 to-cyan-500 hover:from-indigo-600 hover:via-purple-700 hover:to-cyan-600 shadow-lg rounded-xl"
+                  className="bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-600 hover:from-emerald-600 hover:via-teal-600 hover:to-blue-700 shadow-lg rounded-xl transition-all duration-300 hover:shadow-xl hover:scale-105"
                 >
                   <Link to="/register">Get Started Free</Link>
                 </Button>
