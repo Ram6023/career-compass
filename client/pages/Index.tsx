@@ -116,6 +116,7 @@ export default function Index() {
   const [skills, setSkills] = useState<string[]>([]);
   const [experience, setExperience] = useState("");
   const [cgpa, setCgpa] = useState("");
+  const [qualification, setQualification] = useState("");
   const [recommendations, setRecommendations] = useState<
     CareerRecommendation[]
   >([]);
@@ -721,7 +722,7 @@ export default function Index() {
     // Show success notification
     toast({
       title: "Assessment Complete! 🎉",
-      description: `Your personalized career recommendations are ready. CGPA: ${cgpa || "Not specified"} considered in the analysis.`,
+      description: `Your personalized career recommendations are ready. CGPA: ${cgpa || "Not specified"}, Qualification: ${qualification || "Not specified"} considered in the analysis.`,
       duration: 5000,
     });
   };
@@ -938,8 +939,8 @@ export default function Index() {
                       onClick={() => handleInterestToggle(interest)}
                       className={`rounded-full transition-all text-xs ${
                         interests.includes(interest)
-                          ? "bg-gradient-to-r from-indigo-500 to-purple-600 shadow-lg"
-                          : "hover:border-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/20"
+                          ? "bg-gradient-to-r from-indigo-500 to-purple-600 shadow-lg text-white"
+                          : "hover:border-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 hover:text-indigo-900 dark:hover:text-indigo-100"
                       }`}
                     >
                       {interest}
@@ -967,8 +968,8 @@ export default function Index() {
                       onClick={() => handleSkillToggle(skill)}
                       className={`rounded-full transition-all text-xs ${
                         skills.includes(skill)
-                          ? "bg-gradient-to-r from-indigo-500 to-purple-600 shadow-lg"
-                          : "hover:border-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/20"
+                          ? "bg-gradient-to-r from-indigo-500 to-purple-600 shadow-lg text-white"
+                          : "hover:border-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 hover:text-indigo-900 dark:hover:text-indigo-100"
                       }`}
                     >
                       {skill}
@@ -980,8 +981,8 @@ export default function Index() {
                 </p>
               </div>
 
-              {/* Experience Level and CGPA Row */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Experience Level, CGPA, and Qualification Row */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Experience Level */}
                 <div>
                   <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4 flex items-center">
@@ -1002,8 +1003,8 @@ export default function Index() {
                         onClick={() => setExperience(level)}
                         className={`rounded-full transition-all ${
                           experience === level
-                            ? "bg-gradient-to-r from-indigo-500 to-purple-600 shadow-lg"
-                            : "hover:border-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/20"
+                            ? "bg-gradient-to-r from-indigo-500 to-purple-600 shadow-lg text-white"
+                            : "hover:border-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 hover:text-indigo-900 dark:hover:text-indigo-100"
                         }`}
                       >
                         {level}
@@ -1019,7 +1020,7 @@ export default function Index() {
                     className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4 flex items-center"
                   >
                     <Percent className="h-5 w-5 mr-2 text-green-500" />
-                    CGPA / Percentage (Optional)
+                    CGPA / Percentage
                   </Label>
                   <div className="space-y-2">
                     <Input
@@ -1034,8 +1035,31 @@ export default function Index() {
                       step="0.1"
                     />
                     <p className="text-xs text-slate-500 dark:text-slate-400">
-                      Enter your CGPA (0-10) or percentage (0-100) to get more
-                      accurate recommendations
+                      Enter CGPA (0-10) or percentage (0-100)
+                    </p>
+                  </div>
+                </div>
+
+                {/* Qualification Input */}
+                <div>
+                  <Label
+                    htmlFor="qualification"
+                    className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4 flex items-center"
+                  >
+                    <School className="h-5 w-5 mr-2 text-purple-500" />
+                    Qualification
+                  </Label>
+                  <div className="space-y-2">
+                    <Input
+                      id="qualification"
+                      type="text"
+                      placeholder="e.g., B.Tech CSE, MBA, High School"
+                      value={qualification}
+                      onChange={(e) => setQualification(e.target.value)}
+                      className="rounded-xl"
+                    />
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                      Your highest qualification or current education
                     </p>
                   </div>
                 </div>
