@@ -27,6 +27,7 @@ import {
   Smartphone,
   Globe
 } from 'lucide-react';
+import { Header } from '@/components/Header';
 
 interface Career {
   id: string;
@@ -233,38 +234,7 @@ export default function CareerComparison() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-zinc-100 dark:from-slate-900 dark:via-gray-900 dark:to-zinc-900">
-      {/* Header */}
-      <header className="border-b border-slate-200/60 bg-white/80 backdrop-blur-md dark:bg-slate-900/80 dark:border-slate-700/60 sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Link to="/" className="flex items-center space-x-3">
-              <div className="p-2 bg-gradient-to-br from-rose-500 to-pink-600 rounded-xl shadow-lg">
-                <Compass className="h-8 w-8 text-white" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-rose-600 to-pink-600 bg-clip-text text-transparent">
-                  CareerCompass
-                </h1>
-                <p className="text-xs text-gray-500">Career Comparison</p>
-              </div>
-            </Link>
-            <nav className="hidden md:flex items-center space-x-8">
-              <Link to="/" className="text-gray-600 hover:text-indigo-600 transition-colors">Home</Link>
-              <Link to="/careers" className="text-gray-600 hover:text-indigo-600 transition-colors">Explore Careers</Link>
-              <Link to="/resume-analyzer" className="text-gray-600 hover:text-indigo-600 transition-colors">Resume Analyzer</Link>
-              <Link to="/chat" className="text-gray-600 hover:text-indigo-600 transition-colors">AI Assistant</Link>
-            </nav>
-            <div className="flex items-center space-x-4">
-              <Button variant="ghost" asChild>
-                <Link to="/login">Login</Link>
-              </Button>
-              <Button asChild className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 shadow-lg">
-                <Link to="/register">Get Started</Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header pageSubtitle="Career Comparison" />
 
       <main className="container mx-auto px-4 py-8">
         {/* Hero Section */}
