@@ -24,8 +24,8 @@ export const translations: Translations = {
     
     // Hero Section
     'hero.title': 'Discover Your',
-    'hero.subtitle': 'Dream Career',
-    'hero.description': 'Get AI-powered career recommendations with personalized roadmaps, skill analysis, and industry insights.',
+    'hero.subtitle': 'Perfect Career Path',
+    'hero.description': 'Powered by advanced AI, we analyze your interests, skills, and academic background to recommend careers that perfectly match your unique profile. Start your journey towards a fulfilling and successful career today.',
     'hero.cta': 'Your journey to success starts here.',
     
     // Stats
@@ -111,7 +111,7 @@ export const translations: Translations = {
     'assessment.title': 'करियर मूल्यांकन',
     'assessment.description': 'व्यक्तिगत AI-संचालित करियर सिफारिशें प्राप्त करने के लिए इस व्यापक मूल्यांकन को पूरा करें',
     'assessment.academicBackground': 'शैक्षणिक पृष्ठभूमि',
-    'assessment.stream': 'शैक्षणिक ��्ट्रीम',
+    'assessment.stream': 'शैक्षणिक स्ट्रीम',
     'assessment.streamPlaceholder': 'अपनी शैक्षणिक स्ट्रीम चुनें',
     'assessment.cgpa': 'CGPA / प्रतिशत',
     'assessment.cgpaPlaceholder': 'जैसे, 8.5 या 85%',
@@ -150,7 +150,7 @@ export const translations: Translations = {
     // Hero Section
     'hero.title': 'మీ కనుగొనండి',
     'hero.subtitle': 'కలల కెరీర్',
-    'hero.description': 'వ్యక���తిగత రోడ్‌మ్యాప్‌లు, స్కిల్ అనాలిసిస్ మరియు ఇండస్ట్రీ ఇన్‌సైట్‌లతో AI-ఆధారిత కెరీర్ సిఫార్సులను పొందండి.',
+    'hero.description': 'వ్యక్తిగత రోడ్‌మ్యాప్‌లు, స్కిల్ అనాలిసిస్ మరియు ఇండస్ట్రీ ఇన్‌సైట్‌లతో AI-ఆధారిత కెరీర్ సిఫార్సులను పొందండి.',
     'hero.cta': 'మీ విజయ ప్రయాణం ఇక్కడ ప్రారంభమవుతుంది.',
     
     // Stats
@@ -175,7 +175,7 @@ export const translations: Translations = {
     'assessment.submitButton': 'AI కెరీర్ సిఫార్సులను రూపొందించండి',
     
     // Loading
-    'loading.title': 'AI మీ ప్రొఫైల్‌ను విశ్లేషిస్తోంది',
+    'loading.title': 'AI మీ ప్రొఫైల్‌న�� విశ్లేషిస్తోంది',
     'loading.description': 'మేము ��ీ వ్యక్తిగత కెరీర్ సిఫార్సులను రూపొందిస్తున్నప్పుడు దయచేసి వేచి ఉండండి',
     
     // Results
