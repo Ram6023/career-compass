@@ -99,7 +99,7 @@ export const translations: Translations = {
     // Hero Section
     'hero.title': 'अपना खोजें',
     'hero.subtitle': 'आदर्श करियर पथ',
-    'hero.description': 'उन्नत AI द्वारा संचालित, हम आपकी रुचियों, कौशल और शैक्षणिक पृष्ठभूमि का विश्लेषण करते हैं ताकि आपके अनूठे प्रोफाइल से पूर्णतः मेल खाने वाले करियर की सिफारिश कर सकें। आज ही अपनी संतुष्टिजनक और सफल करियर की यात्रा शुरू करें।',
+    'hero.description': 'उन्नत AI द्वारा संचालित, हम आपकी रुचियों, कौशल और शैक्षणिक पृष्ठभूमि का विश्लेषण करते हैं ताकि आपके अनूठे प्रोफाइल से पूर्णतः मेल खाने वाले करियर की सिफारिश कर सकें। आज ही अपनी संतुष्टिजनक और सफल करियर की यात्��ा शुरू करें।',
     'hero.cta': 'आपकी सफलता की यात्रा यहाँ से शुरू होती है।',
     
     // Stats
@@ -108,8 +108,8 @@ export const translations: Translations = {
     'stats.careers': '500+ करियर',
     
     // Assessment Form
-    'assessment.title': 'करियर मूल्यांकन',
-    'assessment.description': 'व्यक्तिगत AI-संचालित करियर सिफारिशें प्राप्त करने के लिए इस व्यापक मूल्यांकन को पूरा करें',
+    'assessment.title': 'AI-संचालित करियर मूल्यांकन',
+    'assessment.description': 'उन्नत आर्टिफिशियल इंटेलिजेंस द्वारा संचालित व्यक्तिगत करियर सिफारिशें प्राप्त करने के लिए कुछ प्रश्नों के उत्तर दें',
     'assessment.academicBackground': 'शैक्षणिक पृष्ठभूमि',
     'assessment.stream': 'शैक्षणिक स्ट्रीम',
     'assessment.streamPlaceholder': 'अपनी शैक्षणिक स्ट्रीम चुनें',
@@ -121,7 +121,7 @@ export const translations: Translations = {
     'assessment.careerGoalPlaceholder': 'आप कब शुरू करना चाहते हैं?',
     'assessment.skills': 'आपके कौशल',
     'assessment.interests': 'आपकी रुचियां',
-    'assessment.submitButton': 'AI करियर सिफारिशें ���त्पन्�� करें',
+    'assessment.submitButton': 'AI करियर सिफारिशें उत्पन्�� करें',
     
     // Loading
     'loading.title': 'AI आपकी प्रोफाइल का विश्लेषण कर रहा है',
@@ -131,7 +131,7 @@ export const translations: Translations = {
     'results.title': 'आपकी व्यक्तिगत करियर सिफारिशें',
     'results.description': 'आपके प्रोफाइल विश्लेषण के आधार पर, यहाँ आपके लिए तैयार किए गए शीर्ष करियर पथ हैं',
     'results.takeAgain': 'मूल्यांकन फिर से लें',
-    'results.export': 'परिणाम निर्यात करें'
+    'results.export': 'परिणा��� निर्यात करें'
   },
   
   te: {
@@ -141,7 +141,7 @@ export const translations: Translations = {
     'header.login': 'లాగిన్',
     'header.getStarted': 'ప్రారంభించండి',
     'header.exploreCarears': 'కెరీర్లను అన్వేషించండి',
-    'header.resumeAnalyzer': '��ెజ్యూమ్ ఎనలైజర్',
+    'header.resumeAnalyzer': 'రెజ్యూమ్ ఎనలైజర్',
     'header.careerRoadmaps': 'కెరీర్ రోడ్‌మ్యాప్‌లు',
     'header.aiAssistant': 'AI అసిస్టెంట్',
     'header.dailyTips': 'దైనిక టిప్స్',
@@ -150,7 +150,7 @@ export const translations: Translations = {
     // Hero Section
     'hero.title': 'మీ కనుగొనండి',
     'hero.subtitle': 'పరిపూర్ణ కెరీర్ మార్గం',
-    'hero.description': 'అధునాతన AI ద్వారా శక్తివంతం, మేము మీ అభిరుచులు, నైపుణ్యాలు మరియు అకాడెమిక్ నేపథ్యాన్ని విశ్లేషించి మీ ప్రత్యేక ప్రొఫైల్‌తో పూర్తిగా సరిపోయే కెరీర్‌లను సిఫార్సు చేస్తాము. సంతృప్తికరమైన మరియు విజయవంతమైన కెరీర్ వైపు మీ ప్రయాణాన్ని ఈరోజే ప్రారంభించండి.',
+    'hero.description': 'అధునాతన AI ద్వారా శక్తివంతం, మేము మీ అభిరుచులు, నైపుణ్యాలు మరియు అకాడెమిక్ నేపథ్యాన్ని విశ్లేషించి మీ ప్రత్యేక ప్రొఫైల్‌తో పూర్తిగా సరిపో��ే కెరీర్‌లను సిఫార్సు చేస్తాము. సంతృప్తికరమైన మరియు విజయవంతమైన కెరీర్ వైపు మీ ప్రయాణాన్ని ఈరోజే ప్రారంభించండి.',
     'hero.cta': 'మీ విజయ ప్రయాణం ఇక్కడ ప్రారంభమవుతుంది.',
     
     // Stats
