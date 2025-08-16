@@ -19,6 +19,8 @@ export const translations: Translations = {
     'header.resumeAnalyzer': 'Resume Analyzer',
     'header.careerRoadmaps': 'Career Roadmaps',
     'header.aiAssistant': 'AI Assistant',
+    'header.dailyTips': 'Daily Tips',
+    'header.goalTracker': 'Goal Tracker',
     
     // Hero Section
     'hero.title': 'Discover Your',
@@ -94,7 +96,7 @@ export const translations: Translations = {
     
     // Hero Section
     'hero.title': 'अपना खोजें',
-    'hero.subtitle': 'सपनों का करियर',
+    'hero.subtitle': 'स��नों का करियर',
     'hero.description': 'व्यक्तिगत रोडमैप, कौशल विश्लेषण और उद्योग अंतर्दृष्टि के साथ AI-संचालित करियर सिफारिशें प्राप्त करें।',
     'hero.cta': 'आपकी सफलता की यात्रा यहाँ से शुरू होती है।',
     
@@ -125,7 +127,7 @@ export const translations: Translations = {
     
     // Results
     'results.title': 'आपकी व्यक्तिगत करियर सिफारिशें',
-    'results.description': 'आपके प्रोफाइल विश्लेषण के आधार पर, यहाँ आपके लिए तैयार किए गए शीर्ष करियर पथ हैं',
+    'results.description': 'आपके प्रोफाइल विश्लेषण के आधार पर, यहाँ आपके लिए तैया��� किए गए शीर्ष करियर पथ हैं',
     'results.takeAgain': 'मूल्यांकन फिर से लें',
     'results.export': 'परिणाम निर्यात करें'
   },
@@ -145,7 +147,7 @@ export const translations: Translations = {
     'hero.title': 'మీ కనుగొనండి',
     'hero.subtitle': 'కలల కెరీర్',
     'hero.description': 'వ్యక్తిగత రోడ్‌మ్యాప్‌లు, స్కిల్ అనాలిసిస్ మరియు ఇండస్ట్రీ ఇన్‌సైట్‌లతో AI-ఆధారిత కెరీర్ సిఫార్సులను పొందండి.',
-    'hero.cta': 'మీ విజయ ప్రయాణం ఇక్కడ ప్రారంభమవుతుంది.',
+    'hero.cta': 'మీ విజయ ప్��యాణం ఇక్కడ ప్రారంభమవుతుంది.',
     
     // Stats
     'stats.accuracy': '95% ఖచ్చితత్వం',
