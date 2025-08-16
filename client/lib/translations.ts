@@ -98,8 +98,8 @@ export const translations: Translations = {
     
     // Hero Section
     'hero.title': 'अपना खोजें',
-    'hero.subtitle': 'सपनों का करियर',
-    'hero.description': 'व्यक्तिगत रोडमैप, कौशल विश्लेषण और उद्योग अंतर्दृष्टि के साथ AI-संचालित करियर सिफारिशें प्राप्त करें।',
+    'hero.subtitle': 'आदर्श करियर पथ',
+    'hero.description': 'उन्नत AI द्वारा संचालित, हम आपकी रुचियों, कौशल और शैक्षणिक पृष्ठभूमि का विश्लेषण करते हैं ताकि आपके अनूठे प्रोफाइल से पूर्णतः मेल खाने वाले करियर की सिफारिश कर सकें। आज ही अपनी संतुष्टिजनक और सफल करियर की यात्रा शुरू करें।',
     'hero.cta': 'आपकी सफलता की यात्रा यहाँ से शुरू होती है।',
     
     // Stats
@@ -149,7 +149,7 @@ export const translations: Translations = {
     
     // Hero Section
     'hero.title': 'మీ కనుగొనండి',
-    'hero.subtitle': 'కలల కెరీర్',
+    'hero.subtitle': '���లల కెరీర్',
     'hero.description': 'వ్యక్తిగత రోడ్‌మ్యాప్‌లు, స్కిల్ అనాలిసిస్ మరియు ఇండస్ట్రీ ఇన్‌సైట్‌లతో AI-ఆధారిత కెరీర్ సిఫార్సులను పొందండి.',
     'hero.cta': 'మీ విజయ ప్రయాణం ఇక్కడ ప్రారంభమవుతుంది.',
     
@@ -163,7 +163,7 @@ export const translations: Translations = {
     'assessment.description': 'వ్యక్తిగత AI-ఆధారిత కెరీర్ సిఫార్సులను పొందడానికి ఈ సమగ్ర అసెస్‌మెంట్‌ను పూర్తి చేయ���డి',
     'assessment.academicBackground': 'అకాడెమిక్ బ్యాక్‌గ్రౌండ్',
     'assessment.stream': 'అకాడెమిక్ స్ట్రీమ్',
-    'assessment.streamPlaceholder': 'మీ అకాడెమిక్ స్ట్రీమ్‌ను ఎంచుకోండి',
+    'assessment.streamPlaceholder': 'మీ అకాడెమిక్ స్��్రీమ్‌ను ఎంచుకోండి',
     'assessment.cgpa': 'CGPA / శాతం',
     'assessment.cgpaPlaceholder': 'ఉదా., 8.5 లేదా 85%',
     'assessment.experience': 'అనుభవ స్థాయి',
@@ -175,7 +175,7 @@ export const translations: Translations = {
     'assessment.submitButton': 'AI కెరీర్ సిఫార్సులను రూపొందించండి',
     
     // Loading
-    'loading.title': 'AI మీ ప్రొఫైల్‌న�� విశ్లేషిస్తోంది',
+    'loading.title': 'AI మీ ప్రొఫైల్‌ను విశ్లేషిస్తోంది',
     'loading.description': 'మేము ��ీ వ్యక్తిగత కెరీర్ సిఫార్సులను రూపొందిస్తున్నప్పుడు దయచేసి వేచి ఉండండి',
     
     // Results
