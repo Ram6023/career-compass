@@ -820,16 +820,13 @@ export default function Index() {
         <div className="container mx-auto max-w-6xl text-center">
           <div className="mb-8">
             <h2 className="text-5xl md:text-7xl font-extrabold text-gray-900 dark:text-white mb-8 leading-tight">
-              Discover Your
+              {t('hero.title')}
               <span className="block bg-gradient-to-r from-emerald-600 via-teal-600 to-blue-600 bg-clip-text text-transparent drop-shadow-sm">
-                Perfect Career Path
+                {t('hero.subtitle')}
               </span>
             </h2>
             <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed">
-              Powered by advanced AI, we analyze your interests, skills, and
-              academic background to recommend careers that perfectly match your
-              unique profile. Start your journey towards a fulfilling and
-              successful career today.
+              {t('hero.description')}
             </p>
           </div>
 
