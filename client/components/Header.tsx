@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Compass, Sun, Moon, User } from "lucide-react";
 import { useTheme } from "@/components/ui/theme-provider";
+import { useLanguage } from "@/components/ui/language-provider";
 import { LanguageSelector } from "@/components/ui/language-selector";
 import { authService } from "@/lib/auth";
 
@@ -13,6 +14,7 @@ interface HeaderProps {
 
 export function Header({ pageTitle, pageSubtitle }: HeaderProps) {
   const { theme, setTheme } = useTheme();
+  const { t } = useLanguage();
   const [user, setUser] = useState(authService.getCurrentUser());
   const [isLoggedIn, setIsLoggedIn] = useState(
     authService.isAuthenticatedSync(),
@@ -48,21 +50,21 @@ export function Header({ pageTitle, pageSubtitle }: HeaderProps) {
               to="/careers"
               className="text-gray-700 hover:text-emerald-600 transition-all duration-300 font-medium dark:text-gray-300 dark:hover:text-emerald-400 relative group"
             >
-              Explore Careers
+              {t('header.exploreCarears')}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald-500 transition-all duration-300 group-hover:w-full"></span>
             </Link>
             <Link
               to="/resume-analyzer"
               className="text-gray-700 hover:text-emerald-600 transition-all duration-300 font-medium dark:text-gray-300 dark:hover:text-emerald-400 relative group"
             >
-              Resume AI
+              {t('header.resumeAnalyzer')}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald-500 transition-all duration-300 group-hover:w-full"></span>
             </Link>
             <Link
               to="/chat"
               className="text-gray-700 hover:text-emerald-600 transition-all duration-300 font-medium dark:text-gray-300 dark:hover:text-emerald-400 relative group"
             >
-              AI Assistant
+              {t('header.aiAssistant')}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald-500 transition-all duration-300 group-hover:w-full"></span>
             </Link>
             <Link
@@ -124,13 +126,13 @@ export function Header({ pageTitle, pageSubtitle }: HeaderProps) {
             ) : (
               <div className="flex items-center space-x-3">
                 <Button variant="ghost" asChild className="rounded-xl">
-                  <Link to="/login">Login</Link>
+                  <Link to="/login">{t('header.login')}</Link>
                 </Button>
                 <Button
                   asChild
                   className="bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-600 hover:from-emerald-600 hover:via-teal-600 hover:to-blue-700 shadow-lg rounded-xl transition-all duration-300 hover:shadow-xl hover:scale-105"
                 >
-                  <Link to="/register">Get Started Free</Link>
+                  <Link to="/register">{t('header.getStarted')}</Link>
                 </Button>
               </div>
             )}
