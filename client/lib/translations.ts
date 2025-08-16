@@ -109,7 +109,7 @@ export const translations: Translations = {
     
     // Assessment Form
     'assessment.title': 'करियर मूल्यांकन',
-    'assessment.description': 'व्यक्तिगत AI-संचालित करियर सिफारिशें प्राप्त करने के लिए इस व्यापक मूल्यांकन को पूरा करें',
+    'assessment.description': 'व्यक्तिगत AI-संचालित करियर सिफारिशें प्राप्त करने के लिए इस व्यापक ��ूल्यांकन को पूरा करें',
     'assessment.academicBackground': 'शैक्षणिक पृष्ठभूमि',
     'assessment.stream': 'शैक्षणिक स्ट्रीम',
     'assessment.streamPlaceholder': 'अपनी शैक्षणिक स्ट्रीम चुनें',
@@ -145,12 +145,12 @@ export const translations: Translations = {
     'header.careerRoadmaps': 'కెరీర్ రోడ్‌మ్యాప్‌లు',
     'header.aiAssistant': 'AI అసిస్టెంట్',
     'header.dailyTips': 'దైనిక టిప్స్',
-    'header.goalTracker': 'లక్ష్య ట్రాకర్',
+    'header.goalTracker': 'లక్��్య ట్రాకర్',
     
     // Hero Section
     'hero.title': 'మీ కనుగొనండి',
-    'hero.subtitle': '���లల కెరీర్',
-    'hero.description': 'వ్యక్తిగత రోడ్‌మ్యాప్‌లు, స్కిల్ అనాలిసిస్ మరియు ఇండస్ట్రీ ఇన్‌సైట్‌లతో AI-ఆధారిత కెరీర్ సిఫార్సులను పొందండి.',
+    'hero.subtitle': 'పరిపూర్ణ కెరీర్ మార్గం',
+    'hero.description': 'అధునాతన AI ద్వారా శక్తివంతం, మేము మీ అభిరుచులు, నైపుణ్యాలు మరియు అకాడెమిక్ నేపథ్యాన్ని విశ్లేషించి మీ ప్రత్యేక ప్రొఫైల్‌తో పూర్తిగా సరిపోయే కెరీర్‌లను సిఫార్సు చేస్తాము. సంతృప్తికరమైన మరియు విజయవంతమైన కెరీర్ వైపు మీ ప్రయాణాన్ని ఈరోజే ప్రారంభించండి.',
     'hero.cta': 'మీ విజయ ప్రయాణం ఇక్కడ ప్రారంభమవుతుంది.',
     
     // Stats
@@ -163,7 +163,7 @@ export const translations: Translations = {
     'assessment.description': 'వ్యక్తిగత AI-ఆధారిత కెరీర్ సిఫార్సులను పొందడానికి ఈ సమగ్ర అసెస్‌మెంట్‌ను పూర్తి చేయ���డి',
     'assessment.academicBackground': 'అకాడెమిక్ బ్యాక్‌గ్రౌండ్',
     'assessment.stream': 'అకాడెమిక్ స్ట్రీమ్',
-    'assessment.streamPlaceholder': 'మీ అకాడెమిక్ స్��్రీమ్‌ను ఎంచుకోండి',
+    'assessment.streamPlaceholder': 'మీ అకాడెమిక్ స్ట్రీమ్‌ను ఎంచుకోండి',
     'assessment.cgpa': 'CGPA / శాతం',
     'assessment.cgpaPlaceholder': 'ఉదా., 8.5 లేదా 85%',
     'assessment.experience': 'అనుభవ స్థాయి',
