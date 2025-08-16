@@ -1049,9 +1049,13 @@ Let's unlock your potential together! What career goals are you exploring today?
               </CardHeader>
 
               {/* Enhanced Messages Container */}
-              <div className="flex-1 relative">
-                <ScrollArea className="h-full" ref={messagesContainerRef}>
-                  <div className="p-6 space-y-6">
+              <div className="flex-1 relative overflow-hidden">
+                <div
+                  className="h-full overflow-y-auto scroll-smooth"
+                  ref={messagesContainerRef}
+                  style={{ maxHeight: 'calc(100vh - 300px)' }}
+                >
+                  <div className="p-6 space-y-6 min-h-full">
                     {messages.map((message) => (
                       <div
                         key={message.id}
@@ -1223,7 +1227,7 @@ Let's unlock your potential together! What career goals are you exploring today?
                     )}
                     <div ref={messagesEndRef} />
                   </div>
-                </ScrollArea>
+                </div>
               </div>
 
               {/* Enhanced Input Area */}
@@ -1236,7 +1240,7 @@ Let's unlock your potential together! What career goals are you exploring today?
                       onChange={(e) => setInputMessage(e.target.value)}
                       onKeyPress={handleKeyPress}
                       placeholder="Ask me anything about careers, skills, salaries, or job market trends..."
-                      className="min-h-[60px] max-h-[120px] resize-none bg-white/90 dark:bg-slate-700/90 border-slate-300/50 dark:border-slate-600/50 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent backdrop-blur-sm"
+                      className="min-h-[60px] max-h-[120px] resize-none bg-white/90 dark:bg-slate-700/90 border-emerald-300/50 dark:border-emerald-600/50 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent backdrop-blur-sm"
                       disabled={isTyping}
                     />
                   </div>
