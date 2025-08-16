@@ -111,7 +111,7 @@ export const translations: Translations = {
     'assessment.title': 'करियर मूल्यांकन',
     'assessment.description': 'व्यक्तिगत AI-संचालित करियर सिफारिशें प्राप्त करने के लिए इस व्यापक मूल्यांकन को पूरा करें',
     'assessment.academicBackground': 'शैक्षणिक पृष्ठभूमि',
-    'assessment.stream': 'शैक्षणिक स्ट्रीम',
+    'assessment.stream': 'शैक्षणिक ��्ट्रीम',
     'assessment.streamPlaceholder': 'अपनी शैक्षणिक स्ट्रीम चुनें',
     'assessment.cgpa': 'CGPA / प्रतिशत',
     'assessment.cgpaPlaceholder': 'जैसे, 8.5 या 85%',
@@ -129,7 +129,7 @@ export const translations: Translations = {
     
     // Results
     'results.title': 'आपकी व्यक्तिगत करियर सिफारिशें',
-    'results.description': 'आपके प्रोफाइ��� विश्लेषण के आधार पर, यहाँ आपके लिए तैयार किए गए शीर्ष करियर पथ हैं',
+    'results.description': 'आपके प्रोफाइल विश्लेषण के आधार पर, यहाँ आपके लिए तैयार किए गए शीर्ष करियर पथ हैं',
     'results.takeAgain': 'मूल्यांकन फिर से लें',
     'results.export': 'परिणाम निर्यात करें'
   },
@@ -144,11 +144,13 @@ export const translations: Translations = {
     'header.resumeAnalyzer': 'రెజ్యూమ్ ఎనలైజర్',
     'header.careerRoadmaps': 'కెరీర్ రోడ్‌మ్యాప్‌లు',
     'header.aiAssistant': 'AI అసిస్టెంట్',
+    'header.dailyTips': 'దైనిక టిప్స్',
+    'header.goalTracker': 'లక్ష్య ట్రాకర్',
     
     // Hero Section
     'hero.title': 'మీ కనుగొనండి',
     'hero.subtitle': 'కలల కెరీర్',
-    'hero.description': 'వ్యక్తిగత రోడ్‌మ్యాప్‌లు, స్కిల్ అనాలిసిస్ మరియు ఇండస్ట్రీ ఇన్‌సైట్‌లతో AI-ఆధారిత కెరీర్ సిఫార్సులను పొందండి.',
+    'hero.description': 'వ్యక���తిగత రోడ్‌మ్యాప్‌లు, స్కిల్ అనాలిసిస్ మరియు ఇండస్ట్రీ ఇన్‌సైట్‌లతో AI-ఆధారిత కెరీర్ సిఫార్సులను పొందండి.',
     'hero.cta': 'మీ విజయ ప్రయాణం ఇక్కడ ప్రారంభమవుతుంది.',
     
     // Stats
