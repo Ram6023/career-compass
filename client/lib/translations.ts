@@ -34,8 +34,8 @@ export const translations: Translations = {
     'stats.careers': '500+ Careers',
     
     // Assessment Form
-    'assessment.title': 'Career Assessment',
-    'assessment.description': 'Complete this comprehensive assessment to get personalized AI-powered career recommendations',
+    'assessment.title': 'AI-Powered Career Assessment',
+    'assessment.description': 'Answer a few questions to get personalized career recommendations powered by advanced artificial intelligence',
     'assessment.academicBackground': 'Academic Background',
     'assessment.stream': 'Academic Stream',
     'assessment.streamPlaceholder': 'Select your academic stream',
@@ -109,7 +109,7 @@ export const translations: Translations = {
     
     // Assessment Form
     'assessment.title': 'करियर मूल्यांकन',
-    'assessment.description': 'व्यक्तिगत AI-संचालित करियर सिफारिशें प्राप्त करने के लिए इस व्यापक ��ूल्यांकन को पूरा करें',
+    'assessment.description': 'व्यक्तिगत AI-संचालित करियर सिफारिशें प्राप्त करने के लिए इस व्यापक मूल्यांकन को पूरा करें',
     'assessment.academicBackground': 'शैक्षणिक पृष्ठभूमि',
     'assessment.stream': 'शैक्षणिक स्ट्रीम',
     'assessment.streamPlaceholder': 'अपनी शैक्षणिक स्ट्रीम चुनें',
@@ -121,7 +121,7 @@ export const translations: Translations = {
     'assessment.careerGoalPlaceholder': 'आप कब शुरू करना चाहते हैं?',
     'assessment.skills': 'आपके कौशल',
     'assessment.interests': 'आपकी रुचियां',
-    'assessment.submitButton': 'AI करियर सिफारिशें उत्पन्�� करें',
+    'assessment.submitButton': 'AI करियर सिफारिशें ���त्पन्�� करें',
     
     // Loading
     'loading.title': 'AI आपकी प्रोफाइल का विश्लेषण कर रहा है',
@@ -141,11 +141,11 @@ export const translations: Translations = {
     'header.login': 'లాగిన్',
     'header.getStarted': 'ప్రారంభించండి',
     'header.exploreCarears': 'కెరీర్లను అన్వేషించండి',
-    'header.resumeAnalyzer': 'రెజ్యూమ్ ఎనలైజర్',
+    'header.resumeAnalyzer': '��ెజ్యూమ్ ఎనలైజర్',
     'header.careerRoadmaps': 'కెరీర్ రోడ్‌మ్యాప్‌లు',
     'header.aiAssistant': 'AI అసిస్టెంట్',
     'header.dailyTips': 'దైనిక టిప్స్',
-    'header.goalTracker': 'లక్��్య ట్రాకర్',
+    'header.goalTracker': 'లక్ష్య ట్రాకర్',
     
     // Hero Section
     'hero.title': 'మీ కనుగొనండి',
