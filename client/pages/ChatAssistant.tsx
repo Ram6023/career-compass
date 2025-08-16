@@ -1256,7 +1256,7 @@ Let's unlock your potential together! What career goals are you exploring today?
                     <Button
                       onClick={handleSendMessage}
                       disabled={!inputMessage.trim() || isTyping}
-                      className="h-12 px-6 bg-gradient-to-r from-indigo-500 via-purple-600 to-cyan-500 hover:from-indigo-600 hover:via-purple-700 hover:to-cyan-600 shadow-lg rounded-xl backdrop-blur-sm"
+                      className="h-12 px-6 bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-600 hover:from-emerald-600 hover:via-teal-600 hover:to-blue-700 shadow-lg rounded-xl backdrop-blur-sm transition-all duration-300"
                     >
                       <Send className="h-4 w-4 mr-2" />
                       Send
