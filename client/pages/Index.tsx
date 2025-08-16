@@ -856,11 +856,10 @@ export default function Index() {
           <Card className="shadow-2xl border border-emerald-200/30 dark:border-emerald-700/30 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-3xl overflow-hidden">
             <div className="bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-blue-600/10 px-8 py-10 text-center">
               <CardTitle className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                AI-Powered Career Assessment
+                {t('assessment.title')}
               </CardTitle>
               <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-                Answer a few questions to get personalized career
-                recommendations powered by advanced artificial intelligence
+                {t('assessment.description')}
               </p>
             </div>
             <CardContent className="p-10 space-y-10">
