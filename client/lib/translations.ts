@@ -15,7 +15,7 @@ export const translations: Translations = {
     'header.subtitle': 'AI-Powered Career Guide',
     'header.login': 'Login',
     'header.getStarted': 'Get Started',
-    'header.explorecareers': 'Explore Careers',
+    'header.compareCareers': 'Compare Careers',
     'header.resumeAnalyzer': 'Resume Analyzer',
     'header.careerRoadmaps': 'Career Roadmaps',
     'header.aiAssistant': 'AI Assistant',
@@ -89,7 +89,7 @@ export const translations: Translations = {
     'header.subtitle': 'AI-संचालित करियर गाइड',
     'header.login': 'लॉगिन',
     'header.getStarted': 'शुरू करें',
-    'header.exploreCarears': 'करियर खोजें',
+    'header.compareCareers': 'करियर तुलना करें',
     'header.resumeAnalyzer': 'रिज्यूमे विश्लेषक',
     'header.careerRoadmaps': 'करियर रोडमैप',
     'header.aiAssistant': 'AI सहायक',
@@ -99,7 +99,7 @@ export const translations: Translations = {
     // Hero Section
     'hero.title': 'अपना खोजें',
     'hero.subtitle': 'आदर्श करियर पथ',
-    'hero.description': 'उन्नत AI द्वारा संचालित, हम आपकी रुचियों, कौशल और शैक्षणिक पृष्ठभूमि का विश्लेषण करते हैं ताकि आपके अनूठे प्रोफाइल से पूर्णतः मेल खाने वाले करियर की सिफारिश कर सकें। आज ही अपनी संतुष्टिजनक और सफल करियर की यात्��ा शुरू करें।',
+    'hero.description': 'उन्नत AI द्वारा संचालित, हम आपकी रुचियों, कौशल और शैक्षणिक पृष्ठभूमि का विश्लेषण करते हैं ताक��� आपके अनूठे प्रोफाइल से पूर्णतः मेल खाने वाले करियर की सिफारिश कर सकें। आज ही अपनी संतुष्टिजनक और सफल करियर की यात्��ा शुरू करें।',
     'hero.cta': 'आपकी सफलता की यात्रा यहाँ से शुरू होती है।',
     
     // Stats
@@ -112,7 +112,7 @@ export const translations: Translations = {
     'assessment.description': 'उन्नत आर्टिफिशियल इंटेलिजेंस द्वारा संचालित व्यक्तिगत करियर सिफारिशें प्राप्त करने के लिए कुछ प्रश्नों के उत्तर दें',
     'assessment.academicBackground': 'शैक्षणिक पृष्ठभूमि',
     'assessment.stream': 'शैक्षणिक स्ट्रीम',
-    'assessment.streamPlaceholder': 'अपनी शैक्षणिक स्ट्रीम चुनें',
+    'assessment.streamPlaceholder': 'अपनी शैक्���णिक स्ट्रीम चुनें',
     'assessment.cgpa': 'CGPA / प्रतिशत',
     'assessment.cgpaPlaceholder': 'जैसे, 8.5 या 85%',
     'assessment.experience': 'अनुभव स्तर',
@@ -129,7 +129,7 @@ export const translations: Translations = {
     
     // Results
     'results.title': 'आपकी व्यक्तिगत करियर सिफारिशें',
-    'results.description': 'आपके प्रोफाइल विश्लेषण के आधार पर, यहाँ आपके लिए तैयार किए गए शीर्ष करियर पथ हैं',
+    'results.description': 'आपके प्रो��ाइल विश्लेषण के आधार पर, यहाँ आपके लिए तैयार किए गए शीर्ष करियर पथ हैं',
     'results.takeAgain': 'मूल्यांकन फिर से लें',
     'results.export': 'परिणा��� निर्यात करें'
   },
@@ -140,7 +140,7 @@ export const translations: Translations = {
     'header.subtitle': 'AI-ఆధారిత కెరీర్ గైడ్',
     'header.login': 'లాగిన్',
     'header.getStarted': 'ప్రారంభించండి',
-    'header.exploreCarears': 'కెరీర్లను అన్వేషించండి',
+    'header.compareCareers': 'కెరీర్లను పోల్చండి',
     'header.resumeAnalyzer': 'రెజ్యూమ్ ఎనలైజర్',
     'header.careerRoadmaps': 'కెరీర్ రోడ్‌మ్యాప్‌లు',
     'header.aiAssistant': 'AI అసిస్టెంట్',
@@ -176,7 +176,7 @@ export const translations: Translations = {
     
     // Loading
     'loading.title': 'AI మీ ప్రొఫైల్‌ను విశ్లేషిస్తోంది',
-    'loading.description': 'మేము ��ీ వ్యక్తిగత కెరీర్ సిఫార్సులను రూపొందిస్తున్నప్పుడు దయచేసి వేచి ఉండండి',
+    'loading.description': 'మేము ��ీ వ్యక్తి��త కెరీర్ సిఫార్సులను రూపొందిస్తున్నప్పుడు దయచేసి వేచి ఉండండి',
     
     // Results
     'results.title': 'మీ వ్యక్తిగత కెరీర్ సిఫార్సులు',
