@@ -481,7 +481,7 @@ Ready to start your design journey?`,
 • Senior Software Engineer: ₹12-25 LPA
 • Data Scientist: ₹15-30 LPA
 • Product Manager: ₹18-35 LPA
-��� DevOps Engineer: ₹15-28 LPA
+• DevOps Engineer: ₹15-28 LPA
 • Tech Lead: ₹20-35 LPA
 
 **🏆 Senior Level (6+ years):**
@@ -665,7 +665,7 @@ I'm powered by advanced AI to provide personalized career guidance!
 
 **🎯 How I Can Help You:**
 
-**��� Career Discovery**
+**🔍 Career Discovery**
 • Personality-based career matching
 • Skills assessment & gap analysis
 • Industry insights & trends
@@ -880,10 +880,10 @@ Let's unlock your potential together! What career goals are you exploring today?
           {showSidebar && (
             <div className="lg:col-span-1 space-y-4 lg:space-y-6">
               {/* AI Assistant Status */}
-              <Card className="overflow-hidden shadow-xl border-0 bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-cyan-500/10 backdrop-blur-sm">
+              <Card className="overflow-hidden shadow-xl border-0 bg-gradient-to-br from-emerald-500/10 via-teal-500/10 to-blue-500/10 backdrop-blur-xl bg-white/80 dark:bg-gray-900/80">
                 <CardHeader className="pb-4">
                   <div className="flex items-center space-x-3">
-                    <div className="p-3 bg-gradient-to-br from-indigo-500 via-purple-600 to-cyan-500 rounded-xl shadow-lg">
+                    <div className="p-3 bg-gradient-to-br from-emerald-500 via-teal-500 to-blue-600 rounded-xl shadow-lg">
                       <Brain className="h-6 w-6 text-white" />
                     </div>
                     <div>
@@ -900,15 +900,15 @@ Let's unlock your potential together! What career goals are you exploring today?
                 <CardContent className="pt-0">
                   <div className="space-y-3">
                     <div className="flex items-center space-x-2 text-sm text-slate-600 dark:text-slate-400">
-                      <Zap className="w-4 h-4 text-amber-500" />
+                      <Zap className="w-4 h-4 text-emerald-500" />
                       <span>Instant career insights</span>
                     </div>
                     <div className="flex items-center space-x-2 text-sm text-slate-600 dark:text-slate-400">
-                      <Target className="w-4 h-4 text-emerald-500" />
+                      <Target className="w-4 h-4 text-teal-500" />
                       <span>Personalized roadmaps</span>
                     </div>
                     <div className="flex items-center space-x-2 text-sm text-slate-600 dark:text-slate-400">
-                      <Rocket className="w-4 h-4 text-indigo-500" />
+                      <Rocket className="w-4 h-4 text-blue-500" />
                       <span>Future-ready guidance</span>
                     </div>
                   </div>
