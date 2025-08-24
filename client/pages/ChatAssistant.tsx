@@ -413,13 +413,13 @@ Want me to create a detailed roadmap for your chosen specialization?`,
       message.includes("ux")
     ) {
       return {
-        content: `🎨 **UI/UX Design Career Roadmap**
+        content: `��� **UI/UX Design Career Roadmap**
 
 Design is where creativity meets technology - shape digital experiences!
 
 **🎯 Design Career Paths:**
 • **UX Designer** (₹6-18 LPA) - User research & experience design
-• **UI Designer** (₹5-15 LPA) - Visual design & interfaces
+• **UI Designer** (���5-15 LPA) - Visual design & interfaces
 • **Product Designer** (₹10-25 LPA) - End-to-end product design
 • **UX Researcher** (₹8-20 LPA) - User behavior & insights
 • **Design Systems Lead** (₹15-30 LPA) - Scalable design frameworks
@@ -1053,7 +1053,7 @@ Let's unlock your potential together! What career goals are you exploring today?
                 <div
                   className="h-full overflow-y-auto scroll-smooth"
                   ref={messagesContainerRef}
-                  style={{ maxHeight: 'calc(100vh - 300px)' }}
+                  style={{ maxHeight: 'calc(100vh - 280px)' }}
                 >
                   <div className="p-6 space-y-6 min-h-full">
                     {messages.map((message) => (
