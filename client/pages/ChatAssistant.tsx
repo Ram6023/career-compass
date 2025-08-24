@@ -305,7 +305,7 @@ const generateAIResponse = (
 The AI field is exploding with opportunities! Here's your complete roadmap:
 
 **🚀 High-Demand AI Roles:**
-• **AI Engineer** (₹15-45 LPA) - Build AI systems & models
+• **AI Engineer** (��15-45 LPA) - Build AI systems & models
 • **ML Engineer** (₹18-50 LPA) - Deploy ML models at scale  
 • **Data Scientist** (₹12-35 LPA) - Extract insights from data
 • **AI Research Scientist** (₹25-60 LPA) - Cutting-edge research
@@ -341,7 +341,7 @@ Ready to dive into AI? I can create your personalized learning plan!`,
         type: "career_card",
         metadata: {
           title: "AI/ML Engineer",
-          salary: "��15-50 LPA",
+          salary: "₹15-50 LPA",
           growth: "45% (Extremely high growth)",
           difficulty: "Advanced",
           skills: [
@@ -1231,8 +1231,8 @@ Let's unlock your potential together! What career goals are you exploring today?
               </div>
 
               {/* Enhanced Input Area */}
-              <div className="p-6 border-t border-slate-200/50 dark:border-slate-700/50 bg-slate-50/80 dark:bg-slate-800/80 backdrop-blur-xl">
-                <div className="flex space-x-4 items-end">
+              <div className="p-4 lg:p-6 border-t border-emerald-200/30 dark:border-emerald-700/30 bg-emerald-50/50 dark:bg-emerald-950/30 backdrop-blur-xl">
+                <div className="flex flex-col lg:flex-row space-y-3 lg:space-y-0 lg:space-x-4 items-stretch lg:items-end">
                   <div className="flex-1 space-y-2">
                     <Textarea
                       ref={inputRef}
@@ -1240,15 +1240,15 @@ Let's unlock your potential together! What career goals are you exploring today?
                       onChange={(e) => setInputMessage(e.target.value)}
                       onKeyPress={handleKeyPress}
                       placeholder="Ask me anything about careers, skills, salaries, or job market trends..."
-                      className="min-h-[60px] max-h-[120px] resize-none bg-white/90 dark:bg-slate-700/90 border-emerald-300/50 dark:border-emerald-600/50 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent backdrop-blur-sm"
+                      className="min-h-[50px] lg:min-h-[60px] max-h-[120px] resize-none bg-white/95 dark:bg-slate-700/95 border-emerald-300/50 dark:border-emerald-600/50 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent backdrop-blur-sm transition-all duration-200"
                       disabled={isTyping}
                     />
                   </div>
-                  <div className="flex space-x-2">
+                  <div className="flex flex-row space-x-2 justify-end lg:justify-start">
                     <Button
                       variant="outline"
                       size="sm"
-                      className="h-12 w-12 p-0 border-slate-300/50 dark:border-slate-600/50 rounded-xl backdrop-blur-sm"
+                      className="h-10 lg:h-12 w-10 lg:w-12 p-0 border-emerald-300/50 dark:border-emerald-600/50 rounded-xl backdrop-blur-sm hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all duration-200"
                       disabled={isTyping}
                     >
                       <Mic className="h-4 w-4" />
@@ -1256,14 +1256,14 @@ Let's unlock your potential together! What career goals are you exploring today?
                     <Button
                       onClick={handleSendMessage}
                       disabled={!inputMessage.trim() || isTyping}
-                      className="h-12 px-6 bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-600 hover:from-emerald-600 hover:via-teal-600 hover:to-blue-700 shadow-lg rounded-xl backdrop-blur-sm transition-all duration-300"
+                      className="h-10 lg:h-12 px-4 lg:px-6 bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-600 hover:from-emerald-600 hover:via-teal-600 hover:to-blue-700 shadow-lg rounded-xl backdrop-blur-sm transition-all duration-300 hover:shadow-xl hover:scale-105"
                     >
                       <Send className="h-4 w-4 mr-2" />
                       Send
                     </Button>
                   </div>
                 </div>
-                <div className="flex items-center justify-between mt-3 text-xs text-slate-500 dark:text-slate-400">
+                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mt-3 space-y-1 lg:space-y-0 text-xs text-slate-500 dark:text-slate-400">
                   <span>Press Enter to send • Shift + Enter for new line</span>
                   <div className="flex items-center space-x-1">
                     <Sparkles className="h-3 w-3" />
@@ -1277,12 +1277,12 @@ Let's unlock your potential together! What career goals are you exploring today?
       </div>
 
       {/* Modern Footer */}
-      <footer className="bg-slate-100/70 dark:bg-slate-800/70 border-t border-slate-200/50 dark:border-slate-700/50 mt-16 backdrop-blur-xl">
-        <div className="container mx-auto px-6 py-8">
+      <footer className="bg-emerald-50/70 dark:bg-emerald-950/30 border-t border-emerald-200/30 dark:border-emerald-700/30 mt-8 lg:mt-16 backdrop-blur-xl">
+        <div className="container mx-auto px-4 lg:px-6 py-6 lg:py-8">
           <div className="text-center">
             <p className="text-slate-600 dark:text-slate-400 text-sm">
               Developed and Designed by{" "}
-              <span className="font-semibold text-indigo-600 dark:text-indigo-400">
+              <span className="font-semibold text-emerald-600 dark:text-emerald-400">
                 Sriram
               </span>
             </p>
