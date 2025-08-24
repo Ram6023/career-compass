@@ -229,7 +229,7 @@ const generateAIResponse = (
       suggestions: [
         "🎯 Help me choose a career",
         "📈 Show me job market trends",
-        "💡 I need career advice",
+        "���� I need career advice",
         "🎓 Help with skill development"
       ]
     };
@@ -507,7 +507,7 @@ Ready to start your design journey?`,
 • Master in-demand skills (AI, Cloud, Security)
 • Get industry certifications
 • Build strong portfolio & personal brand
-• Switch companies strategically
+�� Switch companies strategically
 • Negotiate effectively
 
 Want specific salary negotiation strategies?`,
@@ -735,7 +735,7 @@ Let's unlock your potential together! What career goals are you exploring today?
       timestamp: new Date(),
       suggestions: [
         "🎯 Find my dream career",
-        "💰 Show me salary trends",
+        "���� Show me salary trends",
         "🚀 Build learning roadmap",
         "🔮 Future job predictions",
       ],
@@ -916,10 +916,10 @@ Let's unlock your potential together! What career goals are you exploring today?
               </Card>
 
               {/* Quick Questions */}
-              <Card className="shadow-xl border-0 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm">
+              <Card className="shadow-xl border-0 bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border-emerald-100/50 dark:border-emerald-800/50">
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2 text-lg">
-                    <Lightbulb className="h-5 w-5 text-amber-500" />
+                    <Lightbulb className="h-5 w-5 text-emerald-500" />
                     <span>Quick Start Questions</span>
                   </CardTitle>
                 </CardHeader>
@@ -928,10 +928,10 @@ Let's unlock your potential together! What career goals are you exploring today?
                     <Button
                       key={index}
                       variant="ghost"
-                      className="w-full text-left justify-start h-auto p-3 text-sm hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-all rounded-xl"
+                      className="w-full text-left justify-start h-auto p-3 text-sm hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all rounded-xl border-0"
                       onClick={() => handleQuickQuestion(question)}
                     >
-                      <ChevronRight className="w-3 h-3 mr-2 text-indigo-500" />
+                      <ChevronRight className="w-3 h-3 mr-2 text-emerald-500" />
                       {question}
                     </Button>
                   ))}
