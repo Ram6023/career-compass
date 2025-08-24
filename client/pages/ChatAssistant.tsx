@@ -229,7 +229,7 @@ const generateAIResponse = (
       suggestions: [
         "🎯 Help me choose a career",
         "📈 Show me job market trends",
-        "���� I need career advice",
+        "💡 I need career advice",
         "🎓 Help with skill development"
       ]
     };
@@ -260,7 +260,7 @@ const generateAIResponse = (
     message.includes("introduce yourself")
   ) {
     return {
-      content: "🤖 **I'm your AI Career Strategist!**\n\nI'm an advanced artificial intelligence designed specifically to help you navigate your career journey. Here's what I can do for you:\n\n**🎯 Career Guidance:**\n• Help you discover ideal career paths\n• Provide personalized career recommendations\n• Analyze your skills and interests\n\n**💼 Job Market Intelligence:**\n• Real-time salary benchmarks\n• Industry trends and insights\n• Future job predictions\n\n**📚 Learning & Development:**\n• Custom learning roadmaps\n• Skill gap analysis\n• Course recommendations\n\n**💡 Professional Support:**\n• Interview preparation\n• Resume optimization tips\n• Career transition planning\n\nI'm here 24/7 to help you make informed career decisions and achieve your professional goals! What would you like to explore first?",
+      content: "🤖 **I'm your AI Career Strategist!**\n\nI'm an advanced artificial intelligence designed specifically to help you navigate your career journey. Here's what I can do for you:\n\n**🎯 Career Guidance:**\n• Help you discover ideal career paths\n• Provide personalized career recommendations\n• Analyze your skills and interests\n\n**💼 Job Market Intelligence:**\n• Real-time salary benchmarks\n• Industry trends and insights\n• Future job predictions\n\n**📚 Learning & Development:**\n• Custom learning roadmaps\n• Skill gap analysis\n• Course recommendations\n\n**💡 Professional Support:**\n• Interview preparation\n�� Resume optimization tips\n• Career transition planning\n\nI'm here 24/7 to help you make informed career decisions and achieve your professional goals! What would you like to explore first?",
       suggestions: [
         "🎯 Find careers that match me",
         "💰 Show current salary trends",
@@ -507,7 +507,7 @@ Ready to start your design journey?`,
 • Master in-demand skills (AI, Cloud, Security)
 • Get industry certifications
 • Build strong portfolio & personal brand
-�� Switch companies strategically
+• Switch companies strategically
 • Negotiate effectively
 
 Want specific salary negotiation strategies?`,
@@ -735,7 +735,7 @@ Let's unlock your potential together! What career goals are you exploring today?
       timestamp: new Date(),
       suggestions: [
         "🎯 Find my dream career",
-        "���� Show me salary trends",
+        "💰 Show me salary trends",
         "🚀 Build learning roadmap",
         "🔮 Future job predictions",
       ],
@@ -939,10 +939,10 @@ Let's unlock your potential together! What career goals are you exploring today?
               </Card>
 
               {/* Career Categories */}
-              <Card className="shadow-xl border-0 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm">
+              <Card className="shadow-xl border-0 bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border-emerald-100/50 dark:border-emerald-800/50">
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2 text-lg">
-                    <Layers className="h-5 w-5 text-indigo-500" />
+                    <Layers className="h-5 w-5 text-emerald-500" />
                     <span>Career Categories</span>
                   </CardTitle>
                 </CardHeader>
@@ -982,7 +982,7 @@ Let's unlock your potential together! What career goals are you exploring today?
                             ))}
                           </div>
                         </div>
-                        <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-indigo-500 transition-colors" />
+                        <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-emerald-500 transition-colors" />
                       </div>
                     </div>
                   ))}
