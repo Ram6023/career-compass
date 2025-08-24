@@ -202,9 +202,10 @@ const generateAIResponse = (
     const greetings = [
       "👋 Hello there! Welcome to CareerCompass AI! I'm your personal career strategist, ready to help you navigate your professional journey. What can I help you explore today?",
       "🌟 Hi! Great to see you here! I'm your AI career advisor, and I'm excited to help you discover amazing career opportunities. What's on your mind?",
-      "✨ Hey! Welcome to your personal career guidance session! I'm here to help you with career advice, job market insights, salary information, and much more. How can I assist you?"
+      "✨ Hey! Welcome to your personal career guidance session! I'm here to help you with career advice, job market insights, salary information, and much more. How can I assist you?",
     ];
-    const randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
+    const randomGreeting =
+      greetings[Math.floor(Math.random() * greetings.length)];
     return {
       content: randomGreeting,
       suggestions: [
@@ -212,8 +213,8 @@ const generateAIResponse = (
         "💰 Show salary trends 2024",
         "📚 Create learning roadmap",
         "💼 Interview preparation tips",
-        "🔄 Plan career transition"
-      ]
+        "🔄 Plan career transition",
+      ],
     };
   }
 
@@ -225,13 +226,14 @@ const generateAIResponse = (
     message.includes("whats up")
   ) {
     return {
-      content: "🤖 I'm doing great, thank you for asking! I'm here and ready to help you with all your career-related questions. I'm constantly learning and updating my knowledge about the job market, industry trends, and career opportunities.\n\nHow are you doing? What career goals are you working towards today? 🚀",
+      content:
+        "🤖 I'm doing great, thank you for asking! I'm here and ready to help you with all your career-related questions. I'm constantly learning and updating my knowledge about the job market, industry trends, and career opportunities.\n\nHow are you doing? What career goals are you working towards today? 🚀",
       suggestions: [
         "🎯 Help me choose a career",
         "📈 Show me job market trends",
         "💡 I need career advice",
-        "🎓 Help with skill development"
-      ]
+        "🎓 Help with skill development",
+      ],
     };
   }
 
@@ -242,13 +244,14 @@ const generateAIResponse = (
     message.includes("appreciate")
   ) {
     return {
-      content: "🙏 You're very welcome! I'm so glad I could help you with your career journey. Remember, I'm always here whenever you need guidance, advice, or just want to explore new opportunities.\n\nFeel free to ask me anything about careers, skills, salaries, or job market trends anytime! 😊",
+      content:
+        "🙏 You're very welcome! I'm so glad I could help you with your career journey. Remember, I'm always here whenever you need guidance, advice, or just want to explore new opportunities.\n\nFeel free to ask me anything about careers, skills, salaries, or job market trends anytime! 😊",
       suggestions: [
         "🔮 What's next for my career?",
         "📊 Industry insights",
         "🎯 Set career goals",
-        "💪 Skill development tips"
-      ]
+        "💪 Skill development tips",
+      ],
     };
   }
 
@@ -260,13 +263,14 @@ const generateAIResponse = (
     message.includes("introduce yourself")
   ) {
     return {
-      content: "🤖 **I'm your AI Career Strategist!**\n\nI'm an advanced artificial intelligence designed specifically to help you navigate your career journey. Here's what I can do for you:\n\n**🎯 Career Guidance:**\n• Help you discover ideal career paths\n• Provide personalized career recommendations\n• Analyze your skills and interests\n\n**💼 Job Market Intelligence:**\n• Real-time salary benchmarks\n• Industry trends and insights\n• Future job predictions\n\n**📚 Learning & Development:**\n• Custom learning roadmaps\n• Skill gap analysis\n• Course recommendations\n\n**💡 Professional Support:**\n• Interview preparation\n• Resume optimization tips\n• Career transition planning\n\nI'm here 24/7 to help you make informed career decisions and achieve your professional goals! What would you like to explore first?",
+      content:
+        "🤖 **I'm your AI Career Strategist!**\n\nI'm an advanced artificial intelligence designed specifically to help you navigate your career journey. Here's what I can do for you:\n\n**🎯 Career Guidance:**\n• Help you discover ideal career paths\n• Provide personalized career recommendations\n• Analyze your skills and interests\n\n**💼 Job Market Intelligence:**\n• Real-time salary benchmarks\n• Industry trends and insights\n• Future job predictions\n\n**📚 Learning & Development:**\n• Custom learning roadmaps\n• Skill gap analysis\n• Course recommendations\n\n**💡 Professional Support:**\n• Interview preparation\n• Resume optimization tips\n• Career transition planning\n\nI'm here 24/7 to help you make informed career decisions and achieve your professional goals! What would you like to explore first?",
       suggestions: [
         "🎯 Find careers that match me",
         "💰 Show current salary trends",
         "📚 Create my learning plan",
-        "🚀 Help me change careers"
-      ]
+        "🚀 Help me change careers",
+      ],
     };
   }
 
@@ -277,14 +281,15 @@ const generateAIResponse = (
     message.includes("how can you help")
   ) {
     return {
-      content: "💡 **I'm here to supercharge your career journey!**\n\nHere are the main ways I can help you:\n\n**🔍 Career Discovery**\n• Find careers that match your personality\n• Explore new and emerging fields\n• Get industry-specific insights\n\n**📊 Market Intelligence**\n• Current salary data and trends\n• Job demand forecasting\n• Skills gap analysis\n\n**🎓 Learning Guidance**\n• Personalized learning roadmaps\n• Course and certification recommendations\n• Skill development strategies\n\n**💼 Job Search Support**\n• Interview preparation and tips\n• Resume optimization advice\n• Networking strategies\n\n**🔄 Career Transitions**\n• Career change planning\n• Skill transfer analysis\n• Timeline and milestone setting\n\nJust ask me anything about careers, and I'll provide detailed, actionable advice! What specific area would you like to explore?",
+      content:
+        "💡 **I'm here to supercharge your career journey!**\n\nHere are the main ways I can help you:\n\n**🔍 Career Discovery**\n• Find careers that match your personality\n• Explore new and emerging fields\n• Get industry-specific insights\n\n**📊 Market Intelligence**\n• Current salary data and trends\n• Job demand forecasting\n• Skills gap analysis\n\n**🎓 Learning Guidance**\n• Personalized learning roadmaps\n• Course and certification recommendations\n• Skill development strategies\n\n**💼 Job Search Support**\n• Interview preparation and tips\n• Resume optimization advice\n• Networking strategies\n\n**🔄 Career Transitions**\n• Career change planning\n• Skill transfer analysis\n• Timeline and milestone setting\n\nJust ask me anything about careers, and I'll provide detailed, actionable advice! What specific area would you like to explore?",
       suggestions: [
         "🎯 Discover my ideal career",
         "💰 Check salary information",
         "📚 Plan my learning journey",
         "🔄 Help me switch careers",
-        "💼 Interview preparation"
-      ]
+        "💼 Interview preparation",
+      ],
     };
   }
 
@@ -763,7 +768,8 @@ Let's unlock your potential together! What career goals are you exploring today?
         } catch (e) {
           // Method 2: direct scroll on container
           if (messagesContainerRef.current) {
-            messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+            messagesContainerRef.current.scrollTop =
+              messagesContainerRef.current.scrollHeight;
           }
         }
       });
@@ -1053,7 +1059,7 @@ Let's unlock your potential together! What career goals are you exploring today?
                 <div
                   className="h-full overflow-y-auto scroll-smooth"
                   ref={messagesContainerRef}
-                  style={{ maxHeight: 'calc(100vh - 240px)' }}
+                  style={{ maxHeight: "calc(100vh - 240px)" }}
                 >
                   <div className="p-2 sm:p-4 lg:p-6 space-y-4 lg:space-y-6 min-h-full">
                     {messages.map((message) => (
