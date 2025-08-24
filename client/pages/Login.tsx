@@ -134,7 +134,7 @@ export default function Login() {
                 onClick={handleGoogleLogin}
                 disabled={isGoogleLoading || isGitHubLoading || isLoading}
                 variant="outline"
-                className="w-full h-12 bg-white hover:bg-gray-50 dark:bg-slate-800 dark:hover:bg-slate-700 border-slate-300 dark:border-slate-600"
+                className="w-full h-12 bg-white hover:bg-gray-50 dark:bg-slate-800 dark:hover:bg-slate-700 border-slate-300 dark:border-slate-600 text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100 transition-colors duration-200"
               >
                 {isGoogleLoading ? (
                   <Loader2 className="h-5 w-5 animate-spin mr-3" />
@@ -148,7 +148,7 @@ export default function Login() {
                 onClick={handleGitHubLogin}
                 disabled={isGitHubLoading || isGoogleLoading || isLoading}
                 variant="outline"
-                className="w-full h-12 bg-white hover:bg-gray-50 dark:bg-slate-800 dark:hover:bg-slate-700 border-slate-300 dark:border-slate-600"
+                className="w-full h-12 bg-white hover:bg-gray-50 dark:bg-slate-800 dark:hover:bg-slate-700 border-slate-300 dark:border-slate-600 text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100 transition-colors duration-200"
               >
                 {isGitHubLoading ? (
                   <Loader2 className="h-5 w-5 animate-spin mr-3" />
