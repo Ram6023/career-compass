@@ -83,7 +83,7 @@ const QUICK_QUESTIONS = [
   "🔄 Career transition guide",
   "🤖 AI & ML career roadmap",
   "🏠 Remote work opportunities",
-  "�� Salary negotiation secrets",
+  "💰 Salary negotiation secrets",
   "🚀 Startup vs Big Tech",
   "📈 Future-proof skills",
 ];
@@ -610,7 +610,7 @@ Ready to crush your next interview?`,
 **Programming Languages** 💻
 • Python (AI, Web, Automation)
 • JavaScript/TypeScript (Web Development)
-��� Go (Backend, Microservices)
+• Go (Backend, Microservices)
 • Rust (System Programming)
 • Swift/Kotlin (Mobile Development)
 
@@ -702,7 +702,7 @@ What would you like to explore first?`,
       "🎯 Find my ideal career",
       "📊 Show salary trends 2024",
       "🚀 Create learning roadmap",
-      "�� Interview preparation",
+      "💼 Interview preparation",
       "🔄 Plan career transition",
     ],
   };
@@ -1093,7 +1093,7 @@ Let's unlock your potential together! What career goals are you exploring today?
                               {/* Enhanced Career Card */}
                               {message.type === "career_card" &&
                                 message.metadata && (
-                                  <div className="mt-4 p-4 bg-slate-50/80 dark:bg-slate-700/80 rounded-xl border border-slate-200/50 dark:border-slate-600/50 backdrop-blur-sm">
+                                  <div className="mt-4 p-4 bg-emerald-50/80 dark:bg-emerald-900/20 rounded-xl border border-emerald-200/50 dark:border-emerald-700/50 backdrop-blur-sm">
                                     <div className="flex items-center justify-between mb-3">
                                       <h4 className="font-semibold text-slate-900 dark:text-slate-100">
                                         {message.metadata.title}
@@ -1133,7 +1133,7 @@ Let's unlock your potential together! What career goals are you exploring today?
                                 <div
                                   className={`text-xs ${
                                     message.sender === "user"
-                                      ? "text-indigo-100"
+                                      ? "text-emerald-100"
                                       : "text-slate-500 dark:text-slate-400"
                                   }`}
                                 >
@@ -1177,13 +1177,13 @@ Let's unlock your potential together! What career goals are you exploring today?
 
                           {/* Enhanced Suggestions */}
                           {message.sender === "bot" && message.suggestions && (
-                            <div className="mt-4 ml-12 flex flex-wrap gap-2">
+                            <div className="mt-4 ml-0 lg:ml-12 flex flex-wrap gap-2">
                               {message.suggestions.map((suggestion, index) => (
                                 <Button
                                   key={index}
                                   variant="outline"
                                   size="sm"
-                                  className="text-xs h-9 bg-white/90 dark:bg-slate-800/90 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 border-indigo-200 dark:border-indigo-800 hover:border-indigo-300 dark:hover:border-indigo-700 rounded-xl backdrop-blur-sm"
+                                  className="text-xs h-9 bg-white/95 dark:bg-slate-800/95 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800 hover:border-emerald-300 dark:hover:border-emerald-700 rounded-xl backdrop-blur-sm transition-all duration-200"
                                   onClick={() => handleSuggestion(suggestion)}
                                 >
                                   {suggestion}
