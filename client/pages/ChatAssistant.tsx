@@ -260,7 +260,7 @@ const generateAIResponse = (
     message.includes("introduce yourself")
   ) {
     return {
-      content: "🤖 **I'm your AI Career Strategist!**\n\nI'm an advanced artificial intelligence designed specifically to help you navigate your career journey. Here's what I can do for you:\n\n**🎯 Career Guidance:**\n• Help you discover ideal career paths\n• Provide personalized career recommendations\n• Analyze your skills and interests\n\n**💼 Job Market Intelligence:**\n• Real-time salary benchmarks\n• Industry trends and insights\n• Future job predictions\n\n**📚 Learning & Development:**\n• Custom learning roadmaps\n• Skill gap analysis\n• Course recommendations\n\n**💡 Professional Support:**\n• Interview preparation\n�� Resume optimization tips\n• Career transition planning\n\nI'm here 24/7 to help you make informed career decisions and achieve your professional goals! What would you like to explore first?",
+      content: "🤖 **I'm your AI Career Strategist!**\n\nI'm an advanced artificial intelligence designed specifically to help you navigate your career journey. Here's what I can do for you:\n\n**🎯 Career Guidance:**\n• Help you discover ideal career paths\n• Provide personalized career recommendations\n• Analyze your skills and interests\n\n**💼 Job Market Intelligence:**\n• Real-time salary benchmarks\n• Industry trends and insights\n• Future job predictions\n\n**📚 Learning & Development:**\n• Custom learning roadmaps\n• Skill gap analysis\n• Course recommendations\n\n**💡 Professional Support:**\n• Interview preparation\n• Resume optimization tips\n• Career transition planning\n\nI'm here 24/7 to help you make informed career decisions and achieve your professional goals! What would you like to explore first?",
       suggestions: [
         "🎯 Find careers that match me",
         "💰 Show current salary trends",
@@ -438,7 +438,7 @@ Design is where creativity meets technology - shape digital experiences!
 **🎨 Portfolio Strategy:**
 • 3-4 case studies showing your process
 • Mix of redesigns and original concepts
-• Include user research and testing
+��� Include user research and testing
 • Show before/after comparisons
 
 **🌟 Design Trends 2024:**
@@ -997,21 +997,21 @@ Let's unlock your potential together! What career goals are you exploring today?
               showSidebar ? "lg:col-span-4" : "lg:col-span-1"
             } transition-all duration-300`}
           >
-            <Card className="h-[calc(100vh-120px)] flex flex-col shadow-2xl border-0 overflow-hidden bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl">
+            <Card className="h-[calc(100vh-140px)] flex flex-col shadow-2xl border-0 overflow-hidden bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-emerald-100/30 dark:border-emerald-800/30">
               {/* Modern Chat Header */}
-              <CardHeader className="bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-cyan-500/10 border-b border-slate-200/50 dark:border-slate-700/50">
+              <CardHeader className="bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-blue-500/10 border-b border-emerald-200/30 dark:border-emerald-700/30 backdrop-blur-xl">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-4">
-                    <Avatar className="h-12 w-12 ring-2 ring-indigo-500/20">
+                    <Avatar className="h-12 w-12 ring-2 ring-emerald-500/30">
                       <AvatarImage src="/ai-avatar.png" alt="AI Assistant" />
-                      <AvatarFallback className="bg-gradient-to-br from-indigo-500 via-purple-600 to-cyan-500 text-white font-bold text-lg">
+                      <AvatarFallback className="bg-gradient-to-br from-emerald-500 via-teal-500 to-blue-600 text-white font-bold text-lg">
                         AI
                       </AvatarFallback>
                     </Avatar>
                     <div>
                       <CardTitle className="text-xl text-slate-900 dark:text-slate-100 flex items-center space-x-2">
                         <span>AI Career Strategist</span>
-                        <Badge className="bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300">
+                        <Badge className="bg-gradient-to-r from-emerald-100 to-teal-100 text-emerald-700 dark:from-emerald-900/30 dark:to-teal-900/30 dark:text-emerald-300 border-emerald-300 dark:border-emerald-600">
                           ✨ GPT-4 Powered
                         </Badge>
                       </CardTitle>
