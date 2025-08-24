@@ -997,7 +997,7 @@ Let's unlock your potential together! What career goals are you exploring today?
               showSidebar ? "lg:col-span-4" : "lg:col-span-1"
             } transition-all duration-300`}
           >
-            <Card className="h-[calc(100vh-140px)] flex flex-col shadow-2xl border-0 overflow-hidden bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-emerald-100/30 dark:border-emerald-800/30">
+            <Card className="h-[calc(100vh-100px)] flex flex-col shadow-2xl border-0 overflow-hidden bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-emerald-100/30 dark:border-emerald-800/30">
               {/* Modern Chat Header */}
               <CardHeader className="bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-blue-500/10 border-b border-emerald-200/30 dark:border-emerald-700/30 backdrop-blur-xl">
                 <div className="flex items-center justify-between">
@@ -1053,7 +1053,7 @@ Let's unlock your potential together! What career goals are you exploring today?
                 <div
                   className="h-full overflow-y-auto scroll-smooth"
                   ref={messagesContainerRef}
-                  style={{ maxHeight: 'calc(100vh - 300px)' }}
+                  style={{ maxHeight: 'calc(100vh - 240px)' }}
                 >
                   <div className="p-4 lg:p-6 space-y-4 lg:space-y-6 min-h-full">
                     {messages.map((message) => (
@@ -1066,7 +1066,7 @@ Let's unlock your potential together! What career goals are you exploring today?
                         }`}
                       >
                         <div
-                          className={`max-w-[85%] ${
+                          className={`max-w-[90%] sm:max-w-[85%] lg:max-w-[80%] ${
                             message.sender === "user" ? "order-2" : "order-1"
                           }`}
                         >
@@ -1086,7 +1086,7 @@ Let's unlock your potential together! What career goals are you exploring today?
                                   : "bg-white/95 dark:bg-slate-800/95 text-slate-900 dark:text-slate-100 border border-emerald-100/50 dark:border-emerald-800/50"
                               }`}
                             >
-                              <div className="whitespace-pre-line text-sm leading-relaxed">
+                              <div className="whitespace-pre-line text-sm leading-relaxed break-words overflow-wrap-anywhere">
                                 {message.content}
                               </div>
 
@@ -1106,7 +1106,7 @@ Let's unlock your potential together! What career goals are you exploring today?
                                         {message.metadata.difficulty}
                                       </Badge>
                                     </div>
-                                    <div className="grid grid-cols-2 gap-3 text-sm">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
                                       <div className="p-3 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg">
                                         <span className="text-emerald-700 dark:text-emerald-300 font-medium">
                                           💰 Salary:
@@ -1167,8 +1167,8 @@ Let's unlock your potential together! What career goals are you exploring today?
                             </div>
 
                             {message.sender === "user" && (
-                              <Avatar className="h-9 w-9 flex-shrink-0 ring-2 ring-slate-200 dark:ring-slate-700">
-                                <AvatarFallback className="bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300">
+                              <Avatar className="h-9 w-9 flex-shrink-0 ring-2 ring-emerald-200 dark:ring-emerald-700">
+                                <AvatarFallback className="bg-emerald-200 dark:bg-emerald-700 text-emerald-700 dark:text-emerald-300">
                                   {user?.firstName?.[0] || "U"}
                                 </AvatarFallback>
                               </Avatar>
@@ -1177,7 +1177,7 @@ Let's unlock your potential together! What career goals are you exploring today?
 
                           {/* Enhanced Suggestions */}
                           {message.sender === "bot" && message.suggestions && (
-                            <div className="mt-4 ml-0 lg:ml-12 flex flex-wrap gap-2">
+                            <div className="mt-4 ml-0 lg:ml-12 flex flex-wrap gap-2 max-w-full">
                               {message.suggestions.map((suggestion, index) => (
                                 <Button
                                   key={index}
