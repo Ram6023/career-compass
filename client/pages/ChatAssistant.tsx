@@ -873,7 +873,7 @@ Let's unlock your potential together! What career goals are you exploring today?
       <div className="container mx-auto px-6 py-8 max-w-8xl">
         <div
           className={`grid gap-8 transition-all duration-300 ${
-            showSidebar ? "lg:grid-cols-4" : "lg:grid-cols-1"
+            showSidebar ? "lg:grid-cols-6" : "lg:grid-cols-1"
           }`}
         >
           {/* Enhanced Sidebar */}
@@ -994,7 +994,7 @@ Let's unlock your potential together! What career goals are you exploring today?
           {/* Main Chat Interface */}
           <div
             className={`${
-              showSidebar ? "lg:col-span-3" : "lg:col-span-1"
+              showSidebar ? "lg:col-span-5" : "lg:col-span-1"
             } transition-all duration-300`}
           >
             <Card className="h-[calc(100vh-140px)] flex flex-col shadow-2xl border-0 overflow-hidden bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl">
