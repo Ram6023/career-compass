@@ -14,17 +14,25 @@ interface LanguageProviderProps {
   defaultLanguage?: SupportedLanguage;
 }
 
-export function LanguageProvider({ 
-  children, 
-  defaultLanguage = 'en' 
+export function LanguageProvider({
+  children,
+  defaultLanguage = 'en'
 }: LanguageProviderProps) {
   const [language, setLanguage] = useState<SupportedLanguage>(() => {
-    const stored = localStorage.getItem('career-compass-language') as SupportedLanguage;
-    return stored || defaultLanguage;
+    try {
+      const stored = localStorage.getItem('career-compass-language') as SupportedLanguage;
+      return stored || defaultLanguage;
+    } catch {
+      return defaultLanguage;
+    }
   });
 
   useEffect(() => {
-    localStorage.setItem('career-compass-language', language);
+    try {
+      localStorage.setItem('career-compass-language', language);
+    } catch {
+      // Silently handle localStorage errors
+    }
   }, [language]);
 
   const t = (key: string): string => {
@@ -41,7 +49,13 @@ export function LanguageProvider({
 export function useLanguage() {
   const context = useContext(LanguageContext);
   if (context === undefined) {
-    throw new Error('useLanguage must be used within a LanguageProvider');
+    // Provide a fallback instead of throwing an error during development
+    console.warn('useLanguage hook called outside of LanguageProvider. Using fallback.');
+    return {
+      language: 'en' as SupportedLanguage,
+      setLanguage: () => {},
+      t: (key: string) => key, // Return the key as fallback
+    };
   }
   return context;
 }
