@@ -83,7 +83,7 @@ const QUICK_QUESTIONS = [
   "🔄 Career transition guide",
   "🤖 AI & ML career roadmap",
   "🏠 Remote work opportunities",
-  "💰 Salary negotiation secrets",
+  "�� Salary negotiation secrets",
   "🚀 Startup vs Big Tech",
   "📈 Future-proof skills",
 ];
@@ -438,7 +438,7 @@ Design is where creativity meets technology - shape digital experiences!
 **🎨 Portfolio Strategy:**
 • 3-4 case studies showing your process
 • Mix of redesigns and original concepts
-��� Include user research and testing
+• Include user research and testing
 • Show before/after comparisons
 
 **🌟 Design Trends 2024:**
@@ -610,7 +610,7 @@ Ready to crush your next interview?`,
 **Programming Languages** 💻
 • Python (AI, Web, Automation)
 • JavaScript/TypeScript (Web Development)
-• Go (Backend, Microservices)
+��� Go (Backend, Microservices)
 • Rust (System Programming)
 • Swift/Kotlin (Mobile Development)
 
@@ -702,7 +702,7 @@ What would you like to explore first?`,
       "🎯 Find my ideal career",
       "📊 Show salary trends 2024",
       "🚀 Create learning roadmap",
-      "💼 Interview preparation",
+      "�� Interview preparation",
       "🔄 Plan career transition",
     ],
   };
@@ -1053,9 +1053,9 @@ Let's unlock your potential together! What career goals are you exploring today?
                 <div
                   className="h-full overflow-y-auto scroll-smooth"
                   ref={messagesContainerRef}
-                  style={{ maxHeight: 'calc(100vh - 280px)' }}
+                  style={{ maxHeight: 'calc(100vh - 300px)' }}
                 >
-                  <div className="p-6 space-y-6 min-h-full">
+                  <div className="p-4 lg:p-6 space-y-4 lg:space-y-6 min-h-full">
                     {messages.map((message) => (
                       <div
                         key={message.id}
@@ -1072,18 +1072,18 @@ Let's unlock your potential together! What career goals are you exploring today?
                         >
                           <div className="flex items-start space-x-3">
                             {message.sender === "bot" && (
-                              <Avatar className="h-9 w-9 flex-shrink-0 ring-2 ring-indigo-500/20">
-                                <AvatarFallback className="bg-gradient-to-br from-indigo-500 via-purple-600 to-cyan-500 text-white text-xs font-bold">
+                              <Avatar className="h-9 w-9 flex-shrink-0 ring-2 ring-emerald-500/30">
+                                <AvatarFallback className="bg-gradient-to-br from-emerald-500 via-teal-500 to-blue-600 text-white text-xs font-bold">
                                   AI
                                 </AvatarFallback>
                               </Avatar>
                             )}
 
                             <div
-                              className={`rounded-2xl p-5 shadow-lg backdrop-blur-sm ${
+                              className={`rounded-2xl p-4 lg:p-5 shadow-lg backdrop-blur-sm ${
                                 message.sender === "user"
-                                  ? "bg-gradient-to-r from-indigo-500 via-purple-600 to-cyan-500 text-white"
-                                  : "bg-white/90 dark:bg-slate-800/90 text-slate-900 dark:text-slate-100 border border-slate-200/50 dark:border-slate-700/50"
+                                  ? "bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-600 text-white shadow-emerald-500/25"
+                                  : "bg-white/95 dark:bg-slate-800/95 text-slate-900 dark:text-slate-100 border border-emerald-100/50 dark:border-emerald-800/50"
                               }`}
                             >
                               <div className="whitespace-pre-line text-sm leading-relaxed">
