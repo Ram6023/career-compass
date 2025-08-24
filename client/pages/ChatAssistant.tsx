@@ -341,7 +341,7 @@ Ready to dive into AI? I can create your personalized learning plan!`,
         type: "career_card",
         metadata: {
           title: "AI/ML Engineer",
-          salary: "₹15-50 LPA",
+          salary: "��15-50 LPA",
           growth: "45% (Extremely high growth)",
           difficulty: "Advanced",
           skills: [
@@ -1199,21 +1199,21 @@ Let's unlock your potential together! What career goals are you exploring today?
                     {isTyping && (
                       <div className="flex justify-start">
                         <div className="flex items-start space-x-3">
-                          <Avatar className="h-9 w-9 ring-2 ring-indigo-500/20">
-                            <AvatarFallback className="bg-gradient-to-br from-indigo-500 via-purple-600 to-cyan-500 text-white text-xs font-bold">
+                          <Avatar className="h-9 w-9 ring-2 ring-emerald-500/30">
+                            <AvatarFallback className="bg-gradient-to-br from-emerald-500 via-teal-500 to-blue-600 text-white text-xs font-bold">
                               AI
                             </AvatarFallback>
                           </Avatar>
-                          <div className="bg-white/90 dark:bg-slate-800/90 rounded-2xl p-4 shadow-lg border border-slate-200/50 dark:border-slate-700/50 backdrop-blur-sm">
+                          <div className="bg-white/95 dark:bg-slate-800/95 rounded-2xl p-4 shadow-lg border border-emerald-100/50 dark:border-emerald-800/50 backdrop-blur-sm">
                             <div className="flex items-center space-x-3">
                               <div className="flex space-x-1">
-                                <div className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce"></div>
+                                <div className="w-2 h-2 bg-emerald-400 rounded-full animate-bounce"></div>
                                 <div
-                                  className="w-2 h-2 bg-purple-400 rounded-full animate-bounce"
+                                  className="w-2 h-2 bg-teal-400 rounded-full animate-bounce"
                                   style={{ animationDelay: "0.1s" }}
                                 ></div>
                                 <div
-                                  className="w-2 h-2 bg-cyan-400 rounded-full animate-bounce"
+                                  className="w-2 h-2 bg-blue-400 rounded-full animate-bounce"
                                   style={{ animationDelay: "0.2s" }}
                                 ></div>
                               </div>
