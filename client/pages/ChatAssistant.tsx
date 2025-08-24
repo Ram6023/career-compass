@@ -997,7 +997,7 @@ Let's unlock your potential together! What career goals are you exploring today?
               showSidebar ? "lg:col-span-5" : "lg:col-span-1"
             } transition-all duration-300`}
           >
-            <Card className="h-[calc(100vh-140px)] flex flex-col shadow-2xl border-0 overflow-hidden bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl">
+            <Card className="h-[calc(100vh-120px)] flex flex-col shadow-2xl border-0 overflow-hidden bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl">
               {/* Modern Chat Header */}
               <CardHeader className="bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-cyan-500/10 border-b border-slate-200/50 dark:border-slate-700/50">
                 <div className="flex items-center justify-between">
