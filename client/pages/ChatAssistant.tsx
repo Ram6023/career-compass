@@ -870,7 +870,7 @@ Let's unlock your potential together! What career goals are you exploring today?
     <div className="min-h-screen bg-gradient-to-br from-emerald-50/30 via-teal-50/20 to-blue-50/30 dark:from-emerald-950/30 dark:via-teal-950/20 dark:to-blue-950/30">
       <Header pageSubtitle="AI Career Strategist" />
 
-      <div className="container mx-auto px-4 lg:px-8 py-6 max-w-8xl">
+      <div className="container mx-auto px-2 sm:px-4 lg:px-8 py-4 lg:py-6 max-w-8xl">
         <div
           className={`grid gap-6 lg:gap-8 transition-all duration-300 ${
             showSidebar ? "lg:grid-cols-5" : "lg:grid-cols-1"
@@ -1055,7 +1055,7 @@ Let's unlock your potential together! What career goals are you exploring today?
                   ref={messagesContainerRef}
                   style={{ maxHeight: 'calc(100vh - 240px)' }}
                 >
-                  <div className="p-4 lg:p-6 space-y-4 lg:space-y-6 min-h-full">
+                  <div className="p-2 sm:p-4 lg:p-6 space-y-4 lg:space-y-6 min-h-full">
                     {messages.map((message) => (
                       <div
                         key={message.id}
@@ -1070,7 +1070,7 @@ Let's unlock your potential together! What career goals are you exploring today?
                             message.sender === "user" ? "order-2" : "order-1"
                           }`}
                         >
-                          <div className="flex items-start space-x-3">
+                          <div className="flex items-start space-x-2 lg:space-x-3">
                             {message.sender === "bot" && (
                               <Avatar className="h-9 w-9 flex-shrink-0 ring-2 ring-emerald-500/30">
                                 <AvatarFallback className="bg-gradient-to-br from-emerald-500 via-teal-500 to-blue-600 text-white text-xs font-bold">
@@ -1080,7 +1080,7 @@ Let's unlock your potential together! What career goals are you exploring today?
                             )}
 
                             <div
-                              className={`rounded-2xl p-4 lg:p-5 shadow-lg backdrop-blur-sm ${
+                              className={`rounded-2xl p-3 sm:p-4 lg:p-5 shadow-lg backdrop-blur-sm overflow-hidden ${
                                 message.sender === "user"
                                   ? "bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-600 text-white shadow-emerald-500/25"
                                   : "bg-white/95 dark:bg-slate-800/95 text-slate-900 dark:text-slate-100 border border-emerald-100/50 dark:border-emerald-800/50"
@@ -1231,8 +1231,8 @@ Let's unlock your potential together! What career goals are you exploring today?
               </div>
 
               {/* Enhanced Input Area */}
-              <div className="p-4 lg:p-6 border-t border-emerald-200/30 dark:border-emerald-700/30 bg-emerald-50/50 dark:bg-emerald-950/30 backdrop-blur-xl">
-                <div className="flex flex-col lg:flex-row space-y-3 lg:space-y-0 lg:space-x-4 items-stretch lg:items-end">
+              <div className="p-3 sm:p-4 lg:p-6 border-t border-emerald-200/30 dark:border-emerald-700/30 bg-emerald-50/50 dark:bg-emerald-950/30 backdrop-blur-xl">
+                <div className="flex flex-col lg:flex-row space-y-3 lg:space-y-0 lg:space-x-4 items-stretch lg:items-end w-full">
                   <div className="flex-1 space-y-2">
                     <Textarea
                       ref={inputRef}
@@ -1240,7 +1240,7 @@ Let's unlock your potential together! What career goals are you exploring today?
                       onChange={(e) => setInputMessage(e.target.value)}
                       onKeyPress={handleKeyPress}
                       placeholder="Ask me anything about careers, skills, salaries, or job market trends..."
-                      className="min-h-[50px] lg:min-h-[60px] max-h-[120px] resize-none bg-white/95 dark:bg-slate-700/95 border-emerald-300/50 dark:border-emerald-600/50 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent backdrop-blur-sm transition-all duration-200"
+                      className="min-h-[50px] lg:min-h-[60px] max-h-[120px] resize-none bg-white/95 dark:bg-slate-700/95 border-emerald-300/50 dark:border-emerald-600/50 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent backdrop-blur-sm transition-all duration-200 w-full"
                       disabled={isTyping}
                     />
                   </div>
