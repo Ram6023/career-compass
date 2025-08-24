@@ -481,7 +481,7 @@ Ready to start your design journey?`,
 • Senior Software Engineer: ₹12-25 LPA
 • Data Scientist: ₹15-30 LPA
 • Product Manager: ₹18-35 LPA
-• DevOps Engineer: ₹15-28 LPA
+��� DevOps Engineer: ₹15-28 LPA
 • Tech Lead: ₹20-35 LPA
 
 **🏆 Senior Level (6+ years):**
@@ -665,7 +665,7 @@ I'm powered by advanced AI to provide personalized career guidance!
 
 **🎯 How I Can Help You:**
 
-**🔍 Career Discovery**
+**��� Career Discovery**
 • Personality-based career matching
 • Skills assessment & gap analysis
 • Industry insights & trends
@@ -867,18 +867,18 @@ Let's unlock your potential together! What career goals are you exploring today?
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50/30 via-teal-50/20 to-blue-50/30 dark:from-emerald-950/30 dark:via-teal-950/20 dark:to-blue-950/30">
       <Header pageSubtitle="AI Career Strategist" />
 
-      <div className="container mx-auto px-6 py-8 max-w-8xl">
+      <div className="container mx-auto px-4 lg:px-8 py-6 max-w-8xl">
         <div
-          className={`grid gap-8 transition-all duration-300 ${
-            showSidebar ? "lg:grid-cols-6" : "lg:grid-cols-1"
+          className={`grid gap-6 lg:gap-8 transition-all duration-300 ${
+            showSidebar ? "lg:grid-cols-5" : "lg:grid-cols-1"
           }`}
         >
           {/* Enhanced Sidebar */}
           {showSidebar && (
-            <div className="lg:col-span-1 space-y-6">
+            <div className="lg:col-span-1 space-y-4 lg:space-y-6">
               {/* AI Assistant Status */}
               <Card className="overflow-hidden shadow-xl border-0 bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-cyan-500/10 backdrop-blur-sm">
                 <CardHeader className="pb-4">
@@ -994,7 +994,7 @@ Let's unlock your potential together! What career goals are you exploring today?
           {/* Main Chat Interface */}
           <div
             className={`${
-              showSidebar ? "lg:col-span-5" : "lg:col-span-1"
+              showSidebar ? "lg:col-span-4" : "lg:col-span-1"
             } transition-all duration-300`}
           >
             <Card className="h-[calc(100vh-120px)] flex flex-col shadow-2xl border-0 overflow-hidden bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl">
