@@ -54,6 +54,7 @@ import { useTheme } from "@/components/ui/theme-provider";
 import { useLanguage } from "@/components/ui/language-provider";
 import { LanguageSelector } from "@/components/ui/language-selector";
 import { authService } from "@/lib/auth";
+import { geminiService } from "@/lib/gemini";
 import { toast } from "@/components/ui/use-toast";
 import { Header } from "@/components/Header";
 
@@ -264,7 +265,7 @@ const generateAIResponse = (
   ) {
     return {
       content:
-        "🤖 **I'm your AI Career Strategist!**\n\nI'm an advanced artificial intelligence designed specifically to help you navigate your career journey. Here's what I can do for you:\n\n**🎯 Career Guidance:**\n• Help you discover ideal career paths\n• Provide personalized career recommendations\n• Analyze your skills and interests\n\n**💼 Job Market Intelligence:**\n• Real-time salary benchmarks\n• Industry trends and insights\n• Future job predictions\n\n**📚 Learning & Development:**\n• Custom learning roadmaps\n• Skill gap analysis\n• Course recommendations\n\n**💡 Professional Support:**\n• Interview preparation\n• Resume optimization tips\n• Career transition planning\n\nI'm here 24/7 to help you make informed career decisions and achieve your professional goals! What would you like to explore first?",
+        "🤖 **I'm your AI Career Strategist!**\n\nI'm an advanced artificial intelligence designed specifically to help you navigate your career journey. Here's what I can do for you:\n\n**🎯 Career Guidance:**\n• Help you discover ideal career paths\n• Provide personalized career recommendations\n• Analyze your skills and interests\n\n**💼 Job Market Intelligence:**\n• Real-time salary benchmarks\n• Industry trends and insights\n• Future job predictions\n\n**📚 Learning & Development:**\n• Custom learning roadmaps\n• Skill gap analysis\n• Course recommendations\n\n**💡 Professional Support:**\n• Interview preparation\n• Resume optimization tips\n�� Career transition planning\n\nI'm here 24/7 to help you make informed career decisions and achieve your professional goals! What would you like to explore first?",
       suggestions: [
         "🎯 Find careers that match me",
         "💰 Show current salary trends",
@@ -818,7 +819,10 @@ Let's unlock your potential together! What career goals are you exploring today?
     const thinkingTime = Math.random() * 2000 + 1500; // 1.5-3.5 seconds
     await new Promise((resolve) => setTimeout(resolve, thinkingTime));
 
-    const response = generateAIResponse(inputMessage);
+    const response = await geminiService.generateCareerResponse(inputMessage, {
+      user: user,
+      conversationHistory: messages.slice(-5) // Pass last 5 messages for context
+    });
     const botResponse: Message = {
       id: (Date.now() + 1).toString(),
       content: response.content,
