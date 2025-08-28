@@ -339,7 +339,7 @@ The AI field is exploding with opportunities! Here's your complete roadmap:
 Ready to dive into AI? I can create your personalized learning plan!`,
         suggestions: [
           "📚 Create my AI learning roadmap",
-          "���� Best AI programming languages",
+          "💻 Best AI programming languages",
           "🎯 AI portfolio project ideas",
           "💰 AI job market & salaries",
           "🏢 Top AI companies to work for",
@@ -509,7 +509,7 @@ Ready to start your design journey?`,
 • Pune/Chennai: +10-20% premium
 • Remote work: Location-independent pay
 
-**���� Salary Boosters:**
+**🚀 Salary Boosters:**
 • Master in-demand skills (AI, Cloud, Security)
 • Get industry certifications
 • Build strong portfolio & personal brand
@@ -922,6 +922,25 @@ Let's unlock your potential together! What career goals are you exploring today?
                       <span>Future-ready guidance</span>
                     </div>
                   </div>
+
+                  {!geminiService.isGeminiAvailable() && (
+                    <div className="mt-4 p-3 bg-yellow-50/80 dark:bg-yellow-900/20 rounded-lg border border-yellow-200/50 dark:border-yellow-700/50">
+                      <div className="text-xs text-yellow-700 dark:text-yellow-300 mb-2">
+                        💡 <strong>Enhance Your Experience!</strong>
+                      </div>
+                      <div className="text-xs text-yellow-600 dark:text-yellow-400 mb-3">
+                        For advanced AI responses, set your Gemini API key in the environment variables (VITE_GEMINI_API_KEY).
+                      </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="w-full text-xs h-8 bg-yellow-100 dark:bg-yellow-900/30 border-yellow-300 dark:border-yellow-600 hover:bg-yellow-200 dark:hover:bg-yellow-800"
+                        onClick={() => window.open('https://makersuite.google.com/app/apikey', '_blank')}
+                      >
+                        Get Gemini API Key
+                      </Button>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
 
