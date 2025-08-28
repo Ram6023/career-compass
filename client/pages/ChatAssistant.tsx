@@ -339,7 +339,7 @@ The AI field is exploding with opportunities! Here's your complete roadmap:
 Ready to dive into AI? I can create your personalized learning plan!`,
         suggestions: [
           "📚 Create my AI learning roadmap",
-          "💻 Best AI programming languages",
+          "���� Best AI programming languages",
           "🎯 AI portfolio project ideas",
           "💰 AI job market & salaries",
           "🏢 Top AI companies to work for",
@@ -509,7 +509,7 @@ Ready to start your design journey?`,
 • Pune/Chennai: +10-20% premium
 • Remote work: Location-independent pay
 
-**🚀 Salary Boosters:**
+**���� Salary Boosters:**
 • Master in-demand skills (AI, Cloud, Security)
 • Get industry certifications
 • Build strong portfolio & personal brand
@@ -901,8 +901,8 @@ Let's unlock your potential together! What career goals are you exploring today?
                         AI Career Strategist
                       </CardTitle>
                       <div className="flex items-center space-x-2 text-sm text-slate-600 dark:text-slate-400">
-                        <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-                        <span>Powered by Advanced AI</span>
+                        <div className={`w-2 h-2 ${geminiService.isGeminiAvailable() ? 'bg-emerald-500 animate-pulse' : 'bg-yellow-500'} rounded-full`}></div>
+                        <span>{geminiService.getStatus()}</span>
                       </div>
                     </div>
                   </div>
@@ -1021,8 +1021,10 @@ Let's unlock your potential together! What career goals are you exploring today?
                     <div>
                       <CardTitle className="text-xl text-slate-900 dark:text-slate-100 flex items-center space-x-2">
                         <span>AI Career Strategist</span>
-                        <Badge className="bg-gradient-to-r from-emerald-100 to-teal-100 text-emerald-700 dark:from-emerald-900/30 dark:to-teal-900/30 dark:text-emerald-300 border-emerald-300 dark:border-emerald-600">
-                          ✨ GPT-4 Powered
+                        <Badge className={`${geminiService.isGeminiAvailable()
+                          ? 'bg-gradient-to-r from-emerald-100 to-teal-100 text-emerald-700 dark:from-emerald-900/30 dark:to-teal-900/30 dark:text-emerald-300 border-emerald-300 dark:border-emerald-600'
+                          : 'bg-gradient-to-r from-yellow-100 to-orange-100 text-yellow-700 dark:from-yellow-900/30 dark:to-orange-900/30 dark:text-yellow-300 border-yellow-300 dark:border-yellow-600'}`}>
+                          {geminiService.isGeminiAvailable() ? '✨ Gemini AI Powered' : '🟡 Basic Mode'}
                         </Badge>
                       </CardTitle>
                       <div className="flex items-center space-x-2 text-sm text-slate-600 dark:text-slate-400">
