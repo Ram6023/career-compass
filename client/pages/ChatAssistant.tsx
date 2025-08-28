@@ -265,7 +265,7 @@ const generateAIResponse = (
   ) {
     return {
       content:
-        "🤖 **I'm your AI Career Strategist!**\n\nI'm an advanced artificial intelligence designed specifically to help you navigate your career journey. Here's what I can do for you:\n\n**🎯 Career Guidance:**\n• Help you discover ideal career paths\n• Provide personalized career recommendations\n• Analyze your skills and interests\n\n**💼 Job Market Intelligence:**\n• Real-time salary benchmarks\n• Industry trends and insights\n• Future job predictions\n\n**📚 Learning & Development:**\n• Custom learning roadmaps\n• Skill gap analysis\n• Course recommendations\n\n**💡 Professional Support:**\n• Interview preparation\n• Resume optimization tips\n�� Career transition planning\n\nI'm here 24/7 to help you make informed career decisions and achieve your professional goals! What would you like to explore first?",
+        "🤖 **I'm your AI Career Strategist!**\n\nI'm an advanced artificial intelligence designed specifically to help you navigate your career journey. Here's what I can do for you:\n\n**🎯 Career Guidance:**\n• Help you discover ideal career paths\n• Provide personalized career recommendations\n• Analyze your skills and interests\n\n**💼 Job Market Intelligence:**\n• Real-time salary benchmarks\n• Industry trends and insights\n• Future job predictions\n\n**�� Learning & Development:**\n• Custom learning roadmaps\n• Skill gap analysis\n• Course recommendations\n\n**💡 Professional Support:**\n• Interview preparation\n• Resume optimization tips\n�� Career transition planning\n\nI'm here 24/7 to help you make informed career decisions and achieve your professional goals! What would you like to explore first?",
       suggestions: [
         "🎯 Find careers that match me",
         "💰 Show current salary trends",
@@ -477,7 +477,7 @@ Ready to start your design journey?`,
 **🇮🇳 India Tech Salary Ranges:**
 
 **🌱 Entry Level (0-2 years):**
-• Software Engineer: ₹6-12 LPA
+�� Software Engineer: ₹6-12 LPA
 • Data Analyst: ₹4-8 LPA
 • UI/UX Designer: ₹4-9 LPA
 • Digital Marketer: ₹3-7 LPA
@@ -519,7 +519,7 @@ Ready to start your design journey?`,
 Want specific salary negotiation strategies?`,
       suggestions: [
         "🎯 Salary negotiation tips",
-        "📈 How to get a 30% raise",
+        "�� How to get a 30% raise",
         "🏢 Best paying companies",
         "🌐 Remote salary trends",
         "📊 Salary by city comparison",
@@ -1026,7 +1026,7 @@ Let's unlock your potential together! What career goals are you exploring today?
               showSidebar ? "lg:col-span-4" : "lg:col-span-1"
             } transition-all duration-300`}
           >
-            <Card className="h-[calc(100vh-100px)] flex flex-col shadow-2xl border-0 overflow-hidden bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-emerald-100/30 dark:border-emerald-800/30">
+            <Card className="h-[calc(100vh-60px)] flex flex-col shadow-2xl border-0 overflow-hidden bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-emerald-100/30 dark:border-emerald-800/30">
               {/* Modern Chat Header */}
               <CardHeader className="bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-blue-500/10 border-b border-emerald-200/30 dark:border-emerald-700/30 backdrop-blur-xl">
                 <div className="flex items-center justify-between">
@@ -1084,7 +1084,7 @@ Let's unlock your potential together! What career goals are you exploring today?
                 <div
                   className="h-full overflow-y-auto scroll-smooth"
                   ref={messagesContainerRef}
-                  style={{ maxHeight: "calc(100vh - 240px)" }}
+                  style={{ maxHeight: "calc(100vh - 180px)" }}
                 >
                   <div className="p-2 sm:p-4 lg:p-6 space-y-4 lg:space-y-6 min-h-full">
                     {messages.map((message) => (
