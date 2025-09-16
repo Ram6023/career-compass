@@ -229,7 +229,9 @@ export default function ChatAssistant() {
                   <div
                     key={message.id}
                     className={`flex ${
-                      message.sender === "user" ? "justify-end" : "justify-start"
+                      message.sender === "user"
+                        ? "justify-end"
+                        : "justify-start"
                     }`}
                   >
                     <div
@@ -257,34 +259,43 @@ export default function ChatAssistant() {
                             {message.content}
                           </div>
 
-                          {message.type === "career_card" && message.metadata && (
-                            <div className="mt-4 p-4 bg-emerald-50/80 dark:bg-emerald-900/20 rounded-xl border border-emerald-200/50 dark:border-emerald-700/50 backdrop-blur-sm">
-                              <div className="flex items-center justify-between mb-3">
-                                <h4 className="font-semibold text-slate-900 dark:text-slate-100">
-                                  {message.metadata.title}
-                                </h4>
-                                <Badge className={getDifficultyColor(message.metadata.difficulty)}>
-                                  {message.metadata.difficulty}
-                                </Badge>
-                              </div>
-                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-                                <div className="p-3 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg">
-                                  <span className="text-emerald-700 dark:text-emerald-300 font-medium">💰 Salary:</span>
-                                  <br />
-                                  <span className="text-emerald-900 dark:text-emerald-100 font-semibold">
-                                    {message.metadata.salary}
-                                  </span>
+                          {message.type === "career_card" &&
+                            message.metadata && (
+                              <div className="mt-4 p-4 bg-emerald-50/80 dark:bg-emerald-900/20 rounded-xl border border-emerald-200/50 dark:border-emerald-700/50 backdrop-blur-sm">
+                                <div className="flex items-center justify-between mb-3">
+                                  <h4 className="font-semibold text-slate-900 dark:text-slate-100">
+                                    {message.metadata.title}
+                                  </h4>
+                                  <Badge
+                                    className={getDifficultyColor(
+                                      message.metadata.difficulty,
+                                    )}
+                                  >
+                                    {message.metadata.difficulty}
+                                  </Badge>
                                 </div>
-                                <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-                                  <span className="text-blue-700 dark:text-blue-300 font-medium">📈 Growth:</span>
-                                  <br />
-                                  <span className="text-blue-900 dark:text-blue-100 font-semibold">
-                                    {message.metadata.growth}
-                                  </span>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                                  <div className="p-3 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg">
+                                    <span className="text-emerald-700 dark:text-emerald-300 font-medium">
+                                      💰 Salary:
+                                    </span>
+                                    <br />
+                                    <span className="text-emerald-900 dark:text-emerald-100 font-semibold">
+                                      {message.metadata.salary}
+                                    </span>
+                                  </div>
+                                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                                    <span className="text-blue-700 dark:text-blue-300 font-medium">
+                                      📈 Growth:
+                                    </span>
+                                    <br />
+                                    <span className="text-blue-900 dark:text-blue-100 font-semibold">
+                                      {message.metadata.growth}
+                                    </span>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          )}
+                            )}
 
                           <div className="flex items-center justify-between mt-4">
                             <div
