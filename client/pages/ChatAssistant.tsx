@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Send, Mic, Copy, Sparkles } from "lucide-react";
@@ -386,7 +386,7 @@ export default function ChatAssistant() {
                   onChange={(e) => setInputMessage(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder="Ask me anything about careers, skills, salaries, or job market trends..."
-                  className="min-h[50px] lg:min-h-[60px] max-h-[120px] resize-none bg-white/95 dark:bg-slate-700/95 border-emerald-300/50 dark:border-emerald-600/50 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent backdrop-blur-sm transition-all duration-200 w-full"
+                  className="min-h-[50px] lg:min-h-[60px] max-h-[120px] resize-none bg-white/95 dark:bg-slate-700/95 border-emerald-300/50 dark:border-emerald-600/50 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent backdrop-blur-sm transition-all duration-200 w-full"
                   disabled={isTyping}
                 />
               </div>
