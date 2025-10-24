@@ -12,19 +12,62 @@ export default function AuthCallback() {
     const handleAuthCallback = async () => {
       try {
         const { data, error } = await supabase.auth.getSession();
-
         if (error) {
           setError(error.message);
           setLoading(false);
           return;
         }
 
-        if (data.session) {
-          // Authentication successful, redirect to dashboard
-          navigate("/", { replace: true });
-        } else {
-          // No session found, redirect to login
+        const session = data.session;
+        if (!session?.user) {
           navigate("/login", { replace: true });
+          return;
+        }
+
+        const user = session.user;
+        // Check if profile exists
+        const { data: profile, error: profileErr } = await supabase
+          .from("profiles")
+          .select("id")
+          .eq("id", user.id)
+          .single();
+
+        let firstTime = false;
+        if (profileErr || !profile) {
+          // Create minimal profile
+          const insertPayload: any = {
+            id: user.id,
+            email: user.email ?? "",
+            name: user.user_metadata?.full_name || user.email?.split("@")[0] || "User",
+            avatar_url: user.user_metadata?.avatar_url,
+            provider: (user.app_metadata?.provider as any) || "email",
+            first_name: user.user_metadata?.first_name,
+            last_name: user.user_metadata?.last_name,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+            preferences: {
+              email_notifications: true,
+              sms_notifications: false,
+              career_tips: true,
+              goal_reminders: true,
+              profile_visibility: "public",
+            },
+          };
+
+          const { error: insertErr } = await supabase
+            .from("profiles")
+            .insert(insertPayload)
+            .select()
+            .single();
+
+          if (!insertErr) firstTime = true;
+        }
+
+        // Redirect
+        if (firstTime) {
+          navigate("/profile?onboard=1", { replace: true });
+        } else {
+          navigate("/home", { replace: true });
         }
       } catch (err) {
         setError("Authentication failed");

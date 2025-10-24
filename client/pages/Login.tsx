@@ -1,31 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import {
-  Compass,
-  LogIn,
-  Mail,
-  Lock,
-  Eye,
-  EyeOff,
-  Sun,
-  Moon,
-  Loader2,
-} from "lucide-react";
-import { useTheme } from "@/components/ui/theme-provider";
-import { useLanguage } from "@/components/ui/language-provider";
-import { LanguageSelector } from "@/components/ui/language-selector";
+import { Compass, Mail, Lock, Eye, EyeOff, Loader2 } from "lucide-react";
 import { Header } from "@/components/Header";
+import { authService } from "@/lib/auth";
+import { toast } from "@/components/ui/use-toast";
 
 // SVG Icons for OAuth providers
 const GoogleIcon = () => (
@@ -56,8 +38,6 @@ const GitHubIcon = () => (
 );
 
 export default function Login() {
-  const { theme, setTheme } = useTheme();
-  const { t } = useLanguage();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -65,56 +45,59 @@ export default function Login() {
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [isGitHubLoading, setIsGitHubLoading] = useState(false);
 
+  useEffect(() => {
+    if (authService.isAuthenticatedSync()) {
+      window.location.replace("/home");
+    }
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-
-    // Simulate login process
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    console.log("Login:", { email, password });
+    const res = await authService.signInWithEmail(email, password);
     setIsLoading(false);
-
-    // Redirect to dashboard or home page
-    window.location.href = "/";
+    if (!res.success) {
+      toast({ title: "Login failed", description: res.error || "Invalid credentials", duration: 3000 });
+      return;
+    }
+    window.location.href = "/home";
   };
 
   const handleGoogleLogin = async () => {
-    setIsGoogleLoading(true);
-
-    // Simulate Google OAuth process
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-
-    console.log("Google login initiated");
-    setIsGoogleLoading(false);
-
-    // In a real app, this would redirect to Google OAuth
-    window.location.href = "/";
+    try {
+      setIsGoogleLoading(true);
+      const res = await authService.signInWithGoogle();
+      if (!res.success) {
+        toast({ title: "Google sign-in failed", description: res.error || "Please try again", duration: 3000 });
+      }
+      // OAuth will redirect on success
+    } finally {
+      setIsGoogleLoading(false);
+    }
   };
 
   const handleGitHubLogin = async () => {
-    setIsGitHubLoading(true);
-
-    // Simulate GitHub OAuth process
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-
-    console.log("GitHub login initiated");
-    setIsGitHubLoading(false);
-
-    // In a real app, this would redirect to GitHub OAuth
-    window.location.href = "/";
+    try {
+      setIsGitHubLoading(true);
+      const res = await authService.signInWithGitHub();
+      if (!res.success) {
+        toast({ title: "GitHub sign-in failed", description: res.error || "Please try again", duration: 3000 });
+      }
+    } finally {
+      setIsGitHubLoading(false);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-zinc-100 dark:from-slate-900 dark:via-gray-900 dark:to-zinc-900">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-slate-950 dark:via-indigo-950/20 dark:to-purple-950">
       <Header pageSubtitle="Welcome Back" />
 
       <main className="container mx-auto px-4 py-8 flex items-center justify-center min-h-[calc(100vh-100px)]">
-        <Card className="w-full max-w-md shadow-2xl border-slate-200/50 dark:border-slate-700/50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm">
+        <Card className="w-full max-w-md shadow-2xl border-indigo-200/50 dark:border-indigo-700/40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-lg rounded-2xl">
           <CardHeader className="text-center space-y-4">
-            <div className="p-4 bg-gradient-to-br from-rose-500/10 to-pink-600/10 rounded-2xl w-fit mx-auto">
-              <div className="p-3 bg-gradient-to-br from-rose-500 to-pink-600 rounded-xl">
-                <LogIn className="h-8 w-8 text-white" />
+            <div className="p-4 w-fit mx-auto">
+              <div className="p-3 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 rounded-xl shadow-lg">
+                <Compass className="h-8 w-8 text-white" />
               </div>
             </div>
             <div>
@@ -122,7 +105,7 @@ export default function Login() {
                 Welcome Back
               </CardTitle>
               <CardDescription className="text-slate-600 dark:text-slate-400 text-base mt-2">
-                Sign in to your CareerCompass account
+                Sign in to your Career Compass account
               </CardDescription>
             </div>
           </CardHeader>
@@ -159,17 +142,6 @@ export default function Login() {
               </Button>
             </div>
 
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <Separator className="w-full" />
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white dark:bg-slate-900 px-2 text-slate-500 dark:text-slate-400">
-                  Or continue with email
-                </span>
-              </div>
-            </div>
-
             {/* Email/Password Form */}
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
@@ -187,7 +159,7 @@ export default function Login() {
                     placeholder="Enter your email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="pl-10 h-12 bg-white/50 dark:bg-slate-800/50 border-slate-300 dark:border-slate-600"
+                    className="pl-10 h-12 bg-white/70 dark:bg-slate-800/60 border-indigo-200/60 dark:border-indigo-700/40"
                     required
                   />
                 </div>
@@ -208,7 +180,7 @@ export default function Login() {
                     placeholder="Enter your password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="pl-10 pr-10 h-12 bg-white/50 dark:bg-slate-800/50 border-slate-300 dark:border-slate-600"
+                    className="pl-10 pr-10 h-12 bg-white/70 dark:bg-slate-800/60 border-indigo-200/60 dark:border-indigo-700/40"
                     required
                   />
                   <Button
@@ -227,21 +199,10 @@ export default function Login() {
                 </div>
               </div>
 
-              <div className="flex items-center justify-between">
-                <div className="text-sm">
-                  <Link
-                    to="/forgot-password"
-                    className="text-rose-600 hover:text-rose-700 dark:text-rose-400 dark:hover:text-rose-300 font-medium"
-                  >
-                    Forgot password?
-                  </Link>
-                </div>
-              </div>
-
               <Button
                 type="submit"
-                disabled={isLoading || isGoogleLoading || isGitHubLoading}
-                className="w-full h-12 bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white font-medium"
+                disabled={isLoading}
+                className="w-full h-12 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:via-indigo-700 hover:to-purple-700 text-white font-medium rounded-xl"
               >
                 {isLoading ? (
                   <>
@@ -249,7 +210,7 @@ export default function Login() {
                     Signing in...
                   </>
                 ) : (
-                  "Sign In"
+                  "Login"
                 )}
               </Button>
             </form>
@@ -259,9 +220,9 @@ export default function Login() {
                 Don't have an account?{" "}
                 <Link
                   to="/register"
-                  className="text-rose-600 hover:text-rose-700 dark:text-rose-400 dark:hover:text-rose-300 font-medium"
+                  className="text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium"
                 >
-                  Sign up
+                  Register
                 </Link>
               </p>
             </div>

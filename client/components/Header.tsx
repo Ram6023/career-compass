@@ -1,7 +1,16 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Compass, Sun, Moon, User } from "lucide-react";
+import { Sun, Moon, User } from "lucide-react";
+import logoUrl from "@/assets/logo.svg";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/components/ui/theme-provider";
 import { useLanguage } from "@/components/ui/language-provider";
 import { LanguageSelector } from "@/components/ui/language-selector";
@@ -24,12 +33,12 @@ export function Header({ pageTitle, pageSubtitle }: HeaderProps) {
     <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/95 dark:bg-gray-900/95 border-b border-emerald-200/30 dark:border-emerald-700/30 shadow-lg">
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          <Link to="/" className="flex items-center space-x-4 group">
-            <div className="p-3 bg-gradient-to-br from-emerald-500 via-teal-500 to-blue-600 rounded-2xl shadow-xl transition-transform group-hover:scale-105">
-              <Compass className="h-8 w-8 text-white" />
+          <Link to="/home" className="flex items-center space-x-4 group">
+            <div className="p-2 rounded-2xl shadow-xl transition-transform group-hover:scale-105 bg-white/10 dark:bg-white/5 border border-white/20">
+              <img src={logoUrl} alt="CareerCompass" className="h-9 w-9" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 via-teal-600 to-blue-600 bg-clip-text text-transparent">
+              <h1 className="text-2xl font-bold font-orbitron bg-gradient-to-r from-emerald-600 via-teal-600 to-blue-600 bg-clip-text text-transparent">
                 CareerCompass AI
               </h1>
               <p className="text-xs text-gray-500 dark:text-gray-400">
@@ -40,7 +49,7 @@ export function Header({ pageTitle, pageSubtitle }: HeaderProps) {
 
           <nav className="hidden lg:flex items-center space-x-8">
             <Link
-              to="/"
+              to="/home"
               className="text-gray-700 hover:text-emerald-600 transition-all duration-300 font-medium dark:text-gray-300 dark:hover:text-emerald-400 relative group"
             >
               Home
@@ -96,33 +105,43 @@ export function Header({ pageTitle, pageSubtitle }: HeaderProps) {
             </Button>
 
             {isLoggedIn && user ? (
-              <div className="flex items-center space-x-3">
-                <Button variant="ghost" asChild className="rounded-xl">
-                  <Link to="/profile" className="flex items-center space-x-2">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="rounded-full h-10 w-10 p-0">
                     {user.avatar ? (
-                      <img
-                        src={user.avatar}
-                        alt="Profile"
-                        className="w-6 h-6 rounded-full"
-                      />
+                      <img src={user.avatar} alt="Profile" className="h-10 w-10 rounded-full" />
                     ) : (
-                      <User className="w-4 h-4" />
+                      <span className="h-10 w-10 rounded-full bg-emerald-500 text-white flex items-center justify-center font-semibold">
+                        {user.firstName?.[0] || user.email?.[0] || "U"}
+                      </span>
                     )}
-                    <span>Profile</span>
-                  </Link>
-                </Button>
-                <Button
-                  variant="outline"
-                  className="rounded-xl"
-                  onClick={async () => {
-                    await authService.signOut();
-                    setUser(null);
-                    setIsLoggedIn(false);
-                  }}
-                >
-                  Sign Out
-                </Button>
-              </div>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuLabel>{user.firstName || "Account"}</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link to="/profile">My Profile</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/careers">Saved Careers</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/settings">Settings</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={async () => {
+                      await authService.signOut();
+                      setUser(null);
+                      setIsLoggedIn(false);
+                      window.location.href = "/login";
+                    }}
+                  >
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : (
               <div className="flex items-center space-x-3">
                 <Button variant="ghost" asChild className="rounded-xl">
@@ -130,7 +149,7 @@ export function Header({ pageTitle, pageSubtitle }: HeaderProps) {
                 </Button>
                 <Button
                   asChild
-                  className="bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-600 hover:from-emerald-600 hover:via-teal-600 hover:to-blue-700 shadow-lg rounded-xl transition-all duration-300 hover:shadow-xl hover:scale-105"
+                  className="bg-gradient-to-r from-indigo-600 via-teal-500 to-purple-600 hover:from-indigo-700 hover:via-teal-600 hover:to-purple-700 shadow-lg rounded-xl transition-all duration-300 hover:shadow-xl hover:scale-105"
                 >
                   <Link to="/register">{t("header.getStarted")}</Link>
                 </Button>

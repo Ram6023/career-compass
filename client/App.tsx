@@ -20,6 +20,8 @@ import DailyTips from "./pages/DailyTips";
 import GoalTracker from "./pages/GoalTracker";
 import Profile from "./pages/Profile";
 import AuthCallback from "./pages/AuthCallback";
+import Settings from "./pages/Settings";
+import SplashScreen from "./components/SplashScreen";
 
 const queryClient = new QueryClient();
 
@@ -63,38 +65,45 @@ class ErrorBoundary extends React.Component<
   }
 }
 
-const App = () => (
-  <ErrorBoundary>
-    <QueryClientProvider client={queryClient}>
-      <LanguageProvider defaultLanguage="en">
-        <ThemeProvider defaultTheme="system" storageKey="career-compass-theme">
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/admin" element={<Admin />} />
-                <Route path="/resume-analyzer" element={<ResumeAnalyzer />} />
-                <Route path="/chat" element={<ChatAssistant />} />
-                <Route path="/compare" element={<CareerComparison />} />
-                <Route path="/careers" element={<CareerComparison />} />
-                <Route path="/roadmaps" element={<Index />} />
-                <Route path="/tips" element={<DailyTips />} />
-                <Route path="/goals" element={<GoalTracker />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/auth/callback" element={<AuthCallback />} />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </BrowserRouter>
-          </TooltipProvider>
-        </ThemeProvider>
-      </LanguageProvider>
-    </QueryClientProvider>
-  </ErrorBoundary>
-);
+const App = () => {
+  const [showSplash, setShowSplash] = React.useState(true);
+
+  return (
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <LanguageProvider defaultLanguage="en">
+          <ThemeProvider defaultTheme="system" storageKey="career-compass-theme">
+            <TooltipProvider>
+              <Toaster />
+              <Sonner />
+              {showSplash && <SplashScreen onFinish={() => setShowSplash(false)} />}
+              <BrowserRouter>
+                <Routes>
+                  <Route path="/" element={<Login />} />
+                  <Route path="/home" element={<Index />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/register" element={<Register />} />
+                  <Route path="/admin" element={<Admin />} />
+                  <Route path="/resume-analyzer" element={<ResumeAnalyzer />} />
+                  <Route path="/chat" element={<ChatAssistant />} />
+                  <Route path="/compare" element={<CareerComparison />} />
+                  <Route path="/careers" element={<CareerComparison />} />
+                  <Route path="/roadmaps" element={<Index />} />
+                  <Route path="/tips" element={<DailyTips />} />
+                  <Route path="/goals" element={<GoalTracker />} />
+                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/auth/callback" element={<AuthCallback />} />
+                  <Route path="/settings" element={<Settings />} />
+                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </BrowserRouter>
+            </TooltipProvider>
+          </ThemeProvider>
+        </LanguageProvider>
+      </QueryClientProvider>
+    </ErrorBoundary>
+  );
+};
 
 export default App;

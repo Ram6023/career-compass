@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Futuristic display font for splash/title */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800&display=swap');
+/* Modern clean font for cinematic intro */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
 @layer base {
   /**
    * Tailwind CSS theme
@@ -18,7 +23,8 @@
     --popover: 0 0% 100%;
     --popover-foreground: 220 9% 15%;
 
-    --primary: 340 82% 52%;
+    /* Primary: Indigo 600 (#4f46e5) */
+    --primary: 238 83% 60%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 220 14% 96%;
@@ -27,7 +33,8 @@
     --muted: 220 14% 96%;
     --muted-foreground: 220 8% 46%;
 
-    --accent: 340 82% 52%;
+    /* Accent: Teal 500 (#14b8a6) */
+    --accent: 173 68% 40%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
@@ -35,7 +42,7 @@
 
     --border: 220 13% 91%;
     --input: 220 13% 95%;
-    --ring: 340 82% 52%;
+    --ring: 238 83% 60%;
 
     --radius: 0.75rem;
 
@@ -66,7 +73,8 @@
     --popover: 220 23% 11%;
     --popover-foreground: 220 15% 95%;
 
-    --primary: 340 75% 55%;
+    /* Primary (dark) */
+    --primary: 238 83% 62%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 220 20% 14%;
@@ -75,7 +83,8 @@
     --muted: 220 20% 14%;
     --muted-foreground: 220 10% 65%;
 
-    --accent: 340 75% 55%;
+    /* Accent (dark) */
+    --accent: 173 68% 44%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 30.6%;
@@ -83,7 +92,7 @@
 
     --border: 220 20% 18%;
     --input: 220 20% 16%;
-    --ring: 340 75% 55%;
+    --ring: 260 100% 55%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -102,5 +111,14 @@
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .font-orbitron {
+    font-family: 'Orbitron', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  }
+  .font-poppins {
+    font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   }
 }

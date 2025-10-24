@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -62,6 +62,7 @@ import { LanguageSelector } from "@/components/ui/language-selector";
 import { authService } from "@/lib/auth";
 import { toast } from "@/components/ui/use-toast";
 import { Header } from "@/components/Header";
+import MagicBento from "@/components/MagicBento";
 
 interface CareerRecommendation {
   title: string;
@@ -113,12 +114,25 @@ const careerIcons: {
 };
 
 export default function Index() {
+  const navigate = useNavigate();
   const { theme, setTheme } = useTheme();
   const { t } = useLanguage();
   const [user, setUser] = useState(authService.getCurrentUser());
   const [isLoggedIn, setIsLoggedIn] = useState(
     authService.isAuthenticatedSync(),
   );
+
+  useEffect(() => {
+    const check = async () => {
+      const ok = await authService.isAuthenticated();
+      if (!ok) {
+        navigate("/login", { replace: true });
+      } else {
+        setIsLoggedIn(true);
+      }
+    };
+    check();
+  }, [navigate]);
 
   const [interests, setInterests] = useState<string[]>([]);
   const [skills, setSkills] = useState<string[]>([]);
@@ -815,7 +829,7 @@ export default function Index() {
       </div>
       <Header />
 
-      {/* Hero Section */}
+      {/* Hero Section (shown for all users) */}
       <section className="py-20 px-6">
         <div className="container mx-auto max-w-6xl text-center">
           <div className="mb-8">
@@ -830,38 +844,36 @@ export default function Index() {
             </p>
           </div>
 
-          {!isLoggedIn && (
-            <div className="mb-12">
-              <Button
-                asChild
-                size="lg"
-                className="bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-600 hover:from-emerald-600 hover:via-teal-600 hover:to-blue-700 shadow-2xl rounded-2xl text-lg px-10 py-7 transition-all duration-300 hover:shadow-emerald-500/25 hover:scale-105"
-              >
-                <Link to="/register">
-                  <Sparkles className="mr-2 h-5 w-5" />
-                  Get Started Free
-                </Link>
-              </Button>
-              <p className="text-sm text-slate-500 dark:text-slate-400 mt-3">
-                No credit card required • 100% free to start
-              </p>
-            </div>
-          )}
+          <div className="mt-8">
+            <MagicBento
+              textAutoHide
+              enableStars
+              enableSpotlight
+              enableBorderGlow
+              enableTilt
+              enableMagnetism
+              clickEffect
+              spotlightRadius={300}
+              particleCount={12}
+              glowColor="132, 0, 255"
+            />
+          </div>
         </div>
       </section>
 
-      {/* Career Assessment Form */}
-      <section className="py-20 px-6 relative">
-        <div className="container mx-auto max-w-5xl">
-          <Card className="shadow-2xl border border-emerald-200/30 dark:border-emerald-700/30 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-3xl overflow-hidden">
-            <div className="bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-blue-600/10 px-8 py-10 text-center">
-              <CardTitle className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                {t('assessment.title')}
-              </CardTitle>
-              <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-                {t('assessment.description')}
-              </p>
-            </div>
+      {/* Career Assessment Form (only for logged-in users) */}
+      {isLoggedIn && (
+        <section className="py-20 px-6 relative">
+          <div className="container mx-auto max-w-5xl">
+            <Card className="shadow-2xl border border-emerald-200/30 dark:border-emerald-700/30 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-3xl overflow-hidden">
+              <div className="bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-blue-600/10 px-8 py-10 text-center">
+                <CardTitle className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                  {t('assessment.title')}
+                </CardTitle>
+                <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                  {t('assessment.description')}
+                </p>
+              </div>
             <CardContent className="p-10 space-y-10">
               {/* Interests Selection */}
               <div className="bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/30 p-6 rounded-2xl border border-emerald-200/50 dark:border-emerald-700/50">
@@ -1104,9 +1116,10 @@ export default function Index() {
                 </div>
               )}
             </CardContent>
-          </Card>
-        </div>
-      </section>
+            </Card>
+          </div>
+        </section>
+      )}
 
       {/* Career Recommendations */}
       {recommendations.length > 0 && (
