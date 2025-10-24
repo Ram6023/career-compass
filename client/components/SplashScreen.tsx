@@ -214,10 +214,10 @@ export default function SplashScreen({ onFinish, durationMs = 5000 }: SplashScre
           </div>
         )}
 
-        {/* Bottom credit */}
-        <div className="absolute bottom-8 inset-x-0 text-center text-[#BDC3C7] text-xs">
-          Built & Developed by Sriram
-        </div>
+        {/* Bottom credit moved to viewport bottom */}
+      </div>
+      <div className="pointer-events-none absolute bottom-8 inset-x-0 z-[10000] text-center text-[#BDC3C7] text-xs">
+        Built & Developed by Sriram
       </div>
     </div>
   );
