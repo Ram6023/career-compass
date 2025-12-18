@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Compass, Sun, Moon, User, Settings, LogOut, UserCircle2, Target, MessageSquare, BookOpen, Briefcase } from "lucide-react";
@@ -30,6 +30,27 @@ export function Header({ pageTitle, pageSubtitle }: HeaderProps) {
   const [isLoggedIn, setIsLoggedIn] = useState(
     authService.isAuthenticatedSync(),
   );
+
+  useEffect(() => {
+    // Listen for auth state changes
+    const handleAuthStateChange = () => {
+      const currentUser = authService.getCurrentUser();
+      const authenticated = authService.isAuthenticatedSync();
+      setUser(currentUser);
+      setIsLoggedIn(authenticated);
+    };
+
+    // Set up event listener for auth changes
+    window.addEventListener('authStateChanged', handleAuthStateChange);
+    
+    // Also check auth state on component mount
+    handleAuthStateChange();
+
+    // Cleanup event listener
+    return () => {
+      window.removeEventListener('authStateChanged', handleAuthStateChange);
+    };
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/95 dark:bg-gray-900/95 border-b border-emerald-200/30 dark:border-emerald-700/30 shadow-lg">

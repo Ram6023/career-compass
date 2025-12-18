@@ -1,4 +1,4 @@
-import { useRef, useEffect, useCallback, useState, ReactNode, CSSProperties } from 'react';
+import { useRef, useEffect, useCallback, useState, ReactNode, CSSProperties, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { gsap } from 'gsap';
 import './MagicBento.css';
@@ -71,7 +71,7 @@ interface ParticleCardProps {
   onClick?: () => void;
 }
 
-const ParticleCard = ({
+const ParticleCard = memo(({
   children,
   className = '',
   disableAnimations = false,
@@ -293,7 +293,7 @@ const ParticleCard = ({
       {children}
     </div>
   );
-};
+});
 
 interface GlobalSpotlightProps {
   gridRef: React.RefObject<HTMLDivElement>;
@@ -444,7 +444,7 @@ interface MagicBentoProps {
   enableMagnetism?: boolean;
 }
 
-const MagicBento = ({
+const MagicBento = memo(({
   textAutoHide = true,
   enableStars = true,
   enableSpotlight = true,
@@ -588,6 +588,6 @@ const MagicBento = ({
       </BentoCardGrid>
     </>
   );
-};
+});
 
 export default MagicBento;

@@ -25,16 +25,18 @@ export default function AuthCallback() {
         }
 
         const user = session.user;
-        // Check if profile exists
+        
+        // Check if profile exists and has been completed
         const { data: profile, error: profileErr } = await supabase
           .from("profiles")
-          .select("id")
+          .select("id, first_name, last_name, education, college")
           .eq("id", user.id)
           .single();
 
-        let firstTime = false;
+        let isFirstTime = false;
+        
         if (profileErr || !profile) {
-          // Create minimal profile
+          // Create minimal profile for new users
           const insertPayload: any = {
             id: user.id,
             email: user.email ?? "",
@@ -56,20 +58,24 @@ export default function AuthCallback() {
 
           const { error: insertErr } = await supabase
             .from("profiles")
-            .insert(insertPayload)
-            .select()
-            .single();
+            .insert(insertPayload);
 
-          if (!insertErr) firstTime = true;
+          if (!insertErr) isFirstTime = true;
+        } else {
+          // Check if this is a first-time Google user who hasn't completed onboarding
+          if (!profile.first_name || !profile.last_name || !profile.education || !profile.college) {
+            isFirstTime = true;
+          }
         }
 
-        // Redirect
-        if (firstTime) {
-          navigate("/profile?onboard=1", { replace: true });
+        // Redirect based on user status
+        if (isFirstTime) {
+          navigate("/onboarding", { replace: true });
         } else {
           navigate("/home", { replace: true });
         }
       } catch (err) {
+        console.error("Auth callback error:", err);
         setError("Authentication failed");
         setLoading(false);
       }

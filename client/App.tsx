@@ -20,6 +20,7 @@ import DailyTips from "./pages/DailyTips";
 import GoalTracker from "./pages/GoalTracker";
 import Profile from "./pages/Profile";
 import AuthCallback from "./pages/AuthCallback";
+import Onboarding from "./pages/Onboarding";
 import Settings from "./pages/Settings";
 import SplashScreen from "./components/SplashScreen";
 import { authService } from "@/lib/auth";
@@ -224,6 +225,14 @@ const App = () => {
                     }
                   />
                   <Route path="/auth/callback" element={<AuthCallback />} />
+                  <Route
+                    path="/onboarding"
+                    element={
+                      <RequireAuth>
+                        <Onboarding />
+                      </RequireAuth>
+                    }
+                  />
                   <Route
                     path="/settings"
                     element={

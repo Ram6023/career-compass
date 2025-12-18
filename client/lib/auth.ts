@@ -48,9 +48,14 @@ class AuthService {
     // Listen for auth state changes
     supabase.auth.onAuthStateChange((event, session) => {
       if (event === "SIGNED_IN" && session?.user) {
-        this.loadUserProfile(session.user.id);
+        this.loadUserProfile(session.user.id).then(() => {
+          // Dispatch custom event when auth state changes
+          window.dispatchEvent(new CustomEvent('authStateChanged'));
+        });
       } else if (event === "SIGNED_OUT") {
         this.currentUser = null;
+        // Dispatch custom event when auth state changes
+        window.dispatchEvent(new CustomEvent('authStateChanged'));
       }
     });
 
@@ -352,6 +357,8 @@ class AuthService {
     try {
       await supabase.auth.signOut();
       this.currentUser = null;
+      // Dispatch custom event when auth state changes
+      window.dispatchEvent(new CustomEvent('authStateChanged'));
     } catch (error) {
       console.error("Error signing out:", error);
     }

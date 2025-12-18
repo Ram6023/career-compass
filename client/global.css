@@ -1,11 +1,11 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 /* Futuristic display font for splash/title */
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800&display=swap');
 /* Modern clean font for cinematic intro */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @layer base {
   /**
