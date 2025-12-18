@@ -209,15 +209,7 @@ export function Header({ pageTitle, pageSubtitle }: HeaderProps) {
               </div>
             ) : (
               <div className="flex items-center space-x-3">
-                <Button variant="ghost" asChild className="rounded-xl">
-                  <Link to="/login">{t("header.login")}</Link>
-                </Button>
-                <Button
-                  asChild
-                  className="bg-gradient-to-r from-indigo-600 via-teal-500 to-purple-600 hover:from-indigo-700 hover:via-teal-600 hover:to-purple-700 shadow-lg rounded-xl transition-all duration-300 hover:shadow-xl hover:scale-105"
-                >
-                  <Link to="/register">{t("header.getStarted")}</Link>
-                </Button>
+                {/* Login and Register buttons removed per requirements */}
               </div>
             )}
           </div>

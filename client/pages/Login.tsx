@@ -99,9 +99,8 @@ export default function Login() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-slate-950 dark:via-indigo-950/20 dark:to-purple-950">
-      <Header pageSubtitle="Welcome Back" />
 
-      <main className="container mx-auto px-4 py-8 flex items-center justify-center min-h-[calc(100vh-100px)]">
+      <main className="container mx-auto px-4 py-8 flex items-center justify-center min-h-screen">
         <Card className="w-full max-w-md shadow-2xl border-indigo-200/50 dark:border-indigo-700/40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-lg rounded-2xl">
           <CardHeader className="text-center space-y-4">
             <div className="p-4 w-fit mx-auto">
