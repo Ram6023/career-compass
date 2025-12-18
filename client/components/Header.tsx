@@ -1,20 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-<<<<<<< HEAD
-import { Sun, Moon, User } from "lucide-react";
-import logoUrl from "@/assets/logo.svg";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-=======
 import { Compass, Sun, Moon, User, Settings, LogOut, UserCircle2, Target, MessageSquare, BookOpen, Briefcase } from "lucide-react";
->>>>>>> 3ff05bf (hii)
+import logoUrl from "@/assets/logo.svg";
+
 import { useTheme } from "@/components/ui/theme-provider";
 import { useLanguage } from "@/components/ui/language-provider";
 import { LanguageSelector } from "@/components/ui/language-selector";
@@ -118,45 +107,6 @@ export function Header({ pageTitle, pageSubtitle }: HeaderProps) {
             </Button>
 
             {isLoggedIn && user ? (
-<<<<<<< HEAD
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="rounded-full h-10 w-10 p-0">
-                    {user.avatar ? (
-                      <img src={user.avatar} alt="Profile" className="h-10 w-10 rounded-full" />
-                    ) : (
-                      <span className="h-10 w-10 rounded-full bg-emerald-500 text-white flex items-center justify-center font-semibold">
-                        {user.firstName?.[0] || user.email?.[0] || "U"}
-                      </span>
-                    )}
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48">
-                  <DropdownMenuLabel>{user.firstName || "Account"}</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild>
-                    <Link to="/profile">My Profile</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link to="/careers">Saved Careers</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link to="/settings">Settings</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    onClick={async () => {
-                      await authService.signOut();
-                      setUser(null);
-                      setIsLoggedIn(false);
-                      window.location.href = "/login";
-                    }}
-                  >
-                    Logout
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-=======
               <div className="flex items-center space-x-3">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -227,6 +177,7 @@ export function Header({ pageTitle, pageSubtitle }: HeaderProps) {
                         await authService.signOut();
                         setUser(null);
                         setIsLoggedIn(false);
+                        window.location.href = "/login";
                       }}
                       className="text-red-600 focus:text-red-700"
                     >
@@ -235,7 +186,6 @@ export function Header({ pageTitle, pageSubtitle }: HeaderProps) {
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
->>>>>>> 3ff05bf (hii)
             ) : (
               <div className="flex items-center space-x-3">
                 <Button variant="ghost" asChild className="rounded-xl">

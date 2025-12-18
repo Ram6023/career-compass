@@ -153,7 +153,7 @@ export default function ChatAssistant() {
           recognitionRef.current.onend = null;
           recognitionRef.current.stop();
         }
-      } catch {}
+      } catch { }
     };
   }, []);
 
@@ -176,11 +176,11 @@ export default function ChatAssistant() {
             };
           }
         }
-      } catch {}
+      } catch { }
     })();
     return () => {
       if (permStatus && typeof permStatus.onchange !== 'undefined') {
-        try { permStatus.onchange = null; } catch {}
+        try { permStatus.onchange = null; } catch { }
       }
     };
   }, []);
@@ -268,11 +268,7 @@ export default function ChatAssistant() {
       sender: "bot",
       timestamp: new Date(),
       suggestions: response.suggestions,
-<<<<<<< HEAD
-      type: mapMessageType(response.type),
-=======
       type: (response.type as Message["type"]) || "text",
->>>>>>> 3ff05bf (hii)
       metadata: response.metadata,
     };
 
@@ -309,7 +305,7 @@ export default function ChatAssistant() {
           return;
         }
       }
-    } catch {}
+    } catch { }
     const SR: any = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
     if (!SR) {
       toast({
@@ -352,10 +348,10 @@ export default function ChatAssistant() {
             try {
               setTimeout(() => {
                 if (isRecordingRef.current) {
-                  try { recognition.start(); } catch {}
+                  try { recognition.start(); } catch { }
                 }
               }, 200);
-            } catch {}
+            } catch { }
             return;
           }
           let description = "Could not process audio.";
@@ -372,13 +368,13 @@ export default function ChatAssistant() {
           }
           toast({ title: "Mic error", description, duration: 2500 });
           setRecording(false);
-          try { recognition.stop(); } catch {}
+          try { recognition.stop(); } catch { }
         };
 
         recognition.onend = () => {
           // Auto-restart if user hasn't toggled off and there wasn't an explicit stop
           if (isRecordingRef.current) {
-            try { recognition.start(); return; } catch {}
+            try { recognition.start(); return; } catch { }
           }
           setRecording(false);
         };
@@ -396,7 +392,7 @@ export default function ChatAssistant() {
       setRecording(false);
       try {
         recognitionRef.current?.stop();
-      } catch {}
+      } catch { }
     }
   };
 
@@ -452,170 +448,166 @@ export default function ChatAssistant() {
                 ref={messagesContainerRef}
               >
                 <div className={`${listPadding} min-h-full`}>
-                {messages.map((message) => (
-                  <div
-                    key={message.id}
-                    className={`flex ${
-                      message.sender === "user"
-                        ? "justify-end"
-                        : "justify-start"
-                    }`}
-                  >
+                  {messages.map((message) => (
                     <div
-                      className={`max-w-[90%] sm:max-w-[85%] lg:max-w-[80%] ${
-                        message.sender === "user" ? "order-2" : "order-1"
-                      }`}
+                      key={message.id}
+                      className={`flex ${message.sender === "user"
+                          ? "justify-end"
+                          : "justify-start"
+                        }`}
                     >
-                      <div className="flex items-start space-x-2 lg:space-x-3">
-                        {message.sender === "bot" && (
-                          <Avatar className={`${isCompact ? "h-7 w-7" : "h-9 w-9"} flex-shrink-0 ring-2 ring-emerald-500/30`}>
-                            <AvatarFallback className="bg-gradient-to-br from-emerald-500 via-teal-500 to-blue-600 text-white text-xs font-bold">
-                              AI
-                            </AvatarFallback>
-                          </Avatar>
-                        )}
+                      <div
+                        className={`max-w-[90%] sm:max-w-[85%] lg:max-w-[80%] ${message.sender === "user" ? "order-2" : "order-1"
+                          }`}
+                      >
+                        <div className="flex items-start space-x-2 lg:space-x-3">
+                          {message.sender === "bot" && (
+                            <Avatar className={`${isCompact ? "h-7 w-7" : "h-9 w-9"} flex-shrink-0 ring-2 ring-emerald-500/30`}>
+                              <AvatarFallback className="bg-gradient-to-br from-emerald-500 via-teal-500 to-blue-600 text-white text-xs font-bold">
+                                AI
+                              </AvatarFallback>
+                            </Avatar>
+                          )}
 
-                        <div
-                          className={`rounded-2xl ${isCompact ? "p-2" : "p-3 sm:p-4 lg:p-5"} shadow-lg ${isMinimal ? "" : "backdrop-blur-sm"} overflow-hidden ${
-                            message.sender === "user"
-                              ? (isMinimal
+                          <div
+                            className={`rounded-2xl ${isCompact ? "p-2" : "p-3 sm:p-4 lg:p-5"} shadow-lg ${isMinimal ? "" : "backdrop-blur-sm"} overflow-hidden ${message.sender === "user"
+                                ? (isMinimal
                                   ? "bg-slate-900 text-white dark:bg-slate-200 dark:text-slate-900"
                                   : "bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-600 text-white shadow-emerald-500/25")
-                              : (isMinimal
+                                : (isMinimal
                                   ? "bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700"
                                   : "bg-white/95 dark:bg-slate-800/95 text-slate-900 dark:text-slate-100 border border-emerald-100/50 dark:border-emerald-800/50")
-                          }`}
-                        >
-                          <div className="whitespace-pre-line text-sm leading-relaxed break-words overflow-wrap-anywhere">
-                            {message.content}
-                          </div>
-
-                          {message.type === "career_card" &&
-                            message.metadata && (
-                              <div className="mt-4 p-4 bg-emerald-50/80 dark:bg-emerald-900/20 rounded-xl border border-emerald-200/50 dark:border-emerald-700/50 backdrop-blur-sm">
-                                <div className="flex items-center justify-between mb-3">
-                                  <h4 className="font-semibold text-slate-900 dark:text-slate-100">
-                                    {message.metadata.title}
-                                  </h4>
-                                  <Badge
-                                    className={getDifficultyColor(
-                                      message.metadata.difficulty,
-                                    )}
-                                  >
-                                    {message.metadata.difficulty}
-                                  </Badge>
-                                </div>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-                                  <div className="p-3 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg">
-                                    <span className="text-emerald-700 dark:text-emerald-300 font-medium">
-                                      💰 Salary:
-                                    </span>
-                                    <br />
-                                    <span className="text-emerald-900 dark:text-emerald-100 font-semibold">
-                                      {message.metadata.salary}
-                                    </span>
-                                  </div>
-                                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-                                    <span className="text-blue-700 dark:text-blue-300 font-medium">
-                                      📈 Growth:
-                                    </span>
-                                    <br />
-                                    <span className="text-blue-900 dark:text-blue-100 font-semibold">
-                                      {message.metadata.growth}
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                            )}
-
-                          <div className="flex items-center justify-between mt-4">
-                            <div
-                              className={`text-xs ${
-                                message.sender === "user"
-                                  ? "text-emerald-100"
-                                  : "text-slate-500 dark:text-slate-400"
                               }`}
-                            >
-                              {message.timestamp.toLocaleTimeString([], {
-                                hour: "2-digit",
-                                minute: "2-digit",
-                              })}
+                          >
+                            <div className="whitespace-pre-line text-sm leading-relaxed break-words overflow-wrap-anywhere">
+                              {message.content}
                             </div>
-                            {message.sender === "bot" && (
-                              <div className="flex items-center space-x-1">
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  className="h-7 w-7 p-0 opacity-60 hover:opacity-100 rounded-lg"
-                                  onClick={() => copyMessage(message.content)}
-                                >
-                                  <Copy className="h-3 w-3" />
-                                </Button>
+
+                            {message.type === "career_card" &&
+                              message.metadata && (
+                                <div className="mt-4 p-4 bg-emerald-50/80 dark:bg-emerald-900/20 rounded-xl border border-emerald-200/50 dark:border-emerald-700/50 backdrop-blur-sm">
+                                  <div className="flex items-center justify-between mb-3">
+                                    <h4 className="font-semibold text-slate-900 dark:text-slate-100">
+                                      {message.metadata.title}
+                                    </h4>
+                                    <Badge
+                                      className={getDifficultyColor(
+                                        message.metadata.difficulty,
+                                      )}
+                                    >
+                                      {message.metadata.difficulty}
+                                    </Badge>
+                                  </div>
+                                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                                    <div className="p-3 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg">
+                                      <span className="text-emerald-700 dark:text-emerald-300 font-medium">
+                                        💰 Salary:
+                                      </span>
+                                      <br />
+                                      <span className="text-emerald-900 dark:text-emerald-100 font-semibold">
+                                        {message.metadata.salary}
+                                      </span>
+                                    </div>
+                                    <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                                      <span className="text-blue-700 dark:text-blue-300 font-medium">
+                                        📈 Growth:
+                                      </span>
+                                      <br />
+                                      <span className="text-blue-900 dark:text-blue-100 font-semibold">
+                                        {message.metadata.growth}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+
+                            <div className="flex items-center justify-between mt-4">
+                              <div
+                                className={`text-xs ${message.sender === "user"
+                                    ? "text-emerald-100"
+                                    : "text-slate-500 dark:text-slate-400"
+                                  }`}
+                              >
+                                {message.timestamp.toLocaleTimeString([], {
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                })}
                               </div>
-                            )}
+                              {message.sender === "bot" && (
+                                <div className="flex items-center space-x-1">
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    className="h-7 w-7 p-0 opacity-60 hover:opacity-100 rounded-lg"
+                                    onClick={() => copyMessage(message.content)}
+                                  >
+                                    <Copy className="h-3 w-3" />
+                                  </Button>
+                                </div>
+                              )}
+                            </div>
                           </div>
+
+                          {message.sender === "user" && (
+                            <Avatar className={`${isCompact ? "h-7 w-7" : "h-9 w-9"} flex-shrink-0 ring-2 ring-emerald-200 dark:ring-emerald-700`}>
+                              <AvatarFallback className="bg-emerald-200 dark:bg-emerald-700 text-emerald-700 dark:text-emerald-300">
+                                {user?.firstName?.[0] || "U"}
+                              </AvatarFallback>
+                            </Avatar>
+                          )}
                         </div>
 
-                        {message.sender === "user" && (
-                          <Avatar className={`${isCompact ? "h-7 w-7" : "h-9 w-9"} flex-shrink-0 ring-2 ring-emerald-200 dark:ring-emerald-700`}>
-                            <AvatarFallback className="bg-emerald-200 dark:bg-emerald-700 text-emerald-700 dark:text-emerald-300">
-                              {user?.firstName?.[0] || "U"}
-                            </AvatarFallback>
-                          </Avatar>
+                        {message.sender === "bot" && message.suggestions && (
+                          <div className={`${isCompact ? "mt-2" : "mt-4"} ml-0 lg:ml-12 flex flex-wrap gap-2 max-w-full`}>
+                            {message.suggestions.map((suggestion, index) => (
+                              <Button
+                                key={index}
+                                variant="outline"
+                                size="sm"
+                                className={`${isCompact ? "h-8 text-[11px]" : "h-9 text-xs"} bg-white/95 dark:bg-slate-800/95 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800 hover:border-emerald-300 dark:hover:border-emerald-700 rounded-xl backdrop-blur-sm transition-all duration-200`}
+                                onClick={() => handleSuggestion(suggestion)}
+                              >
+                                {suggestion}
+                              </Button>
+                            ))}
+                          </div>
                         )}
                       </div>
-
-                      {message.sender === "bot" && message.suggestions && (
-                        <div className={`${isCompact ? "mt-2" : "mt-4"} ml-0 lg:ml-12 flex flex-wrap gap-2 max-w-full`}>
-                          {message.suggestions.map((suggestion, index) => (
-                            <Button
-                              key={index}
-                              variant="outline"
-                              size="sm"
-                              className={`${isCompact ? "h-8 text-[11px]" : "h-9 text-xs"} bg-white/95 dark:bg-slate-800/95 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800 hover:border-emerald-300 dark:hover:border-emerald-700 rounded-xl backdrop-blur-sm transition-all duration-200`}
-                              onClick={() => handleSuggestion(suggestion)}
-                            >
-                              {suggestion}
-                            </Button>
-                          ))}
-                        </div>
-                      )}
                     </div>
-                  </div>
-                ))}
+                  ))}
 
-                {isTyping && (
-                  <div className="flex justify-start">
-                    <div className="flex items-start space-x-3">
-                      <Avatar className="h-9 w-9 ring-2 ring-emerald-500/30">
-                        <AvatarFallback className="bg-gradient-to-br from-emerald-500 via-teal-500 to-blue-600 text-white text-xs font-bold">
-                          AI
-                        </AvatarFallback>
-                      </Avatar>
-                      <div className="bg-white/95 dark:bg-slate-800/95 rounded-2xl p-4 shadow-lg border border-emerald-100/50 dark:border-emerald-800/50 backdrop-blur-sm">
-                        <div className="flex items-center space-x-3">
-                          <div className="flex space-x-1">
-                            <div className="w-2 h-2 bg-emerald-400 rounded-full animate-bounce"></div>
-                            <div
-                              className="w-2 h-2 bg-teal-400 rounded-full animate-bounce"
-                              style={{ animationDelay: "0.1s" }}
-                            ></div>
-                            <div
-                              className="w-2 h-2 bg-blue-400 rounded-full animate-bounce"
-                              style={{ animationDelay: "0.2s" }}
-                            ></div>
+                  {isTyping && (
+                    <div className="flex justify-start">
+                      <div className="flex items-start space-x-3">
+                        <Avatar className="h-9 w-9 ring-2 ring-emerald-500/30">
+                          <AvatarFallback className="bg-gradient-to-br from-emerald-500 via-teal-500 to-blue-600 text-white text-xs font-bold">
+                            AI
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="bg-white/95 dark:bg-slate-800/95 rounded-2xl p-4 shadow-lg border border-emerald-100/50 dark:border-emerald-800/50 backdrop-blur-sm">
+                          <div className="flex items-center space-x-3">
+                            <div className="flex space-x-1">
+                              <div className="w-2 h-2 bg-emerald-400 rounded-full animate-bounce"></div>
+                              <div
+                                className="w-2 h-2 bg-teal-400 rounded-full animate-bounce"
+                                style={{ animationDelay: "0.1s" }}
+                              ></div>
+                              <div
+                                className="w-2 h-2 bg-blue-400 rounded-full animate-bounce"
+                                style={{ animationDelay: "0.2s" }}
+                              ></div>
+                            </div>
+                            <span className="text-xs text-slate-500 dark:text-slate-400">
+                              AI is analyzing & crafting response...
+                            </span>
                           </div>
-                          <span className="text-xs text-slate-500 dark:text-slate-400">
-                            AI is analyzing & crafting response...
-                          </span>
                         </div>
                       </div>
                     </div>
-                  </div>
-                )}
-                <div ref={messagesEndRef} />
+                  )}
+                  <div ref={messagesEndRef} />
+                </div>
               </div>
-            </div>
             </div>
             {showRightPanel && (
               <div className="hidden lg:flex w-64 shrink-0 flex-col gap-3 border-l border-emerald-200/30 dark:border-emerald-700/30 bg-emerald-50/40 dark:bg-emerald-950/20 p-3">
@@ -657,13 +649,12 @@ export default function ChatAssistant() {
                 <Button
                   variant="outline"
                   size="sm"
-                  className={`${isCompact ? "h-9 w-9 lg:h-10 lg:w-10" : "h-10 w-10 lg:h-12 lg:w-12"} p-0 rounded-xl backdrop-blur-sm transition-all duration-200 ${
-                    isRecording
+                  className={`${isCompact ? "h-9 w-9 lg:h-10 lg:w-10" : "h-10 w-10 lg:h-12 lg:w-12"} p-0 rounded-xl backdrop-blur-sm transition-all duration-200 ${isRecording
                       ? "bg-rose-100 dark:bg-rose-900/30 border-rose-300/60 dark:border-rose-600/60"
                       : micBlocked || micUnsupportedReason
                         ? "border-rose-300/60 dark:border-rose-600/60 hover:bg-rose-50/50 dark:hover:bg-rose-900/10"
                         : "border-emerald-300/50 dark:border-emerald-600/50 hover:bg-emerald-50 dark:hover:bg-emerald-900/20"
-                  }`}
+                    }`}
                   disabled={isTyping}
                   title={
                     isRecording
