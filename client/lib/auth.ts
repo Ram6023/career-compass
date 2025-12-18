@@ -281,6 +281,25 @@ class AuthService {
     }
   }
 
+  // Dev-only: Sign in as guest (no Supabase session)
+  async signInAsGuest(): Promise<AuthResponse> {
+    try {
+      const enabled = import.meta.env.VITE_ENABLE_GUEST_LOGIN === "true";
+      if (!enabled) {
+        return { success: false, error: "Guest login disabled" };
+      }
+      this.currentUser = {
+        id: "guest-user",
+        email: "guest@example.com",
+        name: "Guest User",
+        provider: "email",
+      };
+      return { success: true, user: this.currentUser };
+    } catch (error) {
+      return { success: false, error: "Guest login failed" };
+    }
+  }
+
   // Registration with email
   async registerWithEmail(
     name: string,

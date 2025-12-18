@@ -66,7 +66,7 @@ export default function Register() {
       return;
     }
     toast({ title: "Account created", description: "Redirecting to your dashboard...", duration: 2000 });
-    window.location.href = "/home";
+    window.location.href = "/";
   };
 
   const handleGoogleLogin = async () => {
@@ -268,6 +268,7 @@ export default function Register() {
                 </div>
               </div>
 
+
               <Button
                 type="submit"
                 disabled={isLoading || !passwordsMatch}
@@ -282,7 +283,7 @@ export default function Register() {
                   "Register"
                 )}
               </Button>
-            </form>
+            </form >
 
             <div className="text-center">
               <p className="text-sm text-slate-600 dark:text-slate-400">
@@ -295,9 +296,9 @@ export default function Register() {
                 </Link>
               </p>
             </div>
-          </CardContent>
-        </Card>
-      </main>
-    </div>
+          </CardContent >
+        </Card >
+      </main >
+    </div >
   );
 }

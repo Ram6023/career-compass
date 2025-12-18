@@ -60,7 +60,7 @@ export default function Login() {
       toast({ title: "Login failed", description: res.error || "Invalid credentials", duration: 3000 });
       return;
     }
-    window.location.href = "/home";
+    window.location.href = "/";
   };
 
   const handleGoogleLogin = async () => {
@@ -85,6 +85,15 @@ export default function Login() {
       }
     } finally {
       setIsGitHubLoading(false);
+    }
+  };
+
+  const handleGuestLogin = async () => {
+    const res = await authService.signInAsGuest();
+    if (res.success) {
+      window.location.href = "/";
+    } else {
+      toast({ title: "Guest login failed", description: res.error || "Guest login disabled", duration: 3000 });
     }
   };
 
@@ -214,6 +223,14 @@ export default function Login() {
                 )}
               </Button>
             </form>
+
+            {import.meta.env.VITE_ENABLE_GUEST_LOGIN === "true" && (
+              <div className="pt-2">
+                <Button variant="outline" className="w-full h-10" onClick={handleGuestLogin}>
+                  Continue as Guest (Local)
+                </Button>
+              </div>
+            )}
 
             <div className="text-center">
               <p className="text-sm text-slate-600 dark:text-slate-400">

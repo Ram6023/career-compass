@@ -152,6 +152,17 @@ export default function Profile() {
   const [newInterest, setNewInterest] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // New feature states
+  const [resumes, setResumes] = useState<Array<{ id: string; name: string; url: string; uploadedAt: string }>>([]);
+  const [savedCareers, setSavedCareers] = useState<string[]>([]);
+  const [skillProgress, setSkillProgress] = useState<Record<string, number>>({});
+  const [courses, setCourses] = useState<Array<{ title: string; provider: string; completed: boolean; certificateUrl?: string }>>([]);
+  const [applications, setApplications] = useState<Array<{ role: string; company: string; status: "applied" | "shortlisted" | "rejected" }>>([]);
+  const [mockInterviews, setMockInterviews] = useState<Array<{ id: string; role: string; date: string; transcript?: string; feedback?: string }>>([]);
+  const [roadmap, setRoadmap] = useState<Array<{ milestone: string; due: string; completed: boolean }>>([]);
+  const [badges, setBadges] = useState<Array<{ id: string; title: string; earnedAt: string }>>([]);
+  const resumeUploadRef = useRef<HTMLInputElement>(null);
+
   const handleProfilePictureUpload = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -226,6 +237,28 @@ export default function Profile() {
       description: "Your profile changes have been saved successfully",
       duration: 3000,
     });
+  };
+
+  const handleResumeUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    setResumes((prev) => [
+      { id: Math.random().toString(36).slice(2), name: file.name, url, uploadedAt: new Date().toISOString() },
+      ...prev,
+    ]);
+    toast({ title: "Resume uploaded", description: `${file.name} added to your documents` });
+    e.target.value = "";
+  };
+
+  const removeResume = (id: string) => {
+    setResumes((prev) => prev.filter((r) => r.id !== id));
+  };
+
+  const aiPolishResume = (id: string) => {
+    const doc = resumes.find((r) => r.id === id);
+    toast({ title: "AI Polishing Started", description: doc ? `Improving ${doc.name}…` : "Improving resume…" });
+    // Stub: integrate with AI service later
   };
 
   const exportProfile = () => {
@@ -375,7 +408,7 @@ export default function Profile() {
 
         {/* Profile Content */}
         <Tabs defaultValue="overview" className="max-w-7xl mx-auto">
-          <TabsList className="grid w-full grid-cols-4 mb-8">
+          <TabsList className="grid w-full grid-cols-6 md:grid-cols-10 mb-8 gap-2">
             <TabsTrigger
               value="overview"
               className="flex items-center space-x-2"
@@ -390,6 +423,13 @@ export default function Profile() {
               <Briefcase className="w-4 h-4" />
               <span>Professional</span>
             </TabsTrigger>
+            <TabsTrigger value="documents">Resumes</TabsTrigger>
+            <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
+            <TabsTrigger value="skills">Skill Tracker</TabsTrigger>
+            <TabsTrigger value="learning">Learning</TabsTrigger>
+            <TabsTrigger value="jobs">Jobs</TabsTrigger>
+            <TabsTrigger value="interviews">Interviews</TabsTrigger>
+            <TabsTrigger value="roadmap">Roadmap</TabsTrigger>
             <TabsTrigger
               value="achievements"
               className="flex items-center space-x-2"
@@ -787,6 +827,226 @@ export default function Profile() {
                 </CardContent>
               </Card>
             </div>
+          </TabsContent>
+
+          {/* Documents / Resume Management */}
+          <TabsContent value="documents" className="space-y-6">
+            <Card>
+              <CardHeader className="flex items-center justify-between flex-row">
+                <div>
+                  <CardTitle>Resumes & Documents</CardTitle>
+                  <CardDescription>Upload, manage, and download your resumes</CardDescription>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Input type="file" accept=".pdf,.doc,.docx" className="hidden" ref={resumeUploadRef} onChange={handleResumeUpload} />
+                  <Button variant="outline" onClick={() => resumeUploadRef.current?.click()}>
+                    <Upload className="w-4 h-4 mr-2" /> Upload Resume
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardContent>
+                {resumes.length === 0 ? (
+                  <p className="text-sm text-slate-500">No resumes uploaded yet.</p>
+                ) : (
+                  <div className="space-y-3">
+                    {resumes.map((doc) => (
+                      <div key={doc.id} className="flex items-center justify-between p-3 border rounded-lg">
+                        <div>
+                          <div className="font-medium">{doc.name}</div>
+                          <div className="text-xs text-slate-500">Uploaded {new Date(doc.uploadedAt).toLocaleString()}</div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Button asChild size="sm" variant="outline">
+                            <a href={doc.url} download>
+                              <Download className="w-4 h-4 mr-1" /> Download
+                            </a>
+                          </Button>
+                          <Button size="sm" variant="secondary" onClick={() => aiPolishResume(doc.id)}>
+                            <Sparkles className="w-4 h-4 mr-1" /> AI Polish
+                          </Button>
+                          <Button size="sm" variant="outline" className="text-red-600" onClick={() => removeResume(doc.id)}>
+                            <Trash2 className="w-4 h-4 mr-1" /> Remove
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Career Dashboard */}
+          <TabsContent value="dashboard" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Career Dashboard</CardTitle>
+                <CardDescription>Overview of your recommendations and saved careers</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label>Recommended Paths</Label>
+                  <p className="text-sm text-slate-500">Connect to the assessment on Home to populate here.</p>
+                </div>
+                <div>
+                  <Label>Saved Careers</Label>
+                  {savedCareers.length === 0 ? (
+                    <p className="text-sm text-slate-500">No saved careers yet.</p>
+                  ) : (
+                    <div className="flex flex-wrap gap-2">
+                      {savedCareers.map((c) => (
+                        <Badge key={c} variant="secondary">{c}</Badge>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Skill Tracker */}
+          <TabsContent value="skills" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Skill Tracker</CardTitle>
+                <CardDescription>Track progress towards your target career</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  {profile.skills.length === 0 && (
+                    <p className="text-sm text-slate-500">Add skills in the Overview tab to begin tracking.</p>
+                  )}
+                  {profile.skills.map((s) => (
+                    <div key={s} className="space-y-1">
+                      <div className="flex items-center justify-between">
+                        <span>{s}</span>
+                        <span className="text-xs text-slate-500">{Math.round(skillProgress[s] ?? 0)}%</span>
+                      </div>
+                      <div className="h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                        <div className="h-full bg-emerald-500" style={{ width: `${Math.min(100, Math.max(0, skillProgress[s] ?? 0))}%` }} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Learning & Course History */}
+          <TabsContent value="learning" className="space-y-6">
+            <Card>
+              <CardHeader className="flex items-center justify-between flex-row">
+                <div>
+                  <CardTitle>Learning & Certifications</CardTitle>
+                  <CardDescription>Track completed courses and certificates</CardDescription>
+                </div>
+                <Button size="sm" onClick={() => setCourses((prev) => [{ title: "Course Title", provider: "Udemy", completed: true }, ...prev])}>Add Course</Button>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {courses.length === 0 ? (
+                  <p className="text-sm text-slate-500">No courses added yet.</p>
+                ) : (
+                  courses.map((c, i) => (
+                    <div key={i} className="flex items-center justify-between p-3 border rounded-lg">
+                      <div>
+                        <div className="font-medium">{c.title}</div>
+                        <div className="text-xs text-slate-500">{c.provider} • {c.completed ? "Completed" : "In progress"}</div>
+                      </div>
+                      {c.certificateUrl ? (
+                        <Button asChild size="sm" variant="outline"><a href={c.certificateUrl} target="_blank" rel="noreferrer">View Certificate</a></Button>
+                      ) : null}
+                    </div>
+                  ))
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Job & Internship Tracker */}
+          <TabsContent value="jobs" className="space-y-6">
+            <Card>
+              <CardHeader className="flex items-center justify-between flex-row">
+                <div>
+                  <CardTitle>Job & Internship Tracker</CardTitle>
+                  <CardDescription>Track applications and statuses</CardDescription>
+                </div>
+                <Button size="sm" onClick={() => setApplications((prev) => [{ role: "Software Intern", company: "Acme", status: "applied" }, ...prev])}>Add Application</Button>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {applications.length === 0 ? (
+                  <p className="text-sm text-slate-500">No applications added yet.</p>
+                ) : (
+                  applications.map((a, i) => (
+                    <div key={i} className="flex items-center justify-between p-3 border rounded-lg">
+                      <div>
+                        <div className="font-medium">{a.role} @ {a.company}</div>
+                        <div className="text-xs text-slate-500">Status: {a.status}</div>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Mock Interview & Feedback */}
+          <TabsContent value="interviews" className="space-y-6">
+            <Card>
+              <CardHeader className="flex items-center justify-between flex-row">
+                <div>
+                  <CardTitle>Mock Interviews</CardTitle>
+                  <CardDescription>Review transcripts and AI feedback</CardDescription>
+                </div>
+                <Button size="sm" onClick={() => setMockInterviews((prev) => [{ id: Math.random().toString(36).slice(2), role: "Frontend Developer", date: new Date().toISOString() }, ...prev])}>Add Interview</Button>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {mockInterviews.length === 0 ? (
+                  <p className="text-sm text-slate-500">No interview history yet.</p>
+                ) : (
+                  mockInterviews.map((m) => (
+                    <div key={m.id} className="p-3 border rounded-lg">
+                      <div className="flex items-center justify-between">
+                        <div className="font-medium">{m.role}</div>
+                        <div className="text-xs text-slate-500">{new Date(m.date).toLocaleString()}</div>
+                      </div>
+                      <div className="text-xs text-slate-500 mt-1">Transcript and feedback appear here.</div>
+                      <div className="mt-2 flex gap-2">
+                        <Button size="sm" variant="outline"><Download className="w-4 h-4 mr-1" /> Download Transcript</Button>
+                        <Button size="sm" variant="secondary">View AI Feedback</Button>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Career Roadmap */}
+          <TabsContent value="roadmap" className="space-y-6">
+            <Card>
+              <CardHeader className="flex items-center justify-between flex-row">
+                <div>
+                  <CardTitle>Career Roadmap</CardTitle>
+                  <CardDescription>Plan milestones with deadlines</CardDescription>
+                </div>
+                <Button size="sm" onClick={() => setRoadmap((prev) => [{ milestone: "Complete React course", due: new Date().toISOString().slice(0,10), completed: false }, ...prev])}>Add Milestone</Button>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {roadmap.length === 0 ? (
+                  <p className="text-sm text-slate-500">No milestones added yet.</p>
+                ) : (
+                  roadmap.map((r, i) => (
+                    <div key={i} className="flex items-center justify-between p-3 border rounded-lg">
+                      <div>
+                        <div className="font-medium">{r.milestone}</div>
+                        <div className="text-xs text-slate-500">Due: {new Date(r.due).toLocaleDateString()}</div>
+                      </div>
+                      <Badge variant={r.completed ? "secondary" : "outline"}>{r.completed ? "Done" : "Planned"}</Badge>
+                    </div>
+                  ))
+                )}
+              </CardContent>
+            </Card>
           </TabsContent>
 
           <TabsContent value="professional" className="space-y-6">

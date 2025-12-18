@@ -268,7 +268,11 @@ export default function ChatAssistant() {
       sender: "bot",
       timestamp: new Date(),
       suggestions: response.suggestions,
+<<<<<<< HEAD
       type: mapMessageType(response.type),
+=======
+      type: (response.type as Message["type"]) || "text",
+>>>>>>> 3ff05bf (hii)
       metadata: response.metadata,
     };
 

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+<<<<<<< HEAD
 import { Sun, Moon, User } from "lucide-react";
 import logoUrl from "@/assets/logo.svg";
 import {
@@ -11,10 +12,22 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+=======
+import { Compass, Sun, Moon, User, Settings, LogOut, UserCircle2, Target, MessageSquare, BookOpen, Briefcase } from "lucide-react";
+>>>>>>> 3ff05bf (hii)
 import { useTheme } from "@/components/ui/theme-provider";
 import { useLanguage } from "@/components/ui/language-provider";
 import { LanguageSelector } from "@/components/ui/language-selector";
 import { authService } from "@/lib/auth";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface HeaderProps {
   pageTitle?: string;
@@ -105,6 +118,7 @@ export function Header({ pageTitle, pageSubtitle }: HeaderProps) {
             </Button>
 
             {isLoggedIn && user ? (
+<<<<<<< HEAD
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="rounded-full h-10 w-10 p-0">
@@ -142,6 +156,86 @@ export function Header({ pageTitle, pageSubtitle }: HeaderProps) {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
+=======
+              <div className="flex items-center space-x-3">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="rounded-xl px-2">
+                      <div className="flex items-center space-x-2">
+                        {user.avatar ? (
+                          <img src={user.avatar} alt="Profile" className="w-7 h-7 rounded-full" />
+                        ) : (
+                          <UserCircle2 className="w-6 h-6" />
+                        )}
+                        <span className="hidden md:inline text-sm font-medium">{user.name || user.email}</span>
+                      </div>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-64">
+                    <DropdownMenuLabel>
+                      <div className="flex items-center space-x-3">
+                        {user.avatar ? (
+                          <img src={user.avatar} alt="Profile" className="w-8 h-8 rounded-full" />
+                        ) : (
+                          <UserCircle2 className="w-8 h-8" />
+                        )}
+                        <div>
+                          <div className="font-medium">{user.name || "User"}</div>
+                          <div className="text-xs text-gray-500">{user.email}</div>
+                        </div>
+                      </div>
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuGroup>
+                      <DropdownMenuItem asChild>
+                        <Link to="/profile" className="flex items-center">
+                          <User className="mr-2 h-4 w-4" /> Profile
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link to="/goals" className="flex items-center">
+                          <Target className="mr-2 h-4 w-4" /> Goal Tracker
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link to="/chat" className="flex items-center">
+                          <MessageSquare className="mr-2 h-4 w-4" /> AI Assistant
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link to="/resume-analyzer" className="flex items-center">
+                          <BookOpen className="mr-2 h-4 w-4" /> Resume Analyzer
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link to="/careers" className="flex items-center">
+                          <Briefcase className="mr-2 h-4 w-4" /> Compare Careers
+                        </Link>
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuGroup>
+                      <DropdownMenuItem asChild>
+                        <Link to="/settings" className="flex items-center">
+                          <Settings className="mr-2 h-4 w-4" /> Settings
+                        </Link>
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      onClick={async () => {
+                        await authService.signOut();
+                        setUser(null);
+                        setIsLoggedIn(false);
+                      }}
+                      className="text-red-600 focus:text-red-700"
+                    >
+                      <LogOut className="mr-2 h-4 w-4" /> Sign Out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+>>>>>>> 3ff05bf (hii)
             ) : (
               <div className="flex items-center space-x-3">
                 <Button variant="ghost" asChild className="rounded-xl">
