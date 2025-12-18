@@ -41,14 +41,16 @@
 
 ## 📸 Screenshots
 
-### AI Chat Interface
-![AI Chat Interface](https://placehold.co/800x450/1e293b/ffffff?text=AI+Career+Chat+Interface)
-
-### Career Categories
-![Career Categories](https://placehold.co/800x450/0f172a/ffffff?text=Career+Categories+%26+Exploration)
+## Homepage
+(<img width="1212" height="905" alt="image" src="https://github.com/user-attachments/assets/dcdc9c6b-2cba-4b0f-8d32-7df2a84a7e3e" />
 
 ### Resume Analyzer
-![Resume Analyzer](https://placehold.co/800x450/1e1b4b/ffffff?text=AI+Resume+Analyzer)
+<img width="1436" height="895" alt="Screenshot 2025-12-18 163322" src="https://github.com/user-attachments/assets/a04cb23b-a05b-4f61-bdeb-76b40ceaab2e" />
+
+
+### AI chat assitant
+<img width="1916" height="906" alt="Screenshot 2025-12-18 163303" src="https://github.com/user-attachments/assets/85298920-460d-4a81-a55e-1b284b84e674" />
+
 
 ## 🛠️ Tech Stack
 
