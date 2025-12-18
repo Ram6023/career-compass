@@ -41,8 +41,8 @@
 
 ## 📸 Screenshots
 
-### AI Chat Interface
-![AI Chat Interface](<img width="1212" height="905" alt="image" src="https://github.com/user-attachments/assets/dcdc9c6b-2cba-4b0f-8d32-7df2a84a7e3e" />
+##Homepage
+(<img width="1212" height="905" alt="image" src="https://github.com/user-attachments/assets/dcdc9c6b-2cba-4b0f-8d32-7df2a84a7e3e" />
 
 ### Career Categories
 ![Career Categories](https://placehold.co/800x450/0f172a/ffffff?text=Career+Categories+%26+Exploration)
