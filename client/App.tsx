@@ -67,16 +67,46 @@ class ErrorBoundary extends React.Component<
 }
 
 const RequireAuth: React.FC<{ children: React.ReactElement }> = ({ children }) => {
-  const isAuthed = authService.isAuthenticatedSync();
-  if (!isAuthed) {
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkAuth = async () => {
+      const isAuthed = await authService.isAuthenticated();
+      setIsAuthenticated(isAuthed);
+      setIsLoading(false);
+    };
+    checkAuth();
+  }, []);
+
+  if (isLoading) {
+    return null; // Don't render anything while checking
+  }
+
+  if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
   return children;
 };
 
 const RedirectIfAuth: React.FC<{ children: React.ReactElement }> = ({ children }) => {
-  const isAuthed = authService.isAuthenticatedSync();
-  if (isAuthed) {
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkAuth = async () => {
+      const isAuthed = await authService.isAuthenticated();
+      setIsAuthenticated(isAuthed);
+      setIsLoading(false);
+    };
+    checkAuth();
+  }, []);
+
+  if (isLoading) {
+    return null;
+  }
+
+  if (isAuthenticated) {
     return <Navigate to="/" replace />;
   }
   return children;
