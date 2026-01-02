@@ -286,7 +286,7 @@ const App = () => {
               <Toaster />
               <Sonner />
               {showSplash && <SplashScreen onFinish={() => setShowSplash(false)} />}
-              <BrowserRouter>
+              <BrowserRouter basename={import.meta.env.PROD ? "/career-compass" : "/"}>
                 <AnimatedRoutes />
               </BrowserRouter>
             </TooltipProvider>
