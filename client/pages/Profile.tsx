@@ -104,6 +104,8 @@ interface UserProfile {
     date: string;
     type: "goal" | "skill" | "career";
   }>;
+  resumeUrl?: string;
+  resumeScore?: number;
 }
 
 const SAMPLE_USER: UserProfile = {
@@ -166,6 +168,8 @@ const SAMPLE_USER: UserProfile = {
       type: "career",
     },
   ],
+  resumeUrl: "",
+  resumeScore: 0,
 };
 
 export default function Profile() {
@@ -244,9 +248,20 @@ export default function Profile() {
               profileVisibility: currentUser.preferences?.profileVisibility || "public",
             },
             achievements: SAMPLE_USER.achievements, // Achievements are demo data for now
+            resumeUrl: currentUser.resumeUrl || "",
+            resumeScore: currentUser.resumeScore || 0,
           };
           setProfile(loadedProfile);
           setOriginalProfile(loadedProfile);
+
+          if (currentUser.resumeUrl) {
+            setResumes([{
+              id: "primary",
+              name: "Primary Resume.pdf",
+              url: currentUser.resumeUrl,
+              uploadedAt: new Date().toISOString()
+            }]);
+          }
         }
       } catch (error) {
         console.error("Failed to load profile:", error);
@@ -350,6 +365,8 @@ export default function Profile() {
         preferredLocations: profile.preferredLocations,
         socialLinks: profile.socialLinks,
         preferences: profile.preferences,
+        resumeUrl: profile.resumeUrl,
+        resumeScore: profile.resumeScore,
       });
 
       if (result.success) {
@@ -396,11 +413,21 @@ export default function Profile() {
     const file = e.target.files?.[0];
     if (!file) return;
     const url = URL.createObjectURL(file);
+    // Mock AI score calculation
+    const mockScore = Math.floor(Math.random() * (95 - 70) + 70);
+
     setResumes((prev) => [
       { id: Math.random().toString(36).slice(2), name: file.name, url, uploadedAt: new Date().toISOString() },
       ...prev,
     ]);
-    toast({ title: "Resume uploaded", description: `${file.name} added to your documents` });
+
+    // Set as primary resume
+    setProfile(prev => ({ ...prev, resumeUrl: url, resumeScore: mockScore }));
+
+    toast({
+      title: "Resume uploaded",
+      description: `${file.name} added. AI Score: ${mockScore}/100`
+    });
     e.target.value = "";
   };
 
@@ -1004,7 +1031,14 @@ export default function Profile() {
                     {resumes.map((doc) => (
                       <div key={doc.id} className="flex items-center justify-between p-3 border rounded-lg">
                         <div>
-                          <div className="font-medium">{doc.name}</div>
+                          <div className="font-medium flex items-center gap-2">
+                            {doc.name}
+                            {profile.resumeScore > 0 && (
+                              <Badge variant={profile.resumeScore > 80 ? "default" : "secondary"} className={profile.resumeScore > 80 ? "bg-green-500 hover:bg-green-600" : ""}>
+                                Score: {profile.resumeScore}
+                              </Badge>
+                            )}
+                          </div>
                           <div className="text-xs text-slate-500">Uploaded {new Date(doc.uploadedAt).toLocaleString()}</div>
                         </div>
                         <div className="flex items-center gap-2">
