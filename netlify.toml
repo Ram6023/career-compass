@@ -9,7 +9,13 @@
   node_bundler = "esbuild"
   
 [[redirects]]
-  force = true
   from = "/api/*"
-  status = 200
   to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
+
+# SPA fallback - serve index.html for all routes (except /api)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
