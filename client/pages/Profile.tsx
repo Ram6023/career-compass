@@ -560,7 +560,7 @@ export default function Profile() {
         </div>
 
         {/* Profile Content */}
-        <Tabs value={activeTab} defaultValue="overview" className="max-w-7xl mx-auto">
+        <Tabs defaultValue={activeTab} className="max-w-7xl mx-auto">
           <TabsList className="grid w-full grid-cols-6 md:grid-cols-10 mb-8 gap-2">
             <TabsTrigger
               value="overview"
