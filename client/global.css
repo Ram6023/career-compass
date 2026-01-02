@@ -1,3 +1,5 @@
+/* Modern clean font stack */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 /* Futuristic display font for splash/title */
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800&display=swap');
 /* Modern clean font for cinematic intro */
@@ -7,81 +9,296 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ========================================
+   CORE STYLING
+   ======================================== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  letter-spacing: -0.01em;
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+/* ========================================
+   CUSTOM SCROLLBAR
+   ======================================== */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* ========================================
+   SMOOTH TRANSITIONS & ANIMATIONS
+   ======================================== */
+
+/* Custom easing curves */
+:root {
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out-circ: cubic-bezier(0.85, 0, 0.15, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Ultra-smooth transitions for interactive elements */
+button, a, .card, .btn, input, textarea, select {
+  transition: 
+    transform 0.2s var(--ease-out-expo),
+    box-shadow 0.25s var(--ease-out-expo),
+    background-color 0.2s var(--ease-out-expo),
+    border-color 0.2s var(--ease-out-expo),
+    color 0.15s ease-out,
+    opacity 0.2s ease-out !important;
+}
+
+/* Smooth card hover effects */
+.card, [class*="Card"] {
+  transition: 
+    transform 0.3s var(--ease-out-expo),
+    box-shadow 0.3s var(--ease-out-expo) !important;
+}
+
+.card:hover, [class*="Card"]:hover {
+  transform: translateY(-2px);
+}
+
+/* Enhanced focus states */
+*:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Button press effect */
+button:active:not(:disabled),
+.btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* ========================================
+   PAGE TRANSITIONS
+   ======================================== */
+
+.fade-enter {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: 
+    opacity 0.4s var(--ease-out-expo),
+    transform 0.4s var(--ease-out-expo);
+}
+
+.fade-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: 
+    opacity 0.3s var(--ease-out-expo),
+    transform 0.3s var(--ease-out-expo);
+}
+
+/* ========================================
+   MODERN GLASSMORPHISM
+   ======================================== */
+
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.dark .glass {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ========================================
+   MICRO-INTERACTIONS
+   ======================================== */
+
+/* Subtle pulse animation */
+@keyframes subtle-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* Gentle float animation */
+@keyframes gentle-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* Shimmer effect for loading states */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Smooth entrance animation */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.5s var(--ease-out-expo) forwards;
+}
+
+/* Staggered animations for lists */
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.1s; }
+.stagger-3 { animation-delay: 0.15s; }
+.stagger-4 { animation-delay: 0.2s; }
+.stagger-5 { animation-delay: 0.25s; }
+
+/* ========================================
+   REDUCED MOTION SUPPORT
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .fade-enter,
+  .fade-enter-active,
+  .fade-exit,
+  .fade-exit-active {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* ========================================
+   THEME VARIABLES
+   ======================================== */
+
 @layer base {
-  /**
-   * Tailwind CSS theme
-   * tailwind.config.ts expects the following color variables to be expressed as HSL values.
-   * A different format will require also updating the theme in tailwind.config.ts.
-  */
   :root {
-    --background: 220 15% 97%;
-    --foreground: 220 9% 15%;
+    --background: 220 20% 98%;
+    --foreground: 220 9% 12%;
 
     --card: 0 0% 100%;
-    --card-foreground: 220 9% 15%;
+    --card-foreground: 220 9% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 9% 15%;
+    --popover-foreground: 220 9% 12%;
 
-    /* Primary: Indigo 600 (#4f46e5) */
-    --primary: 238 83% 60%;
+    /* Primary: Modern Indigo */
+    --primary: 238 83% 58%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 14% 96%;
+    --secondary: 220 14% 95%;
     --secondary-foreground: 220 9% 15%;
 
-    --muted: 220 14% 96%;
-    --muted-foreground: 220 8% 46%;
+    --muted: 220 14% 95%;
+    --muted-foreground: 220 8% 45%;
 
-    /* Accent: Teal 500 (#14b8a6) */
+    /* Accent: Teal */
     --accent: 173 68% 40%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 220 13% 91%;
-    --input: 220 13% 95%;
-    --ring: 238 83% 60%;
+    --border: 220 13% 90%;
+    --input: 220 13% 94%;
+    --ring: 238 83% 58%;
 
     --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
+    --sidebar-border: 220 13% 90%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
-    --background: 220 27% 8%;
+    --background: 220 25% 6%;
     --foreground: 220 15% 95%;
 
-    --card: 220 23% 11%;
+    --card: 220 23% 9%;
     --card-foreground: 220 15% 95%;
 
-    --popover: 220 23% 11%;
+    --popover: 220 23% 9%;
     --popover-foreground: 220 15% 95%;
 
     /* Primary (dark) */
-    --primary: 238 83% 62%;
+    --primary: 238 83% 65%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 220 20% 14%;
     --secondary-foreground: 220 15% 95%;
 
     --muted: 220 20% 14%;
-    --muted-foreground: 220 10% 65%;
+    --muted-foreground: 220 10% 60%;
 
     /* Accent (dark) */
     --accent: 173 68% 44%;
@@ -90,16 +307,17 @@
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 220 20% 18%;
-    --input: 220 20% 16%;
-    --ring: 260 100% 55%;
-    --sidebar-background: 240 5.9% 10%;
+    --border: 220 20% 16%;
+    --input: 220 20% 14%;
+    --ring: 238 83% 65%;
+    
+    --sidebar-background: 240 5.9% 8%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent: 240 3.7% 14%;
     --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-border: 240 3.7% 14%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
@@ -118,7 +336,27 @@
   .font-orbitron {
     font-family: 'Orbitron', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   }
+  
   .font-poppins {
     font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  }
+  
+  .font-inter {
+    font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  
+  /* Smooth scroll padding for fixed headers */
+  .scroll-padding-top {
+    scroll-padding-top: 80px;
+  }
+  
+  /* Text gradient utility */
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+  }
+  
+  /* Smooth shadow transitions */
+  .shadow-smooth {
+    transition: box-shadow 0.3s var(--ease-out-expo);
   }
 }

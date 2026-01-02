@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -133,6 +133,7 @@ const INDUSTRY_NEWS = [
 export default function DailyTips() {
   const { theme, setTheme } = useTheme();
   const { t } = useLanguage();
+  const navigate = useNavigate();
   const [user, setUser] = useState(authService.getCurrentUser());
   const [isLoggedIn, setIsLoggedIn] = useState(authService.isAuthenticated());
   const [bookmarkedTips, setBookmarkedTips] = useState<number[]>([]);
@@ -351,39 +352,57 @@ export default function DailyTips() {
 
           <TabsContent value="resources" className="space-y-6">
             <div className="grid md:grid-cols-3 gap-6">
-              <Card className="p-6 text-center">
-                <BookOpen className="w-12 h-12 text-rose-600 mx-auto mb-4" />
+              <Card className="p-6 text-center hover:shadow-lg transition-all duration-300 border-rose-100 dark:border-rose-900/20">
+                <div className="bg-rose-50 dark:bg-rose-900/20 w-20 h-20 mx-auto rounded-full flex items-center justify-center mb-4">
+                  <BookOpen className="w-10 h-10 text-rose-600 dark:text-rose-400" />
+                </div>
                 <h3 className="text-lg font-semibold mb-2">Career Guides</h3>
-                <p className="text-slate-600 dark:text-slate-400 text-sm mb-4">
+                <p className="text-slate-600 dark:text-slate-400 text-sm mb-6">
                   Comprehensive guides for different career paths and
                   industries.
                 </p>
-                <Button variant="outline" size="sm">
+                <Button
+                  variant="default"
+                  className="w-full bg-rose-600 hover:bg-rose-700 text-white"
+                  onClick={() => navigate('/compare')}
+                >
                   Explore Guides
                 </Button>
               </Card>
 
-              <Card className="p-6 text-center">
-                <Star className="w-12 h-12 text-rose-600 mx-auto mb-4" />
+              <Card className="p-6 text-center hover:shadow-lg transition-all duration-300 border-indigo-100 dark:border-indigo-900/20">
+                <div className="bg-indigo-50 dark:bg-indigo-900/20 w-20 h-20 mx-auto rounded-full flex items-center justify-center mb-4">
+                  <Star className="w-10 h-10 text-indigo-600 dark:text-indigo-400" />
+                </div>
                 <h3 className="text-lg font-semibold mb-2">
                   Skill Assessments
                 </h3>
-                <p className="text-slate-600 dark:text-slate-400 text-sm mb-4">
+                <p className="text-slate-600 dark:text-slate-400 text-sm mb-6">
                   Evaluate your current skills and identify areas for
                   improvement.
                 </p>
-                <Button variant="outline" size="sm">
+                <Button
+                  variant="default"
+                  className="w-full bg-indigo-600 hover:bg-indigo-700 text-white"
+                  onClick={() => navigate('/home')}
+                >
                   Take Assessment
                 </Button>
               </Card>
 
-              <Card className="p-6 text-center">
-                <TrendingUp className="w-12 h-12 text-rose-600 mx-auto mb-4" />
+              <Card className="p-6 text-center hover:shadow-lg transition-all duration-300 border-emerald-100 dark:border-emerald-900/20">
+                <div className="bg-emerald-50 dark:bg-emerald-900/20 w-20 h-20 mx-auto rounded-full flex items-center justify-center mb-4">
+                  <TrendingUp className="w-10 h-10 text-emerald-600 dark:text-emerald-400" />
+                </div>
                 <h3 className="text-lg font-semibold mb-2">Market Insights</h3>
-                <p className="text-slate-600 dark:text-slate-400 text-sm mb-4">
+                <p className="text-slate-600 dark:text-slate-400 text-sm mb-6">
                   Latest trends and salary data for your target career.
                 </p>
-                <Button variant="outline" size="sm">
+                <Button
+                  variant="default"
+                  className="w-full bg-emerald-600 hover:bg-emerald-700 text-white"
+                  onClick={() => navigate('/chat', { state: { initialMessage: "Show me market insights and salary trends" } })}
+                >
                   View Insights
                 </Button>
               </Card>
@@ -408,6 +427,6 @@ export default function DailyTips() {
           </div>
         </div>
       </footer>
-    </div>
+    </div >
   );
 }

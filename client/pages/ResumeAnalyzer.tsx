@@ -107,7 +107,7 @@ export default function ResumeAnalyzer() {
       pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
       
       const arrayBuffer = await file.arrayBuffer();
-      const pdf = await pdfjs.getDocument({ data: arrayBuffer }).promise;
+      const pdf = await pdfjs.getDocument({ data: arrayBuffer });
       
       let text = '';
       for (let i = 1; i <= Math.min(pdf.numPages, 5); i++) { // Limit to first 5 pages

@@ -56,6 +56,9 @@ const updateCardGlowProperties = (
   card.style.setProperty('--glow-y', `${relativeY}%`);
   card.style.setProperty('--glow-intensity', glow.toString());
   card.style.setProperty('--glow-radius', `${radius}px`);
+  
+  // Add smooth transition for glow properties
+  card.style.transition = 'all 0.3s ease-out';
 };
 
 interface ParticleCardProps {
@@ -138,23 +141,23 @@ const ParticleCard = memo(({
         gsap.fromTo(
           clone,
           { scale: 0, opacity: 0 },
-          { scale: 1, opacity: 1, duration: 0.3, ease: 'back.out(1.7)' },
+          { scale: 1, opacity: 1, duration: 0.5, ease: 'elastic.out(1.2, 0.5)' },
         );
 
         gsap.to(clone, {
           x: (Math.random() - 0.5) * 100,
           y: (Math.random() - 0.5) * 100,
           rotation: Math.random() * 360,
-          duration: 2 + Math.random() * 2,
-          ease: 'none',
+          duration: 3 + Math.random() * 2,
+          ease: 'sine.inOut',
           repeat: -1,
           yoyo: true,
         });
 
         gsap.to(clone, {
-          opacity: 0.3,
-          duration: 1.5,
-          ease: 'power2.inOut',
+          opacity: 0.4,
+          duration: 2,
+          ease: 'sine.inOut',
           repeat: -1,
           yoyo: true,
         });
@@ -177,8 +180,8 @@ const ParticleCard = memo(({
         gsap.to(element, {
           rotateX: 5,
           rotateY: 5,
-          duration: 0.3,
-          ease: 'power2.out',
+          duration: 0.5,
+          ease: 'elastic.out(1, 0.3)',
           transformPerspective: 1000,
         });
       }
@@ -192,13 +195,13 @@ const ParticleCard = memo(({
         gsap.to(element, {
           rotateX: 0,
           rotateY: 0,
-          duration: 0.3,
-          ease: 'power2.out',
+          duration: 0.5,
+          ease: 'elastic.out(1, 0.3)',
         });
       }
 
       if (enableMagnetism) {
-        gsap.to(element, { x: 0, y: 0, duration: 0.3, ease: 'power2.out' });
+        gsap.to(element, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)' });
       }
     };
 
@@ -218,8 +221,8 @@ const ParticleCard = memo(({
         gsap.to(element, {
           rotateX,
           rotateY,
-          duration: 0.1,
-          ease: 'power2.out',
+          duration: 0.3,
+          ease: 'sine.out',
           transformPerspective: 1000,
         });
       }
@@ -231,8 +234,8 @@ const ParticleCard = memo(({
         magnetismAnimationRef.current = gsap.to(element, {
           x: magnetX,
           y: magnetY,
-          duration: 0.3,
-          ease: 'power2.out',
+          duration: 0.5,
+          ease: 'elastic.out(1, 0.3)',
         });
       }
     };
@@ -269,7 +272,7 @@ const ParticleCard = memo(({
       gsap.fromTo(
         ripple,
         { scale: 0, opacity: 1 },
-        { scale: 1, opacity: 0, duration: 0.8, ease: 'power2.out', onComplete: () => ripple.remove() },
+        { scale: 1, opacity: 0, duration: 1, ease: 'elastic.out(1, 0.3)', onComplete: () => ripple.remove() },
       );
     };
 
@@ -376,7 +379,7 @@ const GlobalSpotlight = ({ gridRef, disableAnimations = false, enabled = true, s
         updateCardGlowProperties(cardElement, e.clientX, e.clientY, glowIntensity, spotlightRadius);
       });
 
-      gsap.to(spotlightRef.current, { left: e.clientX, top: e.clientY, duration: 0.1, ease: 'power2.out' });
+      gsap.to(spotlightRef.current, { left: e.clientX, top: e.clientY, duration: 0.3, ease: 'sine.out' });
 
       const targetOpacity =
         minDistance <= proximity
@@ -385,7 +388,7 @@ const GlobalSpotlight = ({ gridRef, disableAnimations = false, enabled = true, s
           ? ((fadeDistance - minDistance) / (fadeDistance - proximity)) * 0.8
           : 0;
 
-      gsap.to(spotlightRef.current, { opacity: targetOpacity, duration: targetOpacity > 0 ? 0.2 : 0.5, ease: 'power2.out' });
+      gsap.to(spotlightRef.current, { opacity: targetOpacity, duration: targetOpacity > 0 ? 0.4 : 0.7, ease: 'sine.out' });
     };
 
     const handleMouseLeave = () => {
@@ -571,7 +574,7 @@ const MagicBento = memo(({
                   z-index: 1000;
                 `;
                 el.appendChild(ripple);
-                gsap.fromTo(ripple, { scale: 0, opacity: 1 }, { scale: 1, opacity: 0, duration: 0.8, ease: 'power2.out', onComplete: () => ripple.remove() });
+                gsap.fromTo(ripple, { scale: 0, opacity: 1 }, { scale: 1, opacity: 0, duration: 1, ease: 'elastic.out(1, 0.3)', onComplete: () => ripple.remove() });
               };
               el.addEventListener('mousemove', handleMouseMove);
               el.addEventListener('mouseleave', handleMouseLeave);

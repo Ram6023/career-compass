@@ -11,7 +11,42 @@ import {
   MapPin,
   ExternalLink,
 } from "lucide-react";
-import type { CareerRecommendation } from "@/pages/Index";
+interface CareerRecommendation {
+  title: string;
+  description: string;
+  requiredSkills: string[];
+  averageSalary: string;
+  jobGrowth: string;
+  difficulty: "Easy" | "Medium" | "Hard";
+  timeToStart: string;
+  learningPath: string[];
+  topCompanies: string[];
+  matchScore: number;
+  courses: Array<{
+    title: string;
+    provider: string;
+    duration: string;
+    url: string;
+    type: "free" | "paid";
+  }>;
+  certifications: Array<{
+    name: string;
+    provider: string;
+    difficulty: string;
+    url: string;
+  }>;
+  roadmap: Array<{
+    level: string;
+    skills: string[];
+    duration: string;
+    projects: string[];
+  }>;
+  locations: Array<{
+    city: string;
+    demand: "High" | "Medium" | "Low";
+    avgSalary: string;
+  }>;
+}
 
 interface CareerRecommendationCardProps {
   career: CareerRecommendation;

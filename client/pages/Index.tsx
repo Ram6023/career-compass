@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo, memo } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -810,44 +811,30 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50/50 to-blue-50 dark:from-gray-950 dark:via-emerald-950/20 dark:to-blue-950 relative overflow-hidden">
-      {/* Modern Background Design Elements */}
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 relative">
+      {/* Subtle Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Geometric Patterns */}
-        <div className="absolute top-20 left-10 w-96 h-96 bg-gradient-to-br from-emerald-400/15 to-teal-500/15 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute top-60 right-20 w-64 h-64 bg-gradient-to-br from-teal-400/20 to-blue-500/20 rounded-full blur-2xl animate-pulse delay-1000"></div>
-        <div className="absolute bottom-40 left-1/4 w-48 h-48 bg-gradient-to-br from-blue-400/15 to-emerald-500/15 rounded-full blur-xl animate-pulse delay-2000"></div>
-        <div className="absolute bottom-20 right-1/3 w-56 h-56 bg-gradient-to-br from-teal-400/10 to-blue-600/10 rounded-full blur-2xl animate-pulse delay-500"></div>
-
-        {/* Modern Mesh Gradient */}
-        <div className="absolute inset-0 opacity-30">
-          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_30%_20%,rgba(16,185,129,0.1),transparent_50%),radial-gradient(circle_at_70%_80%,rgba(59,130,246,0.1),transparent_50%),radial-gradient(circle_at_90%_30%,rgba(20,184,166,0.1),transparent_50%)]"></div>
-        </div>
-
-        {/* Floating Particles */}
-        <div className="absolute top-1/3 left-1/2 w-2 h-2 bg-emerald-400/60 rounded-full animate-ping"></div>
-        <div className="absolute top-1/4 right-1/4 w-1 h-1 bg-teal-400/60 rounded-full animate-ping delay-700"></div>
-        <div className="absolute bottom-1/3 left-1/3 w-1.5 h-1.5 bg-blue-400/60 rounded-full animate-ping delay-1500"></div>
-        <div className="absolute top-2/3 right-1/2 w-1 h-1 bg-emerald-500/50 rounded-full animate-ping delay-2000"></div>
+        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-to-br from-emerald-400/5 to-teal-500/5 rounded-full blur-3xl translate-x-1/3 -translate-y-1/3" />
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-gradient-to-tr from-blue-400/5 to-indigo-500/5 rounded-full blur-3xl -translate-x-1/3 translate-y-1/3" />
       </div>
       <Header />
 
-      {/* Hero Section (shown for all users) */}
-      <section className="py-20 px-6">
-        <div className="container mx-auto max-w-6xl text-center">
-          <div className="mb-8">
-            <h2 className="text-5xl md:text-7xl font-extrabold text-gray-900 dark:text-white mb-8 leading-tight">
+      {/* Hero Section */}
+      <section className="relative py-16 md:py-24 px-6">
+        <div className="container mx-auto max-w-5xl text-center">
+          <div className="space-y-6">
+            <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-slate-900 dark:text-white">
               {t('hero.title')}
-              <span className="block bg-gradient-to-r from-emerald-600 via-teal-600 to-blue-600 bg-clip-text text-transparent drop-shadow-sm">
+              <span className="block mt-2 bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-transparent">
                 {t('hero.subtitle')}
               </span>
-            </h2>
-            <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed">
+            </h1>
+            <p className="text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed">
               {t('hero.description')}
             </p>
           </div>
 
-          <div className="mt-8">
+          <div className="mt-12">
             <MagicBento
               textAutoHide
               enableStars
@@ -857,8 +844,8 @@ const Index = () => {
               enableMagnetism
               clickEffect
               spotlightRadius={300}
-              particleCount={12}
-              glowColor="132, 0, 255"
+              particleCount={8}
+              glowColor="16, 185, 129"
             />
           </div>
         </div>
@@ -866,185 +853,159 @@ const Index = () => {
 
       {/* Career Assessment Form (only for logged-in users) */}
       {isLoggedIn && (
-        <section className="py-20 px-6 relative">
-          <div className="container mx-auto max-w-5xl">
-            <Card className="shadow-2xl border border-emerald-200/30 dark:border-emerald-700/30 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-3xl overflow-hidden">
-              <div className="bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-blue-600/10 px-8 py-10 text-center">
-                <CardTitle className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+        <section className="py-12 px-6">
+          <div className="container mx-auto max-w-4xl">
+            <Card className="shadow-xl shadow-slate-200/50 dark:shadow-none border-0 bg-white dark:bg-slate-900 rounded-2xl overflow-hidden">
+              <div className="px-6 md:px-8 py-8 border-b border-slate-100 dark:border-slate-800">
+                <CardTitle className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white text-center">
                   {t('assessment.title')}
                 </CardTitle>
-                <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                <p className="text-slate-600 dark:text-slate-400 text-center mt-2 max-w-xl mx-auto">
                   {t('assessment.description')}
                 </p>
               </div>
-            <CardContent className="p-10 space-y-10">
-              {/* Interests Selection */}
-              <div className="bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/30 p-6 rounded-2xl border border-emerald-200/50 dark:border-emerald-700/50">
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
-                  <Heart className="h-6 w-6 mr-3 text-emerald-500" />
-                  What are your interests?
-                  <span className="text-sm font-normal text-gray-600 dark:text-gray-400 ml-2">
-                    (Select 3-8 that resonate with you)
-                  </span>
-                </h3>
-                <div className="flex flex-wrap gap-3 max-h-64 overflow-y-auto p-4 bg-white/80 dark:bg-gray-800/50 rounded-xl border border-emerald-200/30 dark:border-emerald-700/30">
-                  {availableInterests.map((interest) => (
-                    <Button
-                      key={interest}
-                      variant={
-                        interests.includes(interest) ? "default" : "outline"
-                      }
-                      size="sm"
-                      onClick={() => handleInterestToggle(interest)}
-                      className={`rounded-full transition-all duration-300 text-sm font-medium ${
-                        interests.includes(interest)
-                          ? "bg-gradient-to-r from-emerald-500 to-teal-600 shadow-lg text-white hover:from-emerald-600 hover:to-teal-700 transform hover:scale-105"
-                          : "border-emerald-300 hover:border-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-700 dark:hover:text-emerald-300 transform hover:scale-105"
-                      }`}
-                    >
-                      {interest}
-                    </Button>
-                  ))}
-                </div>
-                <div className="flex items-center justify-between mt-4">
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    Selected:{" "}
-                    <span className="font-semibold text-emerald-600 dark:text-emerald-400">
-                      {interests.length}
-                    </span>{" "}
-                    interests
-                  </p>
-                  {interests.length >= 3 && (
-                    <div className="flex items-center text-emerald-600 dark:text-emerald-400">
-                      <CheckCircle className="h-4 w-4 mr-1" />
-                      <span className="text-sm font-medium">
-                        Great selection!
-                      </span>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Skills Selection */}
-              <div className="bg-gradient-to-r from-teal-50 to-blue-50 dark:from-teal-950/30 dark:to-blue-950/30 p-6 rounded-2xl border border-teal-200/50 dark:border-teal-700/50">
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
-                  <Zap className="h-6 w-6 mr-3 text-teal-500" />
-                  What are your top skills?
-                  <span className="text-sm font-normal text-gray-600 dark:text-gray-400 ml-2">
-                    (Select 5-10 skills you're confident in)
-                  </span>
-                </h3>
-                <div className="flex flex-wrap gap-3 max-h-64 overflow-y-auto p-4 bg-white/80 dark:bg-gray-800/50 rounded-xl border border-teal-200/30 dark:border-teal-700/30">
-                  {availableSkills.map((skill) => (
-                    <Button
-                      key={skill}
-                      variant={skills.includes(skill) ? "default" : "outline"}
-                      size="sm"
-                      onClick={() => handleSkillToggle(skill)}
-                      className={`rounded-full transition-all duration-300 text-sm font-medium ${
-                        skills.includes(skill)
-                          ? "bg-gradient-to-r from-teal-500 to-blue-600 shadow-lg text-white hover:from-teal-600 hover:to-blue-700 transform hover:scale-105"
-                          : "border-teal-300 hover:border-teal-400 hover:bg-teal-50 dark:hover:bg-teal-900/20 hover:text-teal-700 dark:hover:text-teal-300 transform hover:scale-105"
-                      }`}
-                    >
-                      {skill}
-                    </Button>
-                  ))}
-                </div>
-                <div className="flex items-center justify-between mt-4">
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    Selected:{" "}
-                    <span className="font-semibold text-teal-600 dark:text-teal-400">
-                      {skills.length}
-                    </span>{" "}
-                    skills
-                  </p>
-                  {skills.length >= 5 && (
-                    <div className="flex items-center text-teal-600 dark:text-teal-400">
-                      <CheckCircle className="h-4 w-4 mr-1" />
-                      <span className="text-sm font-medium">
-                        Excellent range!
-                      </span>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Experience Level, CGPA, and Qualification Row */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {/* Experience Level */}
-                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 p-6 rounded-2xl border border-blue-200/50 dark:border-blue-700/50">
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6 flex items-center">
-                    <GraduationCap className="h-5 w-5 mr-2 text-blue-500" />
-                    Experience Level
-                  </h3>
-                  <div className="space-y-3">
-                    {[
-                      "Beginner",
-                      "Some Experience",
-                      "Experienced",
-                      "Expert",
-                    ].map((level) => (
+              <CardContent className="p-6 md:p-8 space-y-8">
+                {/* Interests Selection */}
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+                      <Heart className="h-5 w-5 text-emerald-500" />
+                      Your Interests
+                    </h3>
+                    <span className="text-sm text-slate-500 dark:text-slate-400">
+                      {interests.length} selected
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-2 max-h-48 overflow-y-auto p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
+                    {availableInterests.map((interest) => (
                       <Button
-                        key={level}
-                        variant={experience === level ? "default" : "outline"}
+                        key={interest}
+                        variant={interests.includes(interest) ? "default" : "outline"}
                         size="sm"
-                        onClick={() => setExperience(level)}
-                        className={`w-full justify-start rounded-xl transition-all duration-300 ${
-                          experience === level
-                            ? "bg-gradient-to-r from-blue-500 to-indigo-600 shadow-lg text-white transform scale-105"
-                            : "border-blue-300 hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-700 dark:hover:text-blue-300"
-                        }`}
+                        onClick={() => handleInterestToggle(interest)}
+                        className={`rounded-full text-sm transition-all duration-200 ${interests.includes(interest)
+                          ? "bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm"
+                          : "border-slate-300 dark:border-slate-600 hover:border-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20"
+                          }`}
                       >
-                        {level}
+                        {interest}
                       </Button>
                     ))}
                   </div>
+                  {interests.length >= 3 && (
+                    <p className="text-sm text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                      <CheckCircle className="h-4 w-4" />
+                      Great selection!
+                    </p>
+                  )}
                 </div>
 
-                {/* CGPA Input */}
-                <div className="bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/30 p-6 rounded-2xl border border-emerald-200/50 dark:border-emerald-700/50">
-                  <Label
-                    htmlFor="cgpa"
-                    className="text-lg font-bold text-gray-900 dark:text-white mb-6 flex items-center"
-                  >
-                    <Percent className="h-5 w-5 mr-2 text-emerald-500" />
-                    CGPA / Percentage
-                  </Label>
+                {/* Skills Selection */}
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+                      <Zap className="h-5 w-5 text-teal-500" />
+                      Your Skills
+                    </h3>
+                    <span className="text-sm text-slate-500 dark:text-slate-400">
+                      {skills.length} selected
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-2 max-h-48 overflow-y-auto p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
+                    {availableSkills.map((skill) => (
+                      <Button
+                        key={skill}
+                        variant={skills.includes(skill) ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => handleSkillToggle(skill)}
+                        className={`rounded-full text-sm transition-all duration-200 ${skills.includes(skill)
+                          ? "bg-teal-600 hover:bg-teal-700 text-white shadow-sm"
+                          : "border-slate-300 dark:border-slate-600 hover:border-teal-400 hover:bg-teal-50 dark:hover:bg-teal-900/20"
+                          }`}
+                      >
+                        {skill}
+                      </Button>
+                    ))}
+                  </div>
+                  {skills.length >= 5 && (
+                    <p className="text-sm text-teal-600 dark:text-teal-400 flex items-center gap-1">
+                      <CheckCircle className="h-4 w-4" />
+                      Excellent range!
+                    </p>
+                  )}
+                </div>
+
+                {/* Experience Level, CGPA, and Qualification Row */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  {/* Experience Level */}
+                  <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 p-6 rounded-2xl border border-blue-200/50 dark:border-blue-700/50">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6 flex items-center">
+                      <GraduationCap className="h-5 w-5 mr-2 text-blue-500" />
+                      Experience Level
+                    </h3>
+                    <div className="space-y-3">
+                      {[
+                        "Beginner",
+                        "Some Experience",
+                        "Experienced",
+                        "Expert",
+                      ].map((level) => (
+                        <Button
+                          key={level}
+                          variant={experience === level ? "default" : "outline"}
+                          size="sm"
+                          onClick={() => setExperience(level)}
+                          className={`w-full justify-start rounded-lg transition-all duration-200 ${experience === level
+                            ? "bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm"
+                            : "border-slate-300 dark:border-slate-600 hover:border-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20"
+                            }`}
+                        >
+                          {level}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* CGPA Input */}
                   <div className="space-y-3">
+                    <Label
+                      htmlFor="cgpa"
+                      className="text-sm font-semibold text-slate-900 dark:text-white flex items-center gap-2"
+                    >
+                      <Percent className="h-4 w-4 text-emerald-500" />
+                      CGPA / Percentage
+                    </Label>
                     <Input
                       id="cgpa"
                       type="number"
-                      placeholder="e.g., 8.5 (CGPA) or 85 (Percentage)"
+                      placeholder="e.g., 8.5 or 85%"
                       value={cgpa}
                       onChange={(e) => setCgpa(e.target.value)}
-                      className="rounded-xl border-emerald-300 focus:ring-emerald-500 focus:border-emerald-500"
+                      className="rounded-lg border-slate-200 dark:border-slate-700 focus:border-emerald-500 focus:ring-emerald-500/20"
                       min="0"
                       max="100"
                       step="0.1"
                     />
-                    <p className="text-xs text-gray-600 dark:text-gray-400">
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
                       Enter CGPA (0-10) or percentage (0-100)
                     </p>
                   </div>
-                </div>
 
-                {/* Qualification Dropdown */}
-                <div className="bg-gradient-to-br from-teal-50 to-blue-50 dark:from-teal-950/30 dark:to-blue-950/30 p-6 rounded-2xl border border-teal-200/50 dark:border-teal-700/50">
-                  <Label
-                    htmlFor="qualification"
-                    className="text-lg font-bold text-gray-900 dark:text-white mb-6 flex items-center"
-                  >
-                    <School className="h-5 w-5 mr-2 text-teal-500" />
-                    Qualification
-                  </Label>
+                  {/* Qualification Dropdown */}
                   <div className="space-y-3">
+                    <Label
+                      htmlFor="qualification"
+                      className="text-sm font-semibold text-slate-900 dark:text-white flex items-center gap-2"
+                    >
+                      <School className="h-4 w-4 text-teal-500" />
+                      Qualification
+                    </Label>
                     <Select
                       value={qualification}
                       onValueChange={handleQualificationChange}
                     >
-                      <SelectTrigger className="rounded-xl border-teal-300 focus:ring-teal-500 focus:border-teal-500">
-                        <SelectValue placeholder="Select your qualification" />
+                      <SelectTrigger className="rounded-lg border-slate-200 dark:border-slate-700 focus:ring-teal-500">
+                        <SelectValue placeholder="Select qualification" />
                       </SelectTrigger>
                       <SelectContent>
                         {qualificationOptions.map((option) => (
@@ -1057,68 +1018,66 @@ const Index = () => {
                     {showCustomQualification && (
                       <Input
                         type="text"
-                        placeholder="Please specify your qualification"
+                        placeholder="Specify your qualification"
                         value={customQualification}
                         onChange={(e) => setCustomQualification(e.target.value)}
-                        className="rounded-xl border-teal-300 focus:ring-teal-500 focus:border-teal-500"
+                        className="rounded-lg border-slate-200 dark:border-slate-700"
                       />
                     )}
-                    <p className="text-xs text-gray-600 dark:text-gray-400">
-                      Select your highest qualification or current education
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                      Your highest qualification or current education
                     </p>
                   </div>
                 </div>
-              </div>
 
-              {/* Generate Button */}
-              <div className="text-center pt-6">
-                <Button
-                  onClick={generateRecommendations}
-                  disabled={
-                    isLoading || interests.length === 0 || skills.length === 0
-                  }
-                  size="lg"
-                  className="bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-600 hover:from-emerald-600 hover:via-teal-600 hover:to-blue-700 shadow-2xl rounded-2xl px-16 py-8 text-xl font-bold transition-all duration-300 hover:shadow-emerald-500/25 transform hover:scale-105"
-                >
-                  {isLoading ? (
-                    <>
-                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                      Analyzing...
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles className="mr-2 h-5 w-5" />
-                      Get My Career Recommendations
-                    </>
-                  )}
-                </Button>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-3">
-                  AI will analyze your profile and suggest the best career
-                  matches
-                </p>
-              </div>
-
-              {/* Progress Bar */}
-              {isLoading && (
-                <div className="space-y-2">
-                  <Progress value={loadingProgress} className="w-full" />
-                  <p className="text-center text-sm text-slate-600 dark:text-slate-400">
-                    {loadingProgress < 20 && "Analyzing your interests..."}
-                    {loadingProgress >= 20 &&
-                      loadingProgress < 40 &&
-                      "Evaluating your skills..."}
-                    {loadingProgress >= 40 &&
-                      loadingProgress < 60 &&
-                      "Considering your CGPA and experience..."}
-                    {loadingProgress >= 60 &&
-                      loadingProgress < 80 &&
-                      "Matching with career opportunities..."}
-                    {loadingProgress >= 80 &&
-                      "Generating personalized recommendations..."}
+                {/* Generate Button */}
+                <div className="text-center pt-4">
+                  <Button
+                    onClick={generateRecommendations}
+                    disabled={
+                      isLoading || interests.length === 0 || skills.length === 0
+                    }
+                    size="lg"
+                    className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 shadow-lg shadow-emerald-500/20 rounded-xl px-8 py-6 text-base font-semibold transition-all duration-300"
+                  >
+                    {isLoading ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-2 border-white/30 border-t-white mr-2" />
+                        Analyzing...
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="mr-2 h-4 w-4" />
+                        Get Career Recommendations
+                      </>
+                    )}
+                  </Button>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-3">
+                    AI will analyze your profile and suggest the best matches
                   </p>
                 </div>
-              )}
-            </CardContent>
+
+                {/* Progress Bar */}
+                {isLoading && (
+                  <div className="space-y-2">
+                    <Progress value={loadingProgress} className="w-full" />
+                    <p className="text-center text-sm text-slate-600 dark:text-slate-400">
+                      {loadingProgress < 20 && "Analyzing your interests..."}
+                      {loadingProgress >= 20 &&
+                        loadingProgress < 40 &&
+                        "Evaluating your skills..."}
+                      {loadingProgress >= 40 &&
+                        loadingProgress < 60 &&
+                        "Considering your CGPA and experience..."}
+                      {loadingProgress >= 60 &&
+                        loadingProgress < 80 &&
+                        "Matching with career opportunities..."}
+                      {loadingProgress >= 80 &&
+                        "Generating personalized recommendations..."}
+                    </p>
+                  </div>
+                )}
+              </CardContent>
             </Card>
           </div>
         </section>
@@ -1190,9 +1149,9 @@ const Index = () => {
             {/* Recommendation Cards */}
             <div className="space-y-8">
               {filteredRecommendations.map((career, index) => (
-                <CareerRecommendationCard 
-                  key={index} 
-                  career={career} 
+                <CareerRecommendationCard
+                  key={index}
+                  career={career}
                   getCareerIcon={getCareerIcon}
                   getMatchScoreColor={getMatchScoreColor}
                   getDifficultyColor={getDifficultyColor}

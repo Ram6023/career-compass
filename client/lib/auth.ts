@@ -19,6 +19,19 @@ export interface User {
   education?: string;
   skills?: string[];
   interests?: string[];
+  // Education details
+  degree?: string;
+  university?: string;
+  yearOfStudy?: string;
+  stream?: string;
+  // Career preferences
+  preferredRoles?: string[];
+  preferredDomains?: string[];
+  workType?: "remote" | "hybrid" | "onsite" | "";
+  preferredLocations?: string[];
+  // Resume
+  resumeScore?: number;
+  resumeUrl?: string;
   socialLinks?: {
     linkedin?: string;
     github?: string;
@@ -81,7 +94,10 @@ class AuthService {
         .single();
 
       if (error) {
-        console.error("Error loading profile:", error);
+        // Silently handle profile not found (expected for new users)
+        if (error.code !== 'PGRST116') {
+          console.warn("Profile not found or error:", error.message);
+        }
         return null;
       }
 
@@ -92,7 +108,8 @@ class AuthService {
 
       return null;
     } catch (error) {
-      console.error("Error in loadUserProfile:", error);
+      // Only log unexpected errors
+      console.warn("Unexpected error in loadUserProfile:", error);
       return null;
     }
   }
@@ -116,22 +133,35 @@ class AuthService {
       education: profile.education,
       skills: profile.skills,
       interests: profile.interests,
+      // Education details
+      degree: profile.degree,
+      university: profile.university,
+      yearOfStudy: profile.year_of_study,
+      stream: profile.stream,
+      // Career preferences
+      preferredRoles: profile.preferred_roles,
+      preferredDomains: profile.preferred_domains,
+      workType: profile.work_type,
+      preferredLocations: profile.preferred_locations,
+      // Resume
+      resumeScore: profile.resume_score,
+      resumeUrl: profile.resume_url,
       socialLinks: profile.social_links
         ? {
-            linkedin: profile.social_links.linkedin,
-            github: profile.social_links.github,
-            twitter: profile.social_links.twitter,
-            portfolio: profile.social_links.portfolio,
-          }
+          linkedin: profile.social_links.linkedin,
+          github: profile.social_links.github,
+          twitter: profile.social_links.twitter,
+          portfolio: profile.social_links.portfolio,
+        }
         : undefined,
       preferences: profile.preferences
         ? {
-            emailNotifications: profile.preferences.email_notifications,
-            smsNotifications: profile.preferences.sms_notifications,
-            careerTips: profile.preferences.career_tips,
-            goalReminders: profile.preferences.goal_reminders,
-            profileVisibility: profile.preferences.profile_visibility,
-          }
+          emailNotifications: profile.preferences.email_notifications,
+          smsNotifications: profile.preferences.sms_notifications,
+          careerTips: profile.preferences.career_tips,
+          goalReminders: profile.preferences.goal_reminders,
+          profileVisibility: profile.preferences.profile_visibility,
+        }
         : undefined,
     };
   }
@@ -299,6 +329,8 @@ class AuthService {
         name: "Guest User",
         provider: "email",
       };
+      // Dispatch custom event when auth state changes
+      window.dispatchEvent(new CustomEvent('authStateChanged'));
       return { success: true, user: this.currentUser };
     } catch (error) {
       return { success: false, error: "Guest login failed" };
@@ -418,6 +450,19 @@ class AuthService {
       if (profileData.skills) updateData.skills = profileData.skills;
       if (profileData.interests) updateData.interests = profileData.interests;
       if (profileData.avatar) updateData.avatar_url = profileData.avatar;
+      // Education details
+      if (profileData.degree !== undefined) updateData.degree = profileData.degree;
+      if (profileData.university !== undefined) updateData.university = profileData.university;
+      if (profileData.yearOfStudy !== undefined) updateData.year_of_study = profileData.yearOfStudy;
+      if (profileData.stream !== undefined) updateData.stream = profileData.stream;
+      // Career preferences
+      if (profileData.preferredRoles) updateData.preferred_roles = profileData.preferredRoles;
+      if (profileData.preferredDomains) updateData.preferred_domains = profileData.preferredDomains;
+      if (profileData.workType !== undefined) updateData.work_type = profileData.workType;
+      if (profileData.preferredLocations) updateData.preferred_locations = profileData.preferredLocations;
+      // Resume
+      if (profileData.resumeScore !== undefined) updateData.resume_score = profileData.resumeScore;
+      if (profileData.resumeUrl !== undefined) updateData.resume_url = profileData.resumeUrl;
 
       if (profileData.socialLinks) {
         updateData.social_links = {

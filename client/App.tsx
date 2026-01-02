@@ -7,7 +7,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { LanguageProvider } from "@/components/ui/language-provider";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
@@ -22,6 +23,9 @@ import Profile from "./pages/Profile";
 import AuthCallback from "./pages/AuthCallback";
 import Onboarding from "./pages/Onboarding";
 import Settings from "./pages/Settings";
+import AssessmentSetup from "./pages/AssessmentSetup";
+import InterviewSession from "./pages/InterviewSession";
+import InterviewResult from "./pages/InterviewResult";
 import SplashScreen from "./components/SplashScreen";
 import { authService } from "@/lib/auth";
 
@@ -113,6 +117,163 @@ const RedirectIfAuth: React.FC<{ children: React.ReactElement }> = ({ children }
   return children;
 };
 
+const AnimatedRoutes = () => {
+  const location = useLocation();
+
+  return (
+    <TransitionGroup>
+      <CSSTransition
+        key={location.key}
+        classNames="fade"
+        timeout={500}
+      >
+        <Routes location={location}>
+          <Route
+            path="/"
+            element={
+              <RequireAuth>
+                <Index />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/home"
+            element={
+              <RequireAuth>
+                <Index />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <RedirectIfAuth>
+                <Login />
+              </RedirectIfAuth>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <RedirectIfAuth>
+                <Register />
+              </RedirectIfAuth>
+            }
+          />
+          <Route path="/admin" element={<Admin />} />
+          <Route
+            path="/resume-analyzer"
+            element={
+              <RequireAuth>
+                <ResumeAnalyzer />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/chat"
+            element={
+              <RequireAuth>
+                <ChatAssistant />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/compare"
+            element={
+              <RequireAuth>
+                <CareerComparison />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/careers"
+            element={
+              <RequireAuth>
+                <CareerComparison />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/roadmaps"
+            element={
+              <RequireAuth>
+                <Index />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/tips"
+            element={
+              <RequireAuth>
+                <DailyTips />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/goals"
+            element={
+              <RequireAuth>
+                <GoalTracker />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <RequireAuth>
+                <Profile />
+              </RequireAuth>
+            }
+          />
+          <Route path="/auth/callback" element={<AuthCallback />} />
+          <Route
+            path="/onboarding"
+            element={
+              <RequireAuth>
+                <Onboarding />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <RequireAuth>
+                <Settings />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/assessment"
+            element={
+              <RequireAuth>
+                <AssessmentSetup />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/interview/session"
+            element={
+              <RequireAuth>
+                <InterviewSession />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/interview/result"
+            element={
+              <RequireAuth>
+                <InterviewResult />
+              </RequireAuth>
+            }
+          />
+          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </CSSTransition>
+    </TransitionGroup>
+  );
+};
+
 const App = () => {
   const [showSplash, setShowSplash] = React.useState(true);
 
@@ -126,124 +287,7 @@ const App = () => {
               <Sonner />
               {showSplash && <SplashScreen onFinish={() => setShowSplash(false)} />}
               <BrowserRouter>
-                <Routes>
-                  <Route
-                    path="/"
-                    element={
-                      <RequireAuth>
-                        <Index />
-                      </RequireAuth>
-                    }
-                  />
-                  <Route
-                    path="/home"
-                    element={
-                      <RequireAuth>
-                        <Index />
-                      </RequireAuth>
-                    }
-                  />
-                  <Route
-                    path="/login"
-                    element={
-                      <RedirectIfAuth>
-                        <Login />
-                      </RedirectIfAuth>
-                    }
-                  />
-                  <Route
-                    path="/register"
-                    element={
-                      <RedirectIfAuth>
-                        <Register />
-                      </RedirectIfAuth>
-                    }
-                  />
-                  <Route path="/admin" element={<Admin />} />
-                  <Route
-                    path="/resume-analyzer"
-                    element={
-                      <RequireAuth>
-                        <ResumeAnalyzer />
-                      </RequireAuth>
-                    }
-                  />
-                  <Route
-                    path="/chat"
-                    element={
-                      <RequireAuth>
-                        <ChatAssistant />
-                      </RequireAuth>
-                    }
-                  />
-                  <Route
-                    path="/compare"
-                    element={
-                      <RequireAuth>
-                        <CareerComparison />
-                      </RequireAuth>
-                    }
-                  />
-                  <Route
-                    path="/careers"
-                    element={
-                      <RequireAuth>
-                        <CareerComparison />
-                      </RequireAuth>
-                    }
-                  />
-                  <Route
-                    path="/roadmaps"
-                    element={
-                      <RequireAuth>
-                        <Index />
-                      </RequireAuth>
-                    }
-                  />
-                  <Route
-                    path="/tips"
-                    element={
-                      <RequireAuth>
-                        <DailyTips />
-                      </RequireAuth>
-                    }
-                  />
-                  <Route
-                    path="/goals"
-                    element={
-                      <RequireAuth>
-                        <GoalTracker />
-                      </RequireAuth>
-                    }
-                  />
-                  <Route
-                    path="/profile"
-                    element={
-                      <RequireAuth>
-                        <Profile />
-                      </RequireAuth>
-                    }
-                  />
-                  <Route path="/auth/callback" element={<AuthCallback />} />
-                  <Route
-                    path="/onboarding"
-                    element={
-                      <RequireAuth>
-                        <Onboarding />
-                      </RequireAuth>
-                    }
-                  />
-                  <Route
-                    path="/settings"
-                    element={
-                      <RequireAuth>
-                        <Settings />
-                      </RequireAuth>
-                    }
-                  />
-                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
+                <AnimatedRoutes />
               </BrowserRouter>
             </TooltipProvider>
           </ThemeProvider>
