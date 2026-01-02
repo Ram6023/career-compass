@@ -166,115 +166,113 @@ export function Header({ pageTitle, pageSubtitle }: HeaderProps) {
               </Sheet>
             </div>
 
-            {/* User Menu */}
-            {isLoggedIn && user ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className="h-9 rounded-lg px-2 gap-2 hover:bg-slate-100 dark:hover:bg-slate-800"
-                  >
-                    {user.avatar ? (
-                      <img src={user.avatar} alt="Profile" className="w-6 h-6 rounded-full ring-2 ring-emerald-200 dark:ring-emerald-800" />
+            {/* User Menu - Always visible as per user request */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="h-9 rounded-lg px-2 gap-2 hover:bg-slate-100 dark:hover:bg-slate-800"
+                >
+                  {(user?.avatar) ? (
+                    <img src={user.avatar} alt="Profile" className="w-6 h-6 rounded-full ring-2 ring-emerald-200 dark:ring-emerald-800" />
+                  ) : (
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center">
+                      <span className="text-xs font-medium text-white">
+                        {((user?.name || user?.email || "G").charAt(0).toUpperCase())}
+                      </span>
+                    </div>
+                  )}
+                  <span className="hidden md:inline text-sm font-medium text-slate-700 dark:text-slate-300 max-w-24 truncate">
+                    {user?.name || user?.email?.split('@')[0] || "Guest"}
+                  </span>
+                  <ChevronDown className="h-3 w-3 text-slate-400" />
+                </Button>
+              </DropdownMenuTrigger>
+
+              <DropdownMenuContent align="end" className="w-56 p-2">
+                <DropdownMenuLabel className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 mb-2">
+                  <div className="flex items-center gap-3">
+                    {user?.avatar ? (
+                      <img src={user.avatar} alt="Profile" className="w-10 h-10 rounded-full" />
                     ) : (
-                      <div className="w-6 h-6 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center">
-                        <span className="text-xs font-medium text-white">
-                          {(user.name || user.email || "U").charAt(0).toUpperCase()}
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center">
+                        <span className="text-sm font-semibold text-white">
+                          {((user?.name || user?.email || "G").charAt(0).toUpperCase())}
                         </span>
                       </div>
                     )}
-                    <span className="hidden md:inline text-sm font-medium text-slate-700 dark:text-slate-300 max-w-24 truncate">
-                      {user.name || user.email?.split('@')[0]}
-                    </span>
-                    <ChevronDown className="h-3 w-3 text-slate-400" />
-                  </Button>
-                </DropdownMenuTrigger>
-
-                <DropdownMenuContent align="end" className="w-56 p-2">
-                  <DropdownMenuLabel className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 mb-2">
-                    <div className="flex items-center gap-3">
-                      {user.avatar ? (
-                        <img src={user.avatar} alt="Profile" className="w-10 h-10 rounded-full" />
-                      ) : (
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center">
-                          <span className="text-sm font-semibold text-white">
-                            {(user.name || user.email || "U").charAt(0).toUpperCase()}
-                          </span>
-                        </div>
-                      )}
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-slate-900 dark:text-white truncate">
-                          {user.name || "User"}
-                        </p>
-                        <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
-                          {user.email}
-                        </p>
-                      </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-slate-900 dark:text-white truncate">
+                        {user?.name || "Guest User"}
+                      </p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
+                        {user?.email || "Sign in to save progress"}
+                      </p>
                     </div>
-                  </DropdownMenuLabel>
+                  </div>
+                </DropdownMenuLabel>
 
-                  <DropdownMenuGroup>
-                    <DropdownMenuItem asChild className="rounded-lg cursor-pointer">
-                      <Link to="/profile" className="flex items-center gap-2">
-                        <User className="h-4 w-4" /> My Profile
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild className="rounded-lg cursor-pointer">
-                      <Link to="/profile?tab=dashboard" className="flex items-center gap-2">
-                        <Bookmark className="h-4 w-4" /> Saved Careers
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild className="rounded-lg cursor-pointer">
-                      <Link to="/profile?tab=interviews" className="flex items-center gap-2">
-                        <History className="h-4 w-4" /> Assessment History
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild className="rounded-lg cursor-pointer">
-                      <Link to="/goals" className="flex items-center gap-2">
-                        <Target className="h-4 w-4" /> Goal Tracker
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild className="rounded-lg cursor-pointer">
-                      <Link to="/chat" className="flex items-center gap-2">
-                        <MessageSquare className="h-4 w-4" /> AI Assistant
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild className="rounded-lg cursor-pointer">
-                      <Link to="/resume-analyzer" className="flex items-center gap-2">
-                        <BookOpen className="h-4 w-4" /> Resume Analyzer
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild className="rounded-lg cursor-pointer">
-                      <Link to="/careers" className="flex items-center gap-2">
-                        <Briefcase className="h-4 w-4" /> Compare Careers
-                      </Link>
-                    </DropdownMenuItem>
-                  </DropdownMenuGroup>
-
-                  <DropdownMenuSeparator className="my-2" />
-
+                <DropdownMenuGroup>
                   <DropdownMenuItem asChild className="rounded-lg cursor-pointer">
-                    <Link to="/settings" className="flex items-center gap-2">
-                      <Settings className="h-4 w-4" /> Settings
+                    <Link to="/profile" className="flex items-center gap-2">
+                      <User className="h-4 w-4" /> My Profile
                     </Link>
                   </DropdownMenuItem>
-
-                  <DropdownMenuSeparator className="my-2" />
-
-                  <DropdownMenuItem
-                    onClick={async () => {
-                      await authService.signOut();
-                      setUser(null);
-                      setIsLoggedIn(false);
-                      window.location.href = "/login";
-                    }}
-                    className="rounded-lg cursor-pointer text-red-600 dark:text-red-400 focus:text-red-700 focus:bg-red-50 dark:focus:bg-red-900/20"
-                  >
-                    <LogOut className="mr-2 h-4 w-4" /> Sign Out
+                  <DropdownMenuItem asChild className="rounded-lg cursor-pointer">
+                    <Link to="/profile?tab=dashboard" className="flex items-center gap-2">
+                      <Bookmark className="h-4 w-4" /> Saved Careers
+                    </Link>
                   </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : null}
+                  <DropdownMenuItem asChild className="rounded-lg cursor-pointer">
+                    <Link to="/profile?tab=interviews" className="flex items-center gap-2">
+                      <History className="h-4 w-4" /> Assessment History
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild className="rounded-lg cursor-pointer">
+                    <Link to="/goals" className="flex items-center gap-2">
+                      <Target className="h-4 w-4" /> Goal Tracker
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild className="rounded-lg cursor-pointer">
+                    <Link to="/chat" className="flex items-center gap-2">
+                      <MessageSquare className="h-4 w-4" /> AI Assistant
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild className="rounded-lg cursor-pointer">
+                    <Link to="/resume-analyzer" className="flex items-center gap-2">
+                      <BookOpen className="h-4 w-4" /> Resume Analyzer
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild className="rounded-lg cursor-pointer">
+                    <Link to="/careers" className="flex items-center gap-2">
+                      <Briefcase className="h-4 w-4" /> Compare Careers
+                    </Link>
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+
+                <DropdownMenuSeparator className="my-2" />
+
+                <DropdownMenuItem asChild className="rounded-lg cursor-pointer">
+                  <Link to="/settings" className="flex items-center gap-2">
+                    <Settings className="h-4 w-4" /> Settings
+                  </Link>
+                </DropdownMenuItem>
+
+                <DropdownMenuSeparator className="my-2" />
+
+                <DropdownMenuItem
+                  onClick={async () => {
+                    await authService.signOut();
+                    setUser(null);
+                    setIsLoggedIn(false);
+                    window.location.href = "/login";
+                  }}
+                  className="rounded-lg cursor-pointer text-red-600 dark:text-red-400 focus:text-red-700 focus:bg-red-50 dark:focus:bg-red-900/20"
+                >
+                  <LogOut className="mr-2 h-4 w-4" /> {user ? "Sign Out" : "Sign In / Sign Out"}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </div>
