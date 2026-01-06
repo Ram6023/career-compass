@@ -37,7 +37,7 @@
 
 ## 🚀 Live Demo
 
-🌐 **[Try CareerCompass AI Live](https://careercompass-ai.fly.dev)**
+🌐 **[Try CareerCompass AI Live](https://ram6023.github.io/career-compass/)**
 
 ## 📸 Screenshots
 
