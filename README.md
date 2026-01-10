@@ -1,4 +1,4 @@
-# 🧭 CareerCompass AI 
+# 🧭 CareerCompass AI  
     
 > **Your AI-Powered Career Intelligence Platform**
 
