@@ -1,5 +1,5 @@
 # 🧭 CareerCompass AI   
-      
+       
 > **Your AI-Powered Career Intelligence Platform**
 
 ![CareerCompass AI](https://img.shields.io/badge/CareerCompass-AI%20Powered-blue?style=for-the-badge&logo=compass&logoColor=white)
