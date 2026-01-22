@@ -9,6 +9,7 @@
 
 **CareerCompass AI** is a next-generation career guidance platform that leverages advanced artificial intelligence to provide personalized career insights, strategic planning, and intelligent recommendations for professionals at every stage of their journey.
 
+
 ## ✨ Features
 
 ### 🤖 AI Career Strategist
