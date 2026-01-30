@@ -85,7 +85,12 @@ export default function Onboarding() {
       try {
         const { data: { session } } = await supabase.auth.getSession();
         if (!session?.user) {
-          navigate("/login");
+          // Auth disabled - use guest mode with default data
+          setUserData({
+            id: 'guest',
+            email: 'guest@example.com',
+            name: 'Guest User'
+          });
           return;
         }
 
@@ -97,7 +102,12 @@ export default function Onboarding() {
 
         if (error) {
           console.error("Error fetching profile:", error);
-          navigate("/login");
+          // Use guest data instead of redirecting
+          setUserData({
+            id: 'guest',
+            email: 'guest@example.com',
+            name: 'Guest User'
+          });
           return;
         }
 
@@ -114,7 +124,12 @@ export default function Onboarding() {
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
-        navigate("/login");
+        // Use guest data instead of redirecting
+        setUserData({
+          id: 'guest',
+          email: 'guest@example.com',
+          name: 'Guest User'
+        });
       }
     };
 
@@ -288,9 +303,9 @@ export default function Onboarding() {
                     <div className="relative">
                       <div className="w-24 h-24 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center overflow-hidden">
                         {onboardingData.profileImageUrl ? (
-                          <img 
-                            src={onboardingData.profileImageUrl} 
-                            alt="Profile" 
+                          <img
+                            src={onboardingData.profileImageUrl}
+                            alt="Profile"
                             className="w-full h-full object-cover"
                           />
                         ) : (
@@ -365,7 +380,7 @@ export default function Onboarding() {
                       required
                     />
                   </div>
-                  
+
                   <div className="space-y-2">
                     <Label htmlFor="college">College / University *</Label>
                     <Input
@@ -376,11 +391,11 @@ export default function Onboarding() {
                       required
                     />
                   </div>
-                  
+
                   <div className="space-y-2">
                     <Label htmlFor="yearOfStudy">Year of Study *</Label>
-                    <Select 
-                      value={onboardingData.yearOfStudy} 
+                    <Select
+                      value={onboardingData.yearOfStudy}
                       onValueChange={(value) => handleInputChange("yearOfStudy", value)}
                     >
                       <SelectTrigger>
@@ -421,7 +436,7 @@ export default function Onboarding() {
                         </Badge>
                       ))}
                     </div>
-                    
+
                     <div className="flex gap-2">
                       <Input
                         value={newInterest}
@@ -434,7 +449,7 @@ export default function Onboarding() {
                           }
                         }}
                       />
-                      <Button 
+                      <Button
                         onClick={() => {
                           if (newInterest.trim()) {
                             addCareerInterest(newInterest.trim());
@@ -446,7 +461,7 @@ export default function Onboarding() {
                       </Button>
                     </div>
                   </div>
-                  
+
                   {onboardingData.careerInterests.length > 0 && (
                     <div className="space-y-2">
                       <Label>Selected Interests</Label>
@@ -490,7 +505,7 @@ export default function Onboarding() {
                         </Badge>
                       ))}
                     </div>
-                    
+
                     <div className="flex gap-2">
                       <Input
                         value={newSkill}
@@ -503,7 +518,7 @@ export default function Onboarding() {
                           }
                         }}
                       />
-                      <Button 
+                      <Button
                         onClick={() => {
                           if (newSkill.trim()) {
                             addSkill(newSkill.trim());
@@ -515,7 +530,7 @@ export default function Onboarding() {
                       </Button>
                     </div>
                   </div>
-                  
+
                   {onboardingData.skills.length > 0 && (
                     <div className="space-y-2">
                       <Label>Selected Skills</Label>
@@ -545,17 +560,17 @@ export default function Onboarding() {
                 >
                   Back
                 </Button>
-                
+
                 {step < 4 ? (
                   <Button onClick={handleNext}>
                     Next <ArrowRight className="ml-2 w-4 h-4" />
                   </Button>
                 ) : (
-                  <Button 
-                    onClick={saveProfile} 
+                  <Button
+                    onClick={saveProfile}
                     disabled={
-                      loading || 
-                      !onboardingData.firstName || 
+                      loading ||
+                      !onboardingData.firstName ||
                       !onboardingData.lastName ||
                       !onboardingData.education ||
                       !onboardingData.college ||

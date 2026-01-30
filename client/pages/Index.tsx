@@ -124,17 +124,7 @@ const Index = () => {
     authService.isAuthenticatedSync(),
   );
 
-  useEffect(() => {
-    const check = async () => {
-      const ok = await authService.isAuthenticated();
-      if (!ok) {
-        navigate("/login", { replace: true });
-      } else {
-        setIsLoggedIn(true);
-      }
-    };
-    check();
-  }, [navigate]);
+  // Authentication check removed - page is now public
 
   const [interests, setInterests] = useState<string[]>([]);
   const [skills, setSkills] = useState<string[]>([]);
