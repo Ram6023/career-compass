@@ -18,7 +18,6 @@ import CareerComparison from "./pages/CareerComparison";
 import DailyTips from "./pages/DailyTips";
 import GoalTracker from "./pages/GoalTracker";
 import Profile from "./pages/Profile";
-import AuthCallback from "./pages/AuthCallback";
 import Onboarding from "./pages/Onboarding";
 import Settings from "./pages/Settings";
 import AssessmentSetup from "./pages/AssessmentSetup";
@@ -97,7 +96,6 @@ const AnimatedRoutes = () => {
           <Route path="/tips" element={<DailyTips />} />
           <Route path="/goals" element={<GoalTracker />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/auth/callback" element={<AuthCallback />} />
           <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/assessment" element={<AssessmentSetup />} />
