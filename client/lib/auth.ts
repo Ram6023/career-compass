@@ -55,7 +55,12 @@ export interface AuthResponse {
 }
 
 class AuthService {
-  private currentUser: User | null = null;
+  private currentUser: User | null = {
+    id: "guest-user",
+    email: "guest@example.com",
+    name: "Guest User",
+    provider: "email",
+  };
 
   constructor() {
     // Listen for auth state changes
@@ -77,11 +82,33 @@ class AuthService {
   }
 
   private async initializeUser() {
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
-    if (session?.user) {
-      await this.loadUserProfile(session.user.id);
+    try {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (session?.user) {
+        await this.loadUserProfile(session.user.id);
+      } else {
+        // Initialize as Guest by default
+        this.currentUser = {
+          id: "guest-user",
+          email: "guest@example.com",
+          name: "Guest User",
+          provider: "email",
+        };
+        // Dispatch event so components can update
+        window.dispatchEvent(new CustomEvent('authStateChanged'));
+      }
+    } catch (error) {
+      console.warn("Auth initialization failed, using guest mode:", error);
+      this.currentUser = {
+        id: "guest-user",
+        email: "guest@example.com",
+        name: "Guest User",
+        provider: "email",
+      };
+      window.dispatchEvent(new CustomEvent('authStateChanged'));
     }
   }
 
@@ -437,8 +464,9 @@ class AuthService {
     return this.currentUser;
   }
 
-  // Check if user is authenticated
+  // Check if user is authenticated (including guest mode)
   async isAuthenticated(): Promise<boolean> {
+    if (this.currentUser) return true;
     try {
       const {
         data: { session },
@@ -462,6 +490,16 @@ class AuthService {
         return {
           success: false,
           error: "User not logged in",
+        };
+      }
+
+      // Handle guest user updates locally
+      if (currentUser.id === "guest-user") {
+        this.currentUser = { ...currentUser, ...profileData };
+        window.dispatchEvent(new CustomEvent('authStateChanged'));
+        return {
+          success: true,
+          user: this.currentUser,
         };
       }
 
