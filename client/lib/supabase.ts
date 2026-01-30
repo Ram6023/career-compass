@@ -1,10 +1,13 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
 // Supabase configuration
 const supabaseUrl =
   import.meta.env.VITE_SUPABASE_URL || "https://your-project.supabase.co";
 const supabaseAnonKey =
   import.meta.env.VITE_SUPABASE_ANON_KEY || "your-anon-key";
+
+// Track connection status
+let isSupabaseConnected: boolean | null = null;
 
 // Create Supabase client
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
@@ -14,6 +17,45 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     detectSessionInUrl: true,
   },
 });
+
+// Check if Supabase is reachable
+export async function checkSupabaseConnection(): Promise<boolean> {
+  if (isSupabaseConnected !== null) {
+    return isSupabaseConnected;
+  }
+
+  try {
+    // Simple ping to check connectivity - this won't throw on 401
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 5000);
+
+    const response = await fetch(`${supabaseUrl}/rest/v1/`, {
+      method: 'HEAD',
+      signal: controller.signal,
+      headers: {
+        'apikey': supabaseAnonKey,
+      }
+    });
+
+    clearTimeout(timeout);
+    isSupabaseConnected = response.ok || response.status === 400; // 400 means connected but no table specified
+    return isSupabaseConnected;
+  } catch (error) {
+    console.warn('Supabase connection check failed:', error);
+    isSupabaseConnected = false;
+    return false;
+  }
+}
+
+// Get connection status (synchronous)
+export function getSupabaseConnectionStatus(): boolean | null {
+  return isSupabaseConnected;
+}
+
+// Reset connection status (for retry)
+export function resetConnectionStatus(): void {
+  isSupabaseConnected = null;
+}
 
 // Database types for better TypeScript support
 export interface Database {

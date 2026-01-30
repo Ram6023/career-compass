@@ -1,4 +1,4 @@
-import { supabase } from "./supabase";
+import { supabase, checkSupabaseConnection } from "./supabase";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 export interface User {
@@ -218,6 +218,15 @@ class AuthService {
   // Google OAuth authentication
   async signInWithGoogle(): Promise<AuthResponse> {
     try {
+      // Check Supabase connection first
+      const isConnected = await checkSupabaseConnection();
+      if (!isConnected) {
+        return {
+          success: false,
+          error: "Unable to connect to authentication service. Please check your internet connection or try again later.",
+        };
+      }
+
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
@@ -243,7 +252,7 @@ class AuthService {
     } catch (error) {
       return {
         success: false,
-        error: "Google authentication failed",
+        error: "Google authentication failed. The authentication service may be unavailable.",
       };
     }
   }
@@ -251,6 +260,15 @@ class AuthService {
   // GitHub OAuth authentication
   async signInWithGitHub(): Promise<AuthResponse> {
     try {
+      // Check Supabase connection first
+      const isConnected = await checkSupabaseConnection();
+      if (!isConnected) {
+        return {
+          success: false,
+          error: "Unable to connect to authentication service. Please check your internet connection or try again later.",
+        };
+      }
+
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: "github",
         options: {
@@ -272,7 +290,7 @@ class AuthService {
     } catch (error) {
       return {
         success: false,
-        error: "GitHub authentication failed",
+        error: "GitHub authentication failed. The authentication service may be unavailable.",
       };
     }
   }
@@ -283,6 +301,15 @@ class AuthService {
     password: string,
   ): Promise<AuthResponse> {
     try {
+      // Check Supabase connection first
+      const isConnected = await checkSupabaseConnection();
+      if (!isConnected) {
+        return {
+          success: false,
+          error: "Unable to connect to authentication service. Please check your internet connection or try again later.",
+        };
+      }
+
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -311,7 +338,7 @@ class AuthService {
     } catch (error) {
       return {
         success: false,
-        error: "Email authentication failed",
+        error: "Email authentication failed. The authentication service may be unavailable.",
       };
     }
   }
@@ -344,6 +371,15 @@ class AuthService {
     password: string,
   ): Promise<AuthResponse> {
     try {
+      // Check Supabase connection first
+      const isConnected = await checkSupabaseConnection();
+      if (!isConnected) {
+        return {
+          success: false,
+          error: "Unable to connect to authentication service. Please check your internet connection or try again later.",
+        };
+      }
+
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
@@ -379,7 +415,7 @@ class AuthService {
     } catch (error) {
       return {
         success: false,
-        error: "Registration failed",
+        error: "Registration failed. The authentication service may be unavailable.",
       };
     }
   }

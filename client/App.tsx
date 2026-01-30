@@ -11,8 +11,6 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-route
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
 import Admin from "./pages/Admin";
 import ResumeAnalyzer from "./pages/ResumeAnalyzer";
 import ChatAssistant from "./pages/ChatAssistant";
@@ -27,7 +25,7 @@ import AssessmentSetup from "./pages/AssessmentSetup";
 import InterviewSession from "./pages/InterviewSession";
 import InterviewResult from "./pages/InterviewResult";
 import SplashScreen from "./components/SplashScreen";
-import { authService } from "@/lib/auth";
+
 
 const queryClient = new QueryClient();
 
@@ -71,51 +69,7 @@ class ErrorBoundary extends React.Component<
   }
 }
 
-const RequireAuth: React.FC<{ children: React.ReactElement }> = ({ children }) => {
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
-
-  React.useEffect(() => {
-    const checkAuth = async () => {
-      const isAuthed = await authService.isAuthenticated();
-      setIsAuthenticated(isAuthed);
-      setIsLoading(false);
-    };
-    checkAuth();
-  }, []);
-
-  if (isLoading) {
-    return null; // Don't render anything while checking
-  }
-
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
-  return children;
-};
-
-const RedirectIfAuth: React.FC<{ children: React.ReactElement }> = ({ children }) => {
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
-
-  React.useEffect(() => {
-    const checkAuth = async () => {
-      const isAuthed = await authService.isAuthenticated();
-      setIsAuthenticated(isAuthed);
-      setIsLoading(false);
-    };
-    checkAuth();
-  }, []);
-
-  if (isLoading) {
-    return null;
-  }
-
-  if (isAuthenticated) {
-    return <Navigate to="/" replace />;
-  }
-  return children;
-};
+// Authentication disabled - all routes are public
 
 const AnimatedRoutes = () => {
   const location = useLocation();
@@ -128,144 +82,27 @@ const AnimatedRoutes = () => {
         timeout={500}
       >
         <Routes location={location}>
-          <Route
-            path="/"
-            element={
-              <RequireAuth>
-                <Index />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/home"
-            element={
-              <RequireAuth>
-                <Index />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/login"
-            element={
-              <RedirectIfAuth>
-                <Login />
-              </RedirectIfAuth>
-            }
-          />
-          <Route
-            path="/register"
-            element={
-              <RedirectIfAuth>
-                <Register />
-              </RedirectIfAuth>
-            }
-          />
+          {/* All routes are now public - no authentication required */}
+          <Route path="/" element={<Index />} />
+          <Route path="/home" element={<Index />} />
+          {/* Login/Register redirect to home since auth is disabled */}
+          <Route path="/login" element={<Navigate to="/" replace />} />
+          <Route path="/register" element={<Navigate to="/" replace />} />
           <Route path="/admin" element={<Admin />} />
-          <Route
-            path="/resume-analyzer"
-            element={
-              <RequireAuth>
-                <ResumeAnalyzer />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/chat"
-            element={
-              <RequireAuth>
-                <ChatAssistant />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/compare"
-            element={
-              <RequireAuth>
-                <CareerComparison />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/careers"
-            element={
-              <RequireAuth>
-                <CareerComparison />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/roadmaps"
-            element={
-              <RequireAuth>
-                <Index />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/tips"
-            element={
-              <RequireAuth>
-                <DailyTips />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/goals"
-            element={
-              <RequireAuth>
-                <GoalTracker />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <RequireAuth>
-                <Profile />
-              </RequireAuth>
-            }
-          />
+          <Route path="/resume-analyzer" element={<ResumeAnalyzer />} />
+          <Route path="/chat" element={<ChatAssistant />} />
+          <Route path="/compare" element={<CareerComparison />} />
+          <Route path="/careers" element={<CareerComparison />} />
+          <Route path="/roadmaps" element={<Index />} />
+          <Route path="/tips" element={<DailyTips />} />
+          <Route path="/goals" element={<GoalTracker />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/auth/callback" element={<AuthCallback />} />
-          <Route
-            path="/onboarding"
-            element={
-              <RequireAuth>
-                <Onboarding />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/settings"
-            element={
-              <RequireAuth>
-                <Settings />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/assessment"
-            element={
-              <RequireAuth>
-                <AssessmentSetup />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/interview/session"
-            element={
-              <RequireAuth>
-                <InterviewSession />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/interview/result"
-            element={
-              <RequireAuth>
-                <InterviewResult />
-              </RequireAuth>
-            }
-          />
+          <Route path="/onboarding" element={<Onboarding />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/assessment" element={<AssessmentSetup />} />
+          <Route path="/interview/session" element={<InterviewSession />} />
+          <Route path="/interview/result" element={<InterviewResult />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
