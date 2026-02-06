@@ -2,9 +2,11 @@ import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
 // Supabase configuration
 const supabaseUrl =
-  import.meta.env.VITE_SUPABASE_URL || "https://your-project.supabase.co";
+  import.meta.env.VITE_SUPABASE_URL ||
+  "https://lecxlfydxnayerxjxraz.supabase.co";
 const supabaseAnonKey =
-  import.meta.env.VITE_SUPABASE_ANON_KEY || "your-anon-key";
+  import.meta.env.VITE_SUPABASE_ANON_KEY ||
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxlY3hsZnlkeG5heWVyeGp4cmF6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY0Nzg1MTAsImV4cCI6MjA3MjA1NDUxMH0.rjMcmfV9dDqXubMXa0j767kV6GlCX4tr5ii3DBBL1PE";
 
 // Track connection status
 let isSupabaseConnected: boolean | null = null;
